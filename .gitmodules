@@ -1,0 +1,3 @@
+[submodule "mod/ea"]
+	path = mod/ea
+	url = https://github.com/GeorgeSchafer/EasyAccessorJS.git
