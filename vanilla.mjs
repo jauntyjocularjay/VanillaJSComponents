@@ -14,6 +14,8 @@ import {
 
 */
 
+import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
+
 const event = {
     element: {
         change: 'change',
@@ -41,75 +43,75 @@ const selections =
 //     },
 ]
 
-class H1
+class H1 extends EasyAccessor
 {
     constructor(str)
     {
-        this.element = document.createElement('h1')
-        const h1 = this.element
+        const h1 = document.createElement('h1')
+        this.element = h1
         h1.textContent = str
     }
 }
 
-class H2
+class H2 extends EasyAccessor
 {
     constructor(str)
     {
-        this.element = document.createElement('h2')
-        const h2 = this.element
+        const h2 = document.createElement('h2')
+        this.element = h2
         h2.textContent = str
     }
 }
 
-class Div
+class Div extends EasyAccessor
 {
     constructor(display = block, classlist=null, id=null)
     {
-        this.element = document.createElement('div')
-        const div = this.element
+        const div = document.createElement('div')
+        this.element = div
         if(display) div.style.display = display
         if(classlist) classlist.forEach(clss => div.classList.add(clss))
         if(id) div.id = id
     }
 }
 
-class FlexBox
+class FlexBox extends Div
 {
     constructor(direction, classList=null, id=null)
     {
-        this.element = new Div('flex', classList, id)
-        const div = this.element
+        const div = super('flex', classList, id)
+        this.element = div
         div.style.flexDirection = direction
     }
 }
 
-class Form
+class Form extends EasyAccessor
 {
     constructor(nameStr)
     {
-        this.element = document.createElement('form')
-        const form = this.element
+        const form = document.createElement('form')
+        this.element = form
         form.name = nameStr
         form.appendChild(new Label(nameStr))
     }
 }
 
-class Label
+class Label extends EasyAccessor
 {
     constructor(forStr)
     {
-        this.element = document.createElement('label')
-        const label = this.element
+        const label = document.createElement('label')
+        this.element = label
         label.for = forStr
     }
 }
 
-class Select
+class Select extends EasyAccessor
 {
     constructor(forStr='a form', valueDescriptorArray=[{value: 'Option Value', descriptor:'description'}])
     {
-        this.element = document.createElement('select')
-        const select = this.element
+        const select = document.createElement('select')
+        this.element = select
         valueDescriptorArray.forEach(pair => {
             const option = new Option(pair.value, pair.descriptor)
             select.appendChild(option)
@@ -117,47 +119,46 @@ class Select
     }
 }
 
-class Option
+class Option extends EasyAccessor
 {
     constructor(value, descriptor)
     {
-        this.element = document.createElement('option')
-        const option = this.element
+        const option = document.createElement('option')
+        this.element = option
         option.value = value
         option.textContent = descriptor
     }
 }
 
-class Input
+class Input extends EasyAccessor
 {
     constructor(typeStr, placeholder)
     {
-        this.element = document.createElement('input')
-        const input = this.element
+        const input = document.createElement('input')
+        this.element = input
         input.type = typeStr
         input.placeholder = placeholder
     }
 }
 
-class Button
+class Button extends EasyAccessor
 {
     constructor(textStr="click me", nameStr=null)
     {
-        this.element = document.createElement('button')
-        this.behavior = ([/* args */]) => {}
-        const button = this.element
+        const button = document.createElement('button')
+        this.element = button
         button.for = nameStr
         button.textContent = textStr
     }
 
 }
 
-class Listener
+class Listener extends EasyAccessor
 {
     constructor(selector, event, func)
     {
-        this.element = document.querySelector(selector).addEventListener(event, func)
-        const listener = this.element
+        const listener = document.querySelector(selector).addEventListener(event, func)
+        this.element = listener
     }
 }
 
