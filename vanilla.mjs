@@ -1,30 +1,62 @@
 /*
 import {
+    display,
     event,
+    unit,
+
     selections,
+
     H1,
     H2,
+    Div,
+    FlexBox,
     Form,
     Label,
     Select,
     Option,
-    Ev,
+    Input,
+    Button,
     Listener,
 } from 'path/to/vanilla.mjs'
 
 */
-
 import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
 
+
+
+const display = {
+    block:'block',
+    inline:'inline',
+    inlineBlock:'inline-block',
+    flex:'flex',
+    grid:'grid',
+}
+
 const event = {
+    page: {
+        load: 'load',
+        resize: 'resize',
+        refresh: 'refresh',
+        scroll: 'scroll',
+    },
     element: {
         change: 'change',
         input: 'input',
-        submit: 'submit'    
+        submit: 'submit',
+        update: 'update',
     },
     mouse: {
         click: 'click',
     }
+}
+
+const unit = {
+    px: 'px',
+    em: 'em',
+    rem: 'rem',
+    vw: 'vw',
+    vh: 'vh',
+    percent: '%',
 }
 
 const selections =
@@ -65,7 +97,7 @@ class H2 extends EasyAccessor
 
 class Div extends EasyAccessor
 {
-    constructor(display = block, classlist=null, id=null)
+    constructor(display=display.block, classlist=null, id=null)
     {
         const div = document.createElement('div')
         this.element = div
@@ -163,8 +195,12 @@ class Listener extends EasyAccessor
 }
 
 export {
+    display,
     event,
+    unit,
+
     selections,
+
     H1,
     H2,
     Div,
