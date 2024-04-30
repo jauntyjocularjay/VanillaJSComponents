@@ -112,6 +112,11 @@ class TextElement extends Classable
     {
         this.element.textContent = textContent
     }
+
+    InnerHTML(innerHTML)
+    {
+        this.element.innerHTML += innerHTML
+    }
 }
 
 class H1 extends TextElement
@@ -190,14 +195,27 @@ class H6 extends TextElement
 
 }
 
+/*** @todo devise a way to add b, strong, i, etc to content ***/
+/*** @idea instead of modifying textContent, try InnerHTML ***/
 class P extends TextElement
 {
-    constructor(textContent='str', classList=[], id=null)
+    constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('p'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
+        return this.element
+    }
+}
+
+class A extends TextElement
+{
+    constructor(textContent='str', href='#', classList=[], id=null)
+    {
+        super(document.createElement('a'), classList, id)
+        this.TextContent(textContent)
+        this.element.href = href
         return this.element
     }
 }
@@ -206,38 +224,36 @@ class P extends TextElement
 /*** @todo test ***/
 class B extends TextElement
 {
-    constructor(textContent='str', classList=[], id=null)
+    constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('b'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
     }
 }
-
 /*** @todo devise a way to append element to P ***/
 /*** @todo test ***/
 class Strong extends TextElement
 {
-    constructor(textContent='str', classList=[], id=null)
+    constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('strong'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
     }
 }
-
 /*** @todo devise a way to append element to P ***/
 /*** @todo test ***/
 class I extends TextElement
 {
-    constructor(textContent='str', classList=[], id=null)
+    constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('i'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -248,10 +264,10 @@ class I extends TextElement
 /*** @todo test ***/
 class S extends TextElement
 {
-    constructor(textContent='str', classList=[], id=null)
+    constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('s'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -262,10 +278,10 @@ class S extends TextElement
 /*** @todo test ***/
 class U extends TextElement
 {
-    constructor(textContent='str', classList=[], id=null)
+    constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('u'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -276,10 +292,10 @@ class U extends TextElement
 /*** @todo test ***/
 class Abbr extends TextElement
 {
-    constructor(textContent='str',title=null, classList=[], id=null)
+    constructor(innerHTML='str',title=null, classList=[], id=null)
     {
         super(document.createElement('abbr'), classList, id)
-        this.TextContent(textContent)
+        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         this.element.title = title
@@ -345,7 +361,7 @@ class Span extends TextElement
 
 /*** @todo devise a way to append element to P ***/
 /*** @todo test ***/
-class Pre extends TextElement
+class Pre extends TextElement // Preformatted Text
 {
     constructor(textContent='str', classList=[], id=null)
     {
@@ -357,6 +373,20 @@ class Pre extends TextElement
     }
 }
 
+/*** @todo test ***/
+class Code extends TextElement
+{
+    constructor(textContent='str', classList=[], id=null)
+    {
+        super(document.createElement('pre'), classList, id)
+        this.TextContent(textContent)
+        this.addToClassList(classList)
+        this.addID(id)
+        return this.element
+    }
+}
+
+/*** @todo test ***/
 class Img extends Classable
 {
     constructor(imgPath, alt='image', classList=[], id=null)
@@ -391,18 +421,19 @@ class FlexBox extends Div
     }
 }
 
+/*** @todo test ***/
 class Figure extends Classable
 {
-    constructor(imgPath, textContent='str', classList=[], id=null)
+    constructor(imgPath, captionTextContent='str', classList=[], id=null)
     {
         super(document.createElement('figure'), classList, id)
         const imgClasses = ['img']
         classList.forEach(clss => imgClasses.push(clss))
-        this.img = new Img(imgPath, textContent, classList, id+'-fig-img')
+        this.img = new Img(imgPath, captionTextContent, classList, id+'-fig-img')
 
         const captionClasses = ['caption']
         classList.forEach(clss => captionClasses.push(clss))
-        this.figcapture = new Figcaption(textContent, classList, id+'-fig-caption')
+        this.figcapture = new Figcaption(captionTextContent, classList, id+'-fig-caption')
 
         this.addToClassList(classList)
         this.addID(id)
@@ -412,6 +443,7 @@ class Figure extends Classable
     }
 }
 
+/*** @todo test ***/
 class Figcaption extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -531,16 +563,32 @@ export {
 
     selections,
 
+    // Testing elements
+    A,
+    B,
+    Strong, 
+    I, 
+    S, 
+    U, 
+    Abbr, 
+    Blockquote, 
+    Sub, 
+    Sup, 
+    Span,
+    Code, 
+    Pre, 
+    Img, 
+    Figure, 
+    Figcaption,
+
+
     H1,
     H2,
     H3,
     H4,
     H5,
+    H6,
     P,
-    Pre,
-    Blockquote,
-    Figcaption,
-    Span,
     Div,
     FlexBox,
     Form,
