@@ -10,6 +10,7 @@ import {
     H3,
     H4,
     H5,
+    H6,
     P,
     Div,
     FlexBox,
@@ -28,6 +29,7 @@ const h2 = new H2('Card H2',['header2'])
 const h3 = new H3('Card H3', ['header3'])
 const h4 = new H4('Card H4', ['header4'])
 const h5 = new H5('Card H5', ['header5'])
+const h6 = new H6('Card H6', ['header6'])
 const cardParagraph = 'This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. '
 const p = new P(cardParagraph, ['paragraph'])
 const form = new Form('form',['form'],'form-id-001')
