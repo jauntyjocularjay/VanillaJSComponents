@@ -5,11 +5,30 @@ import {
 
     selections,
 
+    // Testing elements
+    A,
+    B, 
+    Strong, 
+    I, 
+    S, 
+    U, 
+    Abbr, 
+    Blockquote, 
+    Sub, 
+    Sup, 
+    Span, 
+    Code, 
+    Pre, 
+    Img, 
+    Figure, 
+    Figcaption,
+
     H1,
     H2,
     H3,
     H4,
     H5,
+    H6,
     P,
     Div,
     FlexBox,
@@ -28,8 +47,30 @@ const h2 = new H2('Card H2',['header2'])
 const h3 = new H3('Card H3', ['header3'])
 const h4 = new H4('Card H4', ['header4'])
 const h5 = new H5('Card H5', ['header5'])
-const cardParagraph = 'This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. This is a card paragraph. '
-const p = new P(cardParagraph, ['paragraph'])
+const h6 = new H6('Card H6', ['header6'])
+// const cardParagraph = 'This is a card paragraph. '
+// const p = new P(cardParagraph, ['paragraph'])
+const cardParagraph = [
+    new I('This is italicized text. ', ['italic'], 'italic-text'),
+    new B('This is bold text. ', ['bold'], 'bold-text'),
+    new U('This is underlined text. ', ['underline'], 'underline-text'),
+    new Blockquote('This is a blockquote. ', ['blockquote'], 'blockquote-text'),
+    new Pre('3====> ', ['pre'], 'pre-text'),
+    new Span('This is a span. ', ['span'], 'span-text'),
+    new Strong('This is strong text. ', ['strong'], 'strong-text'),
+    new Sub('This is subscript text. ', ['subscript'], 'subscript-text'),
+    new Sup('This is superscript text. ', ['superscript'], 'superscript-text'),
+    new Abbr('abbr ', 'abbreviation', ['abbreviation'], 'abbreviation-text'),
+    new A('This is a link. ', 'https://www.google.com', ['link'], 'link-text'),
+    new S('This is strikethrough text. ', ['strikethrough'], 'strikethrough-text'),
+    new Code('const message = "Hello, World!" ', ['code'], 'code-text'),
+]
+const p = new P('This is paragraph text. ', ['paragraph'], 'paragraph-demo')
+cardParagraph.forEach(text => {
+    console.log(text)
+    p.appendChild(text)
+})
+const figure = new Figure('./img-100.png','This is a figure with an image and caption.', ['figure'], 'figure-id-001')
 const form = new Form('form',['form'],'form-id-001')
 const label = new Label('form','label',['label'],'label-id-001')
 const options = [
@@ -53,7 +94,9 @@ card.appendChild(h2)
 card.appendChild(h3)
 card.appendChild(h4)
 card.appendChild(h5)
+card.appendChild(h6)
 card.appendChild(p)
+card.appendChild(figure)
 
 page.appendChild(form)
 form.appendChild(formH1)
