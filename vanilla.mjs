@@ -1,25 +1,3 @@
-/*
-import {
-    display,
-    event,
-    unit,
-
-    H1,
-    H2,
-    H3,
-    P,
-    Div,
-    FlexBox,
-    Form,
-    Label,
-    Select,
-    Option,
-    Input,
-    Button,
-    Listener,
-} from 'path/to/vanilla.mjs'
-
-*/
 import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
 
 
@@ -109,6 +87,11 @@ class Classable extends EasyAccessor
     {
         if(id) this.element.id = id
     }
+
+    innerHTML(innerHTML)
+    {
+        this.element.innerHTML += innerHTML
+    }
 }
 
 class TextElement extends Classable 
@@ -118,14 +101,41 @@ class TextElement extends Classable
         super(element, classList, id)
     }
 
-    TextContent(textContent)
+    addContent(content)
+    {
+        if(typeof content === 'string')
+        {
+            this.element.textContent = content
+        }
+        else if (Array.isArray(content))
+        {
+            this.addContentFromArray(content)
+        }
+    }
+
+    addContentFromArray(content=[])
+    {
+        content.forEach(item => {
+            if(typeof item === 'string'){
+                this.textContent += item
+            } else {
+                this.element.appendChild(item)
+            }
+        })
+    }
+
+    textContent(textContent)
     {
         this.element.textContent = textContent
     }
+}
 
-    InnerHTML(innerHTML)
+class Br extends Classable
+{
+    constructor()
     {
-        this.element.innerHTML += innerHTML
+        super(document.createElement('br'))
+        return this.element
     }
 }
 
@@ -134,7 +144,7 @@ class H1 extends TextElement
     constructor(textContent, classList=[], id=null)
     {
         super(document.createElement('h1'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -146,7 +156,7 @@ class H2 extends TextElement
     constructor(textContent, classList=[], id=null)
     {
         super(document.createElement('h2'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -158,7 +168,7 @@ class H3 extends TextElement
     constructor(textContent, classList=[], id=null)
     {
         super(document.createElement('h3'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -171,7 +181,7 @@ class H4 extends TextElement
     constructor(textContent, classList=[], id=null)
     {
         super(document.createElement('h4'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -184,7 +194,7 @@ class H5 extends TextElement
     constructor(textContent, classList=[], id=null)
     {
         super(document.createElement('h5'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -197,7 +207,7 @@ class H6 extends TextElement
     constructor(textContent, classList=[], id=null)
     {
         super(document.createElement('h6'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -212,34 +222,33 @@ class P extends TextElement
         super(document.createElement('p'), classList, id)
         this.addToClassList(classList)
         this.addID(id)
-        if(typeof content === 'string')
-        {
-            this.element.textContent = content
-        }
-        else if (Array.isArray(content))
-        {
-            this.AddContentFromArray(content)
-        }
+        this.addContent(content)
         return this.element
-    }
-
-    AddContentFromArray(content=[])
-    {
-        content.forEach(item => {
-            if(typeof item === 'string'){
-                this.textContent += item
-            } else {
-                this.element.appendChild(item)
-            }
-        })
     }
 }
 
-class Br extends Classable
+class Figcaption extends TextElement
 {
-    constructor()
+    constructor(textContent=null, classList=[], id=null)
     {
-        super(document.createElement('br'))
+        super(document.createElement('figcaption'), classList, id)
+        this.textContent(textContent)
+        this.addToClassList(classList)
+        this.addID(id)
+        return this.element
+    }
+}
+
+class Label extends TextElement
+{
+    constructor(forStr, textContent=null, classList=[], id=null)
+    {
+        super(document.createElement('label'), textContent, classList, id)
+        this.textContent(textContent)
+        this.element.appendChild(new Br())
+        this.addToClassList(classList)
+        this.addID(id)
+        this.element.for = forStr
         return this.element
     }
 }
@@ -249,7 +258,7 @@ class A extends TextElement
     constructor(textContent='str', href='#', classList=[], id=null)
     {
         super(document.createElement('a'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.element.href = href
         return this.element
     }
@@ -260,7 +269,7 @@ class B extends TextElement
     constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('b'), classList, id)
-        this.InnerHTML(innerHTML)
+        this.innerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -272,7 +281,7 @@ class Strong extends TextElement
     constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('strong'), classList, id)
-        this.InnerHTML(innerHTML)
+        this.innerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -284,7 +293,7 @@ class I extends TextElement
     constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('i'), classList, id)
-        this.InnerHTML(innerHTML)
+        this.innerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -296,7 +305,7 @@ class S extends TextElement
     constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('s'), classList, id)
-        this.InnerHTML(innerHTML)
+        this.innerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -308,7 +317,7 @@ class U extends TextElement
     constructor(innerHTML='str', classList=[], id=null)
     {
         super(document.createElement('u'), classList, id)
-        this.InnerHTML(innerHTML)
+        this.innerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -317,10 +326,10 @@ class U extends TextElement
 
 class Abbr extends TextElement
 {
-    constructor(innerHTML='str',title=null, classList=[], id=null)
+    constructor(textContent='str',title=null, classList=[], id=null)
     {
         super(document.createElement('abbr'), classList, id)
-        this.InnerHTML(innerHTML)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         this.element.title = title
@@ -333,7 +342,7 @@ class Blockquote extends TextElement
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('blockquote'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -345,7 +354,7 @@ class Sub extends TextElement
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('sub'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -357,7 +366,7 @@ class Sup extends TextElement
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('sup'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -369,7 +378,7 @@ class Span extends TextElement
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('span'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -381,7 +390,7 @@ class Pre extends TextElement // Preformatted Text
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('pre'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -393,7 +402,7 @@ class Code extends TextElement
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('pre'), classList, id)
-        this.TextContent(textContent)
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         return this.element
@@ -455,18 +464,6 @@ class Figure extends Classable
     }
 }
 
-class Figcaption extends TextElement
-{
-    constructor(textContent='str', classList=[], id=null)
-    {
-        super(document.createElement('figcaption'), classList, id)
-        this.TextContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
-        return this.element
-    }
-}
-
 class Form extends Classable
 {
     constructor(nameStr='form', classList=[], id=null)
@@ -476,20 +473,6 @@ class Form extends Classable
         this.addID(id)
         this.element.name = nameStr
         this.element.appendChild(new Label(nameStr))
-        return this.element
-    }
-}
-
-class Label extends TextElement
-{
-    constructor(forStr, textContent=null, classList=[], id=null)
-    {
-        super(document.createElement('label'), textContent, classList, id)
-        this.TextContent(textContent)
-        this.element.appendChild(new Br())
-        this.addToClassList(classList)
-        this.addID(id)
-        this.element.for = forStr
         return this.element
     }
 }
