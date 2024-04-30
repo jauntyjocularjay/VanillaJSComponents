@@ -4,8 +4,6 @@ import {
     event,
     unit,
 
-    selections,
-
     H1,
     H2,
     H3,
@@ -53,29 +51,41 @@ const event = {
 }
 
 const unit = {
+    // absolute length units
+    cm: 'cm',
+    mm: 'mm',
+    Q: 'Q',
+    in: 'in',
+    pc: 'pc',
+    pt: 'pt',
     px: 'px',
+
+    // relative length units
     em: 'em',
     rem: 'rem',
     vw: 'vw',
     vh: 'vh',
+    lh: 'lh',
+    rlh: 'rlh',
     percent: '%',
 }
 
-const selections =
+/* const selections =
 [
-//     {
-//         value: null,
-//         descriptor: null
-//     },
-//     {
-//         value: null,
-//         descriptor: null
-//     },
-//     {
-//         value: null,
-//         descriptor: null
-//     },
+    {
+        value: null,
+        descriptor: null
+    },
+    {
+        value: null,
+        descriptor: null
+    },
+    {
+        value: null,
+        descriptor: null
+    },
 ]
+*/
 
 class Classable extends EasyAccessor
 {
@@ -195,16 +205,41 @@ class H6 extends TextElement
 
 }
 
-/*** @todo devise a way to add b, strong, i, etc to content ***/
-/*** @idea instead of modifying textContent, try InnerHTML ***/
 class P extends TextElement
 {
-    constructor(innerHTML='str', classList=[], id=null)
+    constructor(content=null, classList=[], id=null)
     {
         super(document.createElement('p'), classList, id)
-        this.InnerHTML(innerHTML)
         this.addToClassList(classList)
         this.addID(id)
+        if(typeof content === 'string')
+        {
+            this.element.textContent = content
+        }
+        else if (Array.isArray(content))
+        {
+            this.AddContentFromArray(content)
+        }
+        return this.element
+    }
+
+    AddContentFromArray(content=[])
+    {
+        content.forEach(item => {
+            if(typeof item === 'string'){
+                this.textContent += item
+            } else {
+                this.element.appendChild(item)
+            }
+        })
+    }
+}
+
+class Br extends Classable
+{
+    constructor()
+    {
+        super(document.createElement('br'))
         return this.element
     }
 }
@@ -220,8 +255,6 @@ class A extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class B extends TextElement
 {
     constructor(innerHTML='str', classList=[], id=null)
@@ -233,8 +266,7 @@ class B extends TextElement
         return this.element
     }
 }
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
+
 class Strong extends TextElement
 {
     constructor(innerHTML='str', classList=[], id=null)
@@ -246,8 +278,7 @@ class Strong extends TextElement
         return this.element
     }
 }
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
+
 class I extends TextElement
 {
     constructor(innerHTML='str', classList=[], id=null)
@@ -260,8 +291,6 @@ class I extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class S extends TextElement
 {
     constructor(innerHTML='str', classList=[], id=null)
@@ -274,8 +303,6 @@ class S extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class U extends TextElement
 {
     constructor(innerHTML='str', classList=[], id=null)
@@ -288,8 +315,6 @@ class U extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class Abbr extends TextElement
 {
     constructor(innerHTML='str',title=null, classList=[], id=null)
@@ -303,8 +328,6 @@ class Abbr extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class Blockquote extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -317,8 +340,6 @@ class Blockquote extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class Sub extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -331,8 +352,6 @@ class Sub extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class Sup extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -345,8 +364,6 @@ class Sup extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class Span extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -359,8 +376,6 @@ class Span extends TextElement
     }
 }
 
-/*** @todo devise a way to append element to P ***/
-/*** @todo test ***/
 class Pre extends TextElement // Preformatted Text
 {
     constructor(textContent='str', classList=[], id=null)
@@ -373,7 +388,6 @@ class Pre extends TextElement // Preformatted Text
     }
 }
 
-/*** @todo test ***/
 class Code extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -386,7 +400,6 @@ class Code extends TextElement
     }
 }
 
-/*** @todo test ***/
 class Img extends Classable
 {
     constructor(imgPath, alt='image', classList=[], id=null)
@@ -421,7 +434,6 @@ class FlexBox extends Div
     }
 }
 
-/*** @todo test ***/
 class Figure extends Classable
 {
     constructor(imgPath, captionTextContent='str', classList=[], id=null)
@@ -443,7 +455,6 @@ class Figure extends Classable
     }
 }
 
-/*** @todo test ***/
 class Figcaption extends TextElement
 {
     constructor(textContent='str', classList=[], id=null)
@@ -471,10 +482,11 @@ class Form extends Classable
 
 class Label extends TextElement
 {
-    constructor(forStr, textContent, classList=[], id=null)
+    constructor(forStr, textContent=null, classList=[], id=null)
     {
         super(document.createElement('label'), textContent, classList, id)
         this.TextContent(textContent)
+        this.element.appendChild(new Br())
         this.addToClassList(classList)
         this.addID(id)
         this.element.for = forStr
@@ -516,7 +528,7 @@ class Option extends Classable
 
 class Input extends Classable
 {
-    constructor(typeStr, placeholder)
+    constructor(typeStr, placeholder, forStr=null, classList=[], id=null)
     {
         super(classList, id)
         const input = document.createElement('input')
@@ -531,18 +543,17 @@ class Input extends Classable
 
 class Button extends Classable
 {
-    constructor(textStr="click me", nameStr=null, classList=[], id=null)
+    constructor(textContent="click me", formName=null, classList=[], id=null)
     {
         super(classList, id)
         const button = document.createElement('button')
         this.element = button
         this.addToClassList(classList)
         this.addID(id)
-        button.for = nameStr
-        button.textContent = textStr
+        button.for = formName
+        button.textContent = textContent
         return this.element
     }
-
 }
 
 class Listener extends EasyAccessor
@@ -561,27 +572,10 @@ export {
     event,
     unit,
 
-    selections,
+    // Format elements
+    Br,
 
-    // Testing elements
-    A,
-    B,
-    Strong, 
-    I, 
-    S, 
-    U, 
-    Abbr, 
-    Blockquote, 
-    Sub, 
-    Sup, 
-    Span,
-    Code, 
-    Pre, 
-    Img, 
-    Figure, 
-    Figcaption,
-
-
+    // Text Elements
     H1,
     H2,
     H3,
@@ -589,13 +583,34 @@ export {
     H5,
     H6,
     P,
+    A,
+    B,
+    Strong,
+    I,
+    S,
+    U,
+    Abbr,
+    Blockquote,
+    Sub,
+    Sup,
+    Span,
+    Code,
+    Pre,
+
+    // Containers
     Div,
     FlexBox,
     Form,
     Label,
+    Img, 
+    Figure, 
+    Figcaption,
+
+    // Input
+    Button,
+    Input,
     Select,
     Option,
-    Input,
-    Button,
+
     Listener,
 }

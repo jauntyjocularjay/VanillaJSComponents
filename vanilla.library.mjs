@@ -3,26 +3,10 @@ import {
     event,
     unit,
 
-    selections,
+    // Format elements
+    Br,
 
-    // Testing elements
-    A,
-    B, 
-    Strong, 
-    I, 
-    S, 
-    U, 
-    Abbr, 
-    Blockquote, 
-    Sub, 
-    Sup, 
-    Span, 
-    Code, 
-    Pre, 
-    Img, 
-    Figure, 
-    Figcaption,
-
+    // Text Elements
     H1,
     H2,
     H3,
@@ -30,15 +14,33 @@ import {
     H5,
     H6,
     P,
+    A,
+    B,
+    Strong,
+    I,
+    S,
+    U,
+    Abbr,
+    Blockquote,
+    Sub,
+    Sup,
+    Span,
+    Code,
+    Pre,
+
+    // Containers
     Div,
     FlexBox,
     Form,
     Label,
-    Select,
-    Option,
-    Input,
+    Img, 
+    Figure, 
+    Figcaption,
+
+    // Input
     Button,
-    Listener,
+    Input,
+    Select,
 } from './vanilla.mjs'
 const page = document.querySelector('#page')
 const card = new Div(['card'],'card-id-001')
@@ -48,9 +50,8 @@ const h3 = new H3('Card H3', ['header3'])
 const h4 = new H4('Card H4', ['header4'])
 const h5 = new H5('Card H5', ['header5'])
 const h6 = new H6('Card H6', ['header6'])
-// const cardParagraph = 'This is a card paragraph. '
-// const p = new P(cardParagraph, ['paragraph'])
 const cardParagraph = [
+    'This is plain text. ',
     new I('This is italicized text. ', ['italic'], 'italic-text'),
     new B('This is bold text. ', ['bold'], 'bold-text'),
     new U('This is underlined text. ', ['underline'], 'underline-text'),
@@ -66,10 +67,7 @@ const cardParagraph = [
     new Code('const message = "Hello, World!" ', ['code'], 'code-text'),
 ]
 const p = new P('This is paragraph text. ', ['paragraph'], 'paragraph-demo')
-cardParagraph.forEach(text => {
-    console.log(text)
-    p.appendChild(text)
-})
+const p2 = new P(cardParagraph, ['paragraph'], 'paragraph-demo-2')
 const figure = new Figure('./img-100.png','This is a figure with an image and caption.', ['figure'], 'figure-id-001')
 const form = new Form('form',['form'],'form-id-001')
 const label = new Label('form','label',['label'],'label-id-001')
@@ -81,8 +79,10 @@ const options = [
     {value: 'option5', descriptor: 'Option 5'},
 ]
 const select = new Select('form', options,['select'],'select-id-001')
+const input = new Input('text', 'text input', 'form', ['input'],'input-id-001')
 const formH1 = new H1('Form H1', ['header1'])
-const button = new Button('form', 'Submit', ['button'],'button-id-001')
+
+const button = new Button('Submit', 'form', ['button'],'button-id-001')
 const flexbox = new FlexBox(['flexbox'],'flexbox-id-001')
 const box1 = new Div(['box'],'box-001')
 const box2 = new Div(['box'],'box-002')
@@ -96,12 +96,14 @@ card.appendChild(h4)
 card.appendChild(h5)
 card.appendChild(h6)
 card.appendChild(p)
+card.appendChild(p2)
 card.appendChild(figure)
 
 page.appendChild(form)
 form.appendChild(formH1)
 form.appendChild(label)
 form.appendChild(select)
+form.appendChild(input)
 form.appendChild(button)
 
 page.appendChild(flexbox)
