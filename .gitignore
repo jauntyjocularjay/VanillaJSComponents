@@ -1,0 +1,6 @@
+.github/
+static.yml
+package.json
+package-lock.json
+.replit
+replit.nix
