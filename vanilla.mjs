@@ -539,6 +539,29 @@ class Button extends Classable
     }
 }
 
+class Link extends Classable {
+    constructor(href, rel, classList=[], id=null)
+    {
+        super(classList, id)
+        const link = document.createElement('link')
+        this.element = link
+        this.addToClassList(classList)
+        this.addID(id)
+        link.href = href
+        link.rel = rel
+        return this.element
+    }
+}
+
+class StyleSheet extends Link {
+    constructor(href, classList=[], id=null)
+    {
+        super(href, 'stylesheet', classList, id)
+        return this.element
+    }
+
+}
+
 class Listener extends EasyAccessor
 {
     constructor(selector, event, func)
@@ -548,6 +571,16 @@ class Listener extends EasyAccessor
         this.element = listener
         return this.element
     }
+}
+
+class ListenerOnLoad extends Listener
+{
+    constructor(selector, func)
+    {
+        super(selector, event.page.load, func)
+        return this.element
+    }
+
 }
 
 export {
@@ -595,5 +628,10 @@ export {
     Select,
     Option,
 
+    // External Resource Links
+    Link,
+    StyleSheet,
+
     Listener,
+    ListenerOnLoad,
 }
