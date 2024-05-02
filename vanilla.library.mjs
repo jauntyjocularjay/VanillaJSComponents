@@ -41,7 +41,21 @@ import {
     Button,
     Input,
     Select,
+
+    // External Resource Links
+    Link,
+    StyleSheet,
+
+    // Event Listeners
+    Listener,
+    ListenerOnLoad,
 } from './vanilla.mjs'
+
+// Setup Stylesheet
+document.head.appendChild(new StyleSheet('./vanilla.library.css'))
+
+const listeners = {}
+
 const page = document.querySelector('#page')
 const card = new Div(['card'],'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
@@ -110,3 +124,6 @@ page.appendChild(flexbox)
 flexbox.appendChild(box1)
 flexbox.appendChild(box2)
 flexbox.appendChild(box3)
+
+// listeners['addStylesheet'] = new ListenerOnLoad('head', () => document.head.appendChild(new StyleSheet('./vanilla.library.css')) )
+
