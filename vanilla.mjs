@@ -553,7 +553,7 @@ class Link extends Classable {
     }
 }
 
-class StyleSheet extends Link {
+class StyleSheetLink extends Link {
     constructor(href, classList=[], id=null)
     {
         super(href, 'stylesheet', classList, id)
@@ -630,7 +630,7 @@ export {
 
     // External Resource Links
     Link,
-    StyleSheet,
+    StyleSheetLink,
 
     Listener,
     ListenerOnLoad,

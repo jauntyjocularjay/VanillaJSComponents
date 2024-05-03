@@ -33,8 +33,8 @@ import {
     FlexBox,
     Form,
     Label,
-    Img, 
-    Figure, 
+    Img,
+    Figure,
     Figcaption,
 
     // Input
@@ -43,8 +43,8 @@ import {
     Select,
 
     // External Resource Links
-    Link,
-    StyleSheet,
+    Link, // 
+    StyleSheetLink,
 
     // Event Listeners
     Listener,
@@ -52,14 +52,14 @@ import {
 } from './vanilla.mjs'
 
 // Setup Stylesheet
-document.head.appendChild(new StyleSheet('./vanilla.library.css'))
+document.head.appendChild(new StyleSheetLink('./vanilla.library.css'))
 
 const listeners = {}
 
 const page = document.querySelector('#page')
-const card = new Div(['card'],'card-id-001')
+const card = new Div(['card'], 'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
-const h2 = new H2('Card H2',['header2'])
+const h2 = new H2('Card H2', ['header2'])
 const h3 = new H3('Card H3', ['header3'])
 const h4 = new H4('Card H4', ['header4'])
 const h5 = new H5('Card H5', ['header5'])
@@ -82,25 +82,25 @@ const cardParagraph = [
 ]
 const p = new P('This is paragraph text. ', ['paragraph'], 'paragraph-demo')
 const p2 = new P(cardParagraph, ['paragraph'], 'paragraph-demo-2')
-const figure = new Figure('./img-100.png','This is a figure with an image and caption.', ['figure'], 'figure-id-001')
-const form = new Form('form',['form'],'form-id-001')
-const label = new Label('form','label',['label'],'label-id-001')
+const figure = new Figure('./img-100.png', 'This is a figure with an image and caption.', ['figure'], 'figure-id-001')
+const form = new Form('form', ['form'], 'form-id-001')
+const label = new Label('form', 'label', ['label'], 'label-id-001')
 const options = [
-    {value: 'option1', descriptor: 'Option 1'},
-    {value: 'option2', descriptor: 'Option 2'},
-    {value: 'option3', descriptor: 'Option 3'},
-    {value: 'option4', descriptor: 'Option 4'},
-    {value: 'option5', descriptor: 'Option 5'},
+    { value: 'option1', descriptor: 'Option 1' },
+    { value: 'option2', descriptor: 'Option 2' },
+    { value: 'option3', descriptor: 'Option 3' },
+    { value: 'option4', descriptor: 'Option 4' },
+    { value: 'option5', descriptor: 'Option 5' },
 ]
-const select = new Select('form', options,['select'],'select-id-001')
-const input = new Input('text', 'text input', 'form', ['input'],'input-id-001')
+const select = new Select('form', options, ['select'], 'select-id-001')
+const input = new Input('text', 'text input', 'form', ['input'], 'input-id-001')
 const formH1 = new H1('Form H1', ['header1'])
 
-const button = new Button('Submit', 'form', ['button'],'button-id-001')
-const flexbox = new FlexBox(['flexbox'],'flexbox-id-001')
-const box1 = new Div(['box'],'box-001')
-const box2 = new Div(['box'],'box-002')
-const box3 = new Div(['box'],'box-003')
+const button = new Button('Submit', 'form', ['button'], 'button-id-001')
+const flexbox = new FlexBox(['flexbox'], 'flexbox-id-001')
+const box1 = new Div(['box'], 'box-001')
+const box2 = new Div(['box'], 'box-002')
+const box3 = new Div(['box'], 'box-003')
 
 page.appendChild(card)
 card.appendChild(h1)
