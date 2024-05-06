@@ -38,6 +38,43 @@ class StyleSheet
     }
 }
 
+class FlexBoxClass
+{
+    constructor(
+        selectorStr='.flexbox', 
+        direction=flex.column, 
+        wrap=flex.nowrap, 
+        grow=1, 
+        shrink=0, 
+        basis='' )
+    {
+        this.selector = selector
+        this.direction = direction
+        this.wrap = wrap
+        this.grow = grow
+        this.shrink = shrink
+        this.basis = basis
+    }
+
+    render()
+    {
+        let result = ''
+        const selector = this.selector
+        const direction = this.direction
+        const wrap = this.wrap
+        const grow = this.grow
+        const shrink = this.shrink
+        const basis = this.basis
+
+        result += selector ? `${selector} { ` : ''
+        result += `flex-flow: ${direction} ${wrap};`
+        result += `flex: ${grow} ${shrink} ${basis};`
+        result += selector ? `}` : ''
+
+        return result
+    }
+}
+
 class Listener
 {
     constructor(selector, event, func)
@@ -112,9 +149,9 @@ class Div extends Classable
 
 class FlexBox extends Div
 {
-    constructor(classList=[], id=null)
+    constructor(flexClass='flexbox', classList=[], id=null)
     {
-        classList ? classList.push(flex.c) : classList = [flex.c]
+        if(flexClass) {classList.push(flexClass)}
         super(classList, id)
         return this.element
     }
@@ -203,7 +240,8 @@ class Select extends Classable
     }
 }
 
-class Link extends Classable {
+class Link extends Classable
+{
     constructor(href, rel, classList=[], id=null)
     {
         super(classList, id)
@@ -217,7 +255,8 @@ class Link extends Classable {
     }
 }
 
-class StyleSheetLink extends Link {
+class StyleSheetLink extends Link
+{
     constructor(href, classList=[], id=null)
     {
         super(href, 'stylesheet', classList, id)
@@ -396,65 +435,75 @@ class A extends TextElement
     }
 }
 
-class B extends TextElement
-{
-    constructor(innerHTML='str', classList=[], id=null)
-    {
-        super(document.createElement('b'), classList, id)
-        this.innerHTML(innerHTML)
-        this.addToClassList(classList)
-        this.addID(id)
-        return this.element
-    }
-}
+/*
+// class B extends TextElement
+// {
+//     constructor(innerHTML='str', classList=[], id=null)
+//     {
+//         super(document.createElement('b'), classList, id)
+//         this.innerHTML(innerHTML)
+//         this.addToClassList(classList)
+//         this.addID(id)
+//         return this.element
+//     }
+// }
+*/
 
-class Strong extends TextElement
-{
-    constructor(innerHTML='str', classList=[], id=null)
-    {
-        super(document.createElement('strong'), classList, id)
-        this.innerHTML(innerHTML)
-        this.addToClassList(classList)
-        this.addID(id)
-        return this.element
-    }
-}
+/*
+// class Strong extends TextElement
+// {
+//     constructor(innerHTML='str', classList=[], id=null)
+//     {
+//         super(document.createElement('strong'), classList, id)
+//         this.innerHTML(innerHTML)
+//         this.addToClassList(classList)
+//         this.addID(id)
+//         return this.element
+//     }
+// }
+*/
 
-class I extends TextElement
-{
-    constructor(innerHTML='str', classList=[], id=null)
-    {
-        super(document.createElement('i'), classList, id)
-        this.innerHTML(innerHTML)
-        this.addToClassList(classList)
-        this.addID(id)
-        return this.element
-    }
-}
+/*
+// class I extends TextElement
+// {
+//     constructor(innerHTML='str', classList=[], id=null)
+//     {
+//         super(document.createElement('i'), classList, id)
+//         this.innerHTML(innerHTML)
+//         this.addToClassList(classList)
+//         this.addID(id)
+//         return this.element
+//     }
+// }
+*/
 
-class S extends TextElement
-{
-    constructor(innerHTML='str', classList=[], id=null)
-    {
-        super(document.createElement('s'), classList, id)
-        this.innerHTML(innerHTML)
-        this.addToClassList(classList)
-        this.addID(id)
-        return this.element
-    }
-}
+/*
+// class S extends TextElement
+// {
+//     constructor(innerHTML='str', classList=[], id=null)
+//     {
+//         super(document.createElement('s'), classList, id)
+//         this.innerHTML(innerHTML)
+//         this.addToClassList(classList)
+//         this.addID(id)
+//         return this.element
+//     }
+// }
+*/
 
-class U extends TextElement
-{
-    constructor(innerHTML='str', classList=[], id=null)
-    {
-        super(document.createElement('u'), classList, id)
-        this.innerHTML(innerHTML)
-        this.addToClassList(classList)
-        this.addID(id)
-        return this.element
-    }
-}
+/*
+// class U extends TextElement
+// {
+//     constructor(innerHTML='str', classList=[], id=null)
+//     {
+//         super(document.createElement('u'), classList, id)
+//         this.innerHTML(innerHTML)
+//         this.addToClassList(classList)
+//         this.addID(id)
+//         return this.element
+//     }
+// }
+*/
 
 class Abbr extends TextElement
 {
@@ -580,10 +629,31 @@ const event = {
     }
 }
 
+const unit = {
+ // No units
+    none: '',
+
+ // absolute length units
+    cm: 'cm',
+    mm: 'mm',
+    Q: 'Q',
+    in: 'in',
+    pc: 'pc',
+    pt: 'pt',
+    px: 'px',
+
+ // relative length units
+    em: 'em',
+    rem: 'rem',
+    vw: 'vw',
+    vh: 'vh',
+    lh: 'lh',
+    rlh: 'rlh',
+    percent: '%',
+}
+
 const flex = {
-/*
-    flex classes for flexboxes
-*/
+/*  flex classes for flexboxes  */
     c: 'flex-c',
     cw: 'flex-cw',
     cwr: 'flex-cwr',
@@ -596,30 +666,22 @@ const flex = {
     rr: 'flex-rr',
     rrw: 'flex-rrw',
     rrwr: 'flex-rrwr',
+
+/* flex-direction */
+    column: 'column',
+    colReverse: 'column-reverse',
+    row: 'row',
+    rowReverse: 'row-reverse',
+
+/*  wrap */
+    nowrap: 'nowrap',
+    wrap: 'wrap',
+    wrapReverse: 'wrap-reverse',
 }
 
-const unit = {
-    // absolute length units
-    cm: 'cm',
-    mm: 'mm',
-    Q: 'Q',
-    in: 'in',
-    pc: 'pc',
-    pt: 'pt',
-    px: 'px',
-
-    // relative length units
-    em: 'em',
-    rem: 'rem',
-    vw: 'vw',
-    vh: 'vh',
-    lh: 'lh',
-    rlh: 'rlh',
-    percent: '%',
-}
 
 const cssRules = [
-    'html { background-color: #333;}',
+    // Flexbox Classes
     '.flex-c { display: flex; flex-flow: column nowrap;}',
     '.flex-cw { display: flex; flex-flow: column wrap;}',
     '.flex-cwr { display: flex; flex-flow: column wrap-reverse;}',
