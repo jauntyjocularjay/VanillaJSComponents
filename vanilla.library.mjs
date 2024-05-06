@@ -42,11 +42,7 @@ import {
     P,
     Figcaption,
     A,
-    // B,
     Strong,
-    // I,
-    // S,
-    // U,
     Abbr,
     Blockquote,
     Sub,
@@ -55,8 +51,7 @@ import {
     Code,
     Pre,
 
-    addCSSRules,
-    getStylesheetByFileName,
+    addAdoptedStyleSheet,
 } from './vanilla.mjs'
 
 // Setup Style element
@@ -73,7 +68,7 @@ const cssRules = [
     'span.strikethrough { text-decoration: line-through; }'
 ]
 const vlstyle = new StyleSheet(cssRules)
-document.adoptedStyleSheets.push(vlstyle)
+addAdoptedStyleSheet(vlstyle)
 
 const listeners = {}
 
@@ -144,5 +139,4 @@ flexbox.appendChild(box1)
 flexbox.appendChild(box2)
 flexbox.appendChild(box3)
 
-// listeners['addStylesheet'] = new ListenerOnLoad('head', () => document.head.appendChild(new StyleSheet('./vanilla.library.css')) )
 

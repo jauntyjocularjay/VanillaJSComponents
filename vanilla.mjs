@@ -667,14 +667,16 @@ function getStylesheetByFileName(filename)
     {
         if(sheet.href.indexOf(filename) !== -1)
         {
-            console.log('I found it!')
             result = sheet
         }
     })
 
-    console.log('result', result)
     return result
+}
 
+function addAdoptedStyleSheet(stylesheet)
+{
+    document.adoptedStyleSheets.push(stylesheet)
 }
 
 function addCSSRules(sheet, rules)
@@ -742,4 +744,5 @@ export {
     // Functions
     addCSSRules,
     getStylesheetByFileName,
+    addAdoptedStyleSheet,
 }
