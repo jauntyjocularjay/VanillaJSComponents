@@ -684,9 +684,13 @@ function addCSSRules(sheet, rules)
     rules.reverse().forEach(rule => sheet.insertRule(rule))
 }
 
-// Setup Stylesheet
-const vstyle = getStylesheetByFileName('vanilla.css')
-addCSSRules(vstyle, cssRules)
+function addVanillaStyleSheet()
+{
+    const vanillaCSS = new StyleSheet(cssRules)
+    addAdoptedStyleSheet(vanillaCSS)
+}
+
+addVanillaStyleSheet()
 
 export {
     // Constants
