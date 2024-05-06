@@ -18,24 +18,24 @@ class StyleSheet
     {
         const sheet = new CSSStyleSheet()
         this.element = sheet
-        rules.forEach(rule => sheet.insertRule(rule))
+        rules.reverse().forEach(rule => sheet.insertRule(rule))
         return this.element
     }
 
-    // properties()
-    // {
-    //     return [
-    //         'list : cssRules',
-    //         'string : ownerRule',
-    //         'boolean : disabled',
-    //         'string : href',
-    //         'MediaList : media',
-    //         'Node : ownerNode',
-    //         'StyleSheet : parentStyleSheet',
-    //         'string : title',
-    //         'string : type'
-    //     ]
-    // }
+    properties()
+    {
+        return [
+            'list : cssRules',
+            'string : ownerRule',
+            'boolean : disabled',
+            'string : href',
+            'MediaList : media',
+            'Node : ownerNode',
+            'StyleSheet : parentStyleSheet',
+            'string : title',
+            'string : type'
+        ]
+    }
 }
 
 class Listener
@@ -619,57 +619,19 @@ const unit = {
 }
 
 const cssRules = [
-    `html {
-        background-color: #333;
-    }`,
-    `.flex-c {
-        display: flex;
-        flex-flow: column nowrap;
-    }`,
-    `.flex-cw {
-        display: flex;
-        flex-flow: column wrap;
-    }`,
-    `.flex-cwr {
-        display: flex;
-        flex-flow: column wrap-reverse;
-    }`,
-    `.flex-cr {
-        display: flex;
-        flex-flow: column-reverse nowrap;
-    }`,
-    `.flex-crw {
-        display: flex;
-        flex-flow: column-reverse wrap;
-    }`,
-    `.flex-crwr {
-        display: flex;
-        flex-flow: column-reverse wrap-reverse;
-    }`,
-    `.flex-r {
-        display: flex;
-        flex-flow: row nowrap;
-    }`,
-    `.flex-rw {
-        display: flex;
-        flex-flow: row wrap;
-    }`,
-    `.flex-rwr {
-        display: flex;
-        flex-flow: row wrap-reverse;
-    }`,
-    `.flex-rr {
-        display: flex;
-        flex-flow: row-reverse nowrap;
-    }`,
-    `.flex-rrw {
-        display: flex;
-        flex-flow: row-reverse wrap;
-    }`,
-    `.flex-rrwr {
-        display: flex;
-        flex-flow: row-reverse wrap-reverse;
-    }`
+    'html { background-color: #333;}',
+    '.flex-c { display: flex; flex-flow: column nowrap;}',
+    '.flex-cw { display: flex; flex-flow: column wrap;}',
+    '.flex-cwr { display: flex; flex-flow: column wrap-reverse;}',
+    '.flex-cr { display: flex; flex-flow: column-reverse nowrap;}',
+    '.flex-crw { display: flex; flex-flow: column-reverse wrap;}',
+    '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse;}',
+    '.flex-r { display: flex; flex-flow: row nowrap;}',
+    '.flex-rw { display: flex; flex-flow: row wrap;}',
+    '.flex-rwr { display: flex; flex-flow: row wrap-reverse;}',
+    '.flex-rr { display: flex; flex-flow: row-reverse nowrap;}',
+    '.flex-rrw { display: flex; flex-flow: row-reverse wrap;}',
+    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse;}'
 ]
 
 const vcss = new StyleSheet(cssRules)
