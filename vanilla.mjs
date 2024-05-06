@@ -4,7 +4,7 @@ import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
 
 class Selection
 {
-    constructor(value='null', textContent='Make a selection')
+    constructor(value='prompt', textContent='Make a selection')
     {
         this.value = value
         this.textContent = textContent
@@ -41,12 +41,12 @@ class StyleSheet
 class FlexBoxClass
 {
     constructor(
-        selectorStr='.flexbox', 
-        direction=flex.column, 
-        wrap=flex.nowrap, 
-        grow=1, 
-        shrink=0, 
-        basis='' )
+            selector='.flexbox', 
+            direction=flex.column, 
+            wrap=flex.nowrap, 
+            grow=1, 
+            shrink=0, 
+            basis='auto' )
     {
         this.selector = selector
         this.direction = direction
@@ -66,10 +66,10 @@ class FlexBoxClass
         const shrink = this.shrink
         const basis = this.basis
 
-        result += selector ? `${selector} { ` : ''
-        result += `flex-flow: ${direction} ${wrap};`
-        result += `flex: ${grow} ${shrink} ${basis};`
-        result += selector ? `}` : ''
+        result += `${selector} { `
+        result += `flex-flow: ${direction} ${wrap}; `
+        result += `flex: ${grow} ${shrink} ${basis}; `
+        result += `}`
 
         return result
     }
@@ -150,6 +150,7 @@ class Div extends Classable
 class FlexBox extends Div
 {
     constructor(flexClass='flexbox', classList=[], id=null)
+   /*** Assumes FlexBoxClass is created and added separately ****/
     {
         if(flexClass) {classList.push(flexClass)}
         super(classList, id)
@@ -227,11 +228,10 @@ class Select extends Classable
     {
         super(classList, id)
         const select = document.createElement('select')
-        const selections = [new Selection()]
+        const selections = [new Selection()].concat(selectionArray)
         this.element = select
         this.addToClassList(classList)
         this.addID(id)
-        selections.concat(selectionArray)
         selections.forEach(selection => {
             const option = new Option(selection.value, selection.textContent)
             select.appendChild(option)
@@ -255,21 +255,29 @@ class Link extends Classable
     }
 }
 
-class StyleSheetLink extends Link
+class Style extends Classable
 {
-    constructor(href, classList=[], id=null)
+    constructor(cssRules=[], classList=[], id=null)
     {
-        super(href, 'stylesheet', classList, id)
-        return this.element
+        super(document.createElement('style'), classList, id)
+        {
+            const style = this.element
+            addCSSRules(style, cssRules)
+        }
     }
-
 }
 
 class Br extends Classable
 {
-    constructor()
+ /**
+  * @class Br
+  *     a line break element
+  * @extends Classable
+  *     so that a designer can style it with CSS with classes and IDs
+  */
+    constructor(classList=[], id=null)
     {
-        super(document.createElement('br'))
+        super(document.createElement('br'), classList, id)
         return this.element
     }
 }
@@ -435,76 +443,6 @@ class A extends TextElement
     }
 }
 
-/*
-// class B extends TextElement
-// {
-//     constructor(innerHTML='str', classList=[], id=null)
-//     {
-//         super(document.createElement('b'), classList, id)
-//         this.innerHTML(innerHTML)
-//         this.addToClassList(classList)
-//         this.addID(id)
-//         return this.element
-//     }
-// }
-*/
-
-/*
-// class Strong extends TextElement
-// {
-//     constructor(innerHTML='str', classList=[], id=null)
-//     {
-//         super(document.createElement('strong'), classList, id)
-//         this.innerHTML(innerHTML)
-//         this.addToClassList(classList)
-//         this.addID(id)
-//         return this.element
-//     }
-// }
-*/
-
-/*
-// class I extends TextElement
-// {
-//     constructor(innerHTML='str', classList=[], id=null)
-//     {
-//         super(document.createElement('i'), classList, id)
-//         this.innerHTML(innerHTML)
-//         this.addToClassList(classList)
-//         this.addID(id)
-//         return this.element
-//     }
-// }
-*/
-
-/*
-// class S extends TextElement
-// {
-//     constructor(innerHTML='str', classList=[], id=null)
-//     {
-//         super(document.createElement('s'), classList, id)
-//         this.innerHTML(innerHTML)
-//         this.addToClassList(classList)
-//         this.addID(id)
-//         return this.element
-//     }
-// }
-*/
-
-/*
-// class U extends TextElement
-// {
-//     constructor(innerHTML='str', classList=[], id=null)
-//     {
-//         super(document.createElement('u'), classList, id)
-//         this.innerHTML(innerHTML)
-//         this.addToClassList(classList)
-//         this.addID(id)
-//         return this.element
-//     }
-// }
-*/
-
 class Abbr extends TextElement
 {
     constructor(textContent='str',title=null, classList=[], id=null)
@@ -523,6 +461,18 @@ class Blockquote extends TextElement
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('blockquote'), classList, id)
+        this.textContent(textContent)
+        this.addToClassList(classList)
+        this.addID(id)
+        return this.element
+    }
+}
+
+class Strong extends TextElement
+{
+    constructor(textContent='str', classList=[], id=null)
+    {
+        super(document.createElement('strong'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
@@ -566,8 +516,18 @@ class Span extends TextElement
     }
 }
 
-class Pre extends TextElement // Preformatted Text
+class Pre extends TextElement
 {
+ /**
+  * @class Pre
+  *    a preformatted text element
+  * @param {string} textContent
+  *     textContent is the text to be displayed in the preformatted text element
+  * @param {[string]} classList 
+  * @param {string} id 
+  * @returns 
+  *    returns the preformatted text element
+  */
     constructor(textContent='str', classList=[], id=null)
     {
         super(document.createElement('pre'), classList, id)
@@ -630,10 +590,10 @@ const event = {
 }
 
 const unit = {
- // No units
+ /* No units */
     none: '',
 
- // absolute length units
+ /* absolute length units */
     cm: 'cm',
     mm: 'mm',
     Q: 'Q',
@@ -642,7 +602,7 @@ const unit = {
     pt: 'pt',
     px: 'px',
 
- // relative length units
+ /* relative length units */
     em: 'em',
     rem: 'rem',
     vw: 'vw',
@@ -653,7 +613,7 @@ const unit = {
 }
 
 const flex = {
-/*  flex classes for flexboxes  */
+/*  standard flexbox classes for flexboxes  */
     c: 'flex-c',
     cw: 'flex-cw',
     cwr: 'flex-cwr',
@@ -667,37 +627,64 @@ const flex = {
     rrw: 'flex-rrw',
     rrwr: 'flex-rrwr',
 
-/* flex-direction */
+/*  flex-direction  */
     column: 'column',
     colReverse: 'column-reverse',
     row: 'row',
     rowReverse: 'row-reverse',
 
-/*  wrap */
+/*  wrap  */
     nowrap: 'nowrap',
     wrap: 'wrap',
     wrapReverse: 'wrap-reverse',
-}
 
+/*  basis  */
+    auto: 'auto',
+}
 
 const cssRules = [
     // Flexbox Classes
-    '.flex-c { display: flex; flex-flow: column nowrap;}',
-    '.flex-cw { display: flex; flex-flow: column wrap;}',
-    '.flex-cwr { display: flex; flex-flow: column wrap-reverse;}',
-    '.flex-cr { display: flex; flex-flow: column-reverse nowrap;}',
-    '.flex-crw { display: flex; flex-flow: column-reverse wrap;}',
-    '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse;}',
-    '.flex-r { display: flex; flex-flow: row nowrap;}',
-    '.flex-rw { display: flex; flex-flow: row wrap;}',
-    '.flex-rwr { display: flex; flex-flow: row wrap-reverse;}',
-    '.flex-rr { display: flex; flex-flow: row-reverse nowrap;}',
-    '.flex-rrw { display: flex; flex-flow: row-reverse wrap;}',
-    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse;}'
+    '.flex-c { display: flex; flex-flow: column nowrap; flex: 1 1 auto; }',
+    '.flex-cw { display: flex; flex-flow: column wrap; flex: 1 1 auto; }',
+    '.flex-cwr { display: flex; flex-flow: column wrap-reverse; flex: 1 1 auto; }',
+    '.flex-cr { display: flex; flex-flow: column-reverse nowrap; flex: 1 1 auto; }',
+    '.flex-crw { display: flex; flex-flow: column-reverse wrap; flex: 1 1 auto; }',
+    '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse; flex: 1 1 auto; }',
+    '.flex-r { display: flex; flex-flow: row nowrap; flex: 1 1 auto; }',
+    '.flex-rw { display: flex; flex-flow: row wrap; flex: 1 1 auto; }',
+    '.flex-rwr { display: flex; flex-flow: row wrap-reverse; flex: 1 1 auto; }',
+    '.flex-rr { display: flex; flex-flow: row-reverse nowrap; flex: 1 1 auto; }',
+    '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
+    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }'
 ]
 
-const vcss = new StyleSheet(cssRules)
-console.log('vcss:', vcss)
+function getStylesheetByFileName(filename)
+{
+    const stylesheets = Object.values(document.styleSheets)
+    let result
+
+    stylesheets.forEach(sheet => 
+    {
+        if(sheet.href.indexOf(filename) !== -1)
+        {
+            console.log('I found it!')
+            result = sheet
+        }
+    })
+
+    console.log('result', result)
+    return result
+
+}
+
+function addCSSRules(sheet, rules)
+{
+    rules.reverse().forEach(rule => sheet.insertRule(rule))
+}
+
+// Setup Stylesheet
+const vstyle = getStylesheetByFileName('vanilla.css')
+addCSSRules(vstyle, cssRules)
 
 export {
     // Constants
@@ -729,8 +716,7 @@ export {
     Br,
     //  // External Resource Links
     Link,
-        StyleSheetLink,
-
+    Style,
 
     // Text Elements
     // // Headers
@@ -744,11 +730,7 @@ export {
     P,
     Figcaption,
     A,
-    B,
     Strong,
-    I,
-    S,
-    U,
     Abbr,
     Blockquote,
     Sub,
@@ -757,4 +739,7 @@ export {
     Code,
     Pre,
 
+    // Functions
+    addCSSRules,
+    getStylesheetByFileName,
 }

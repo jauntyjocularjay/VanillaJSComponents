@@ -27,7 +27,7 @@ import {
     Br,
     //  // External Resource Links
     Link,
-        StyleSheetLink,
+    Style,
 
 
     // Text Elements
@@ -42,11 +42,11 @@ import {
     P,
     Figcaption,
     A,
-    B,
+    // B,
     Strong,
-    I,
-    S,
-    U,
+    // I,
+    // S,
+    // U,
     Abbr,
     Blockquote,
     Sub,
@@ -54,10 +54,26 @@ import {
     Span,
     Code,
     Pre,
+
+    addCSSRules,
+    getStylesheetByFileName,
 } from './vanilla.mjs'
 
-// Setup Stylesheet
-
+// Setup Style element
+const cssRules = [
+    'html { background-color: #333; }',
+    'form, .card, .flexbox { background-color: #444; color: #ddd; border-radius: 16px; box-shadow: 1px 1px 4px #000, inset 1px 1px 2px #fff; width: 256px; min-height: 128px; margin: 8px 8px 8px 8px; padding: 8px 8px 16px 8px; }',
+    '.box { min-width: 64px; min-height: 32px; }',
+    '#box-001 { background-color: #c00; }',
+    '#box-002 { background-color: #0c0; }',
+    '#box-003 { background-color: #00c; }',
+    'span.italic { font-style: italic; }',
+    'span.bold { font-weight: bold; }',
+    'span.underline { text-decoration: underline; }',
+    'span.strikethrough { text-decoration: line-through; }'
+]
+const vlstyle = new StyleSheet(cssRules)
+document.adoptedStyleSheets.push(vlstyle)
 
 const listeners = {}
 
@@ -71,9 +87,7 @@ const h5 = new H5('Card H5', ['header5'])
 const h6 = new H6('Card H6', ['header6'])
 const cardParagraph = [
     'This is plain text. ',
-    new I('This is italicized text. ', ['italic'], 'italic-text'),
-    new B('This is bold text. ', ['bold'], 'bold-text'),
-    new U('This is underlined text. ', ['underline'], 'underline-text'),
+    new Span('This is itlaicized, bolded, struck, and underlined text. ', ['italic', 'bold', 'strikethrough', 'underline'], 'span-text'),
     new Blockquote('This is a blockquote. ', ['blockquote'], 'blockquote-text'),
     new Pre('3====> ', ['pre'], 'pre-text'),
     new Span('This is a span. ', ['span'], 'span-text'),
@@ -82,7 +96,6 @@ const cardParagraph = [
     new Sup('This is superscript text. ', ['superscript'], 'superscript-text'),
     new Abbr('abbr ', 'abbreviation', ['abbreviation'], 'abbreviation-text'),
     new A('This is a link. ', 'https://www.google.com', ['link'], 'link-text'),
-    new S('This is strikethrough text. ', ['strikethrough'], 'strikethrough-text'),
     new Code('const message = "Hello, World!" ', ['code'], 'code-text'),
 ]
 const p = new P('This is paragraph text. ', ['paragraph'], 'paragraph-demo')
@@ -91,18 +104,19 @@ const figure = new Figure('./img-100.png', 'This is a figure with an image and c
 const form = new Form('form', ['form'], 'form-id-001')
 const label = new Label('form', 'label', ['label'], 'label-id-001')
 const options = [
-    { value: 'option1', descriptor: 'Option 1' },
-    { value: 'option2', descriptor: 'Option 2' },
-    { value: 'option3', descriptor: 'Option 3' },
-    { value: 'option4', descriptor: 'Option 4' },
-    { value: 'option5', descriptor: 'Option 5' },
+    new Selection('option1', 'Option 1'),
+    new Selection('option2', 'Option 2'),
+    new Selection('option3', 'Option 3'),
+    new Selection('option4', 'Option 4'),
+    new Selection('option5', 'Option 5'),
 ]
 const select = new Select('form', options, ['select'], 'select-id-001')
+
 const input = new Input('text', 'text input', 'form', ['input'], 'input-id-001')
 const formH1 = new H1('Form H1', ['header1'])
 
 const button = new Button('Submit', 'form', ['button'], 'button-id-001')
-const flexbox = new FlexBox(['flexbox'], 'flexbox-id-001')
+const flexbox = new FlexBox('flexbox', [], 'flexbox-id-001')
 const box1 = new Div(['box'], 'box-001')
 const box2 = new Div(['box'], 'box-002')
 const box3 = new Div(['box'], 'box-003')
