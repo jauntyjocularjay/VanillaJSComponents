@@ -1,19 +1,46 @@
 import {
     display,
+    flex,
     event,
     unit,
 
-    // Format elements
+    // Base Classes
+    Selection,
+    StyleSheet,
+    Listener,
+        ListenerOnLoad,
+
+    // Classables
+    // // Containers
+    Img,
+    Div,
+        FlexBox,
+    Figure,
+    Form,
+    Label,
+    // // Input
+    Button,
+    Input,
+    Select,
+    Option,
+    // // Format elements
     Br,
+    //  // External Resource Links
+    Link,
+        StyleSheetLink,
+
 
     // Text Elements
+    // // Headers
     H1,
     H2,
     H3,
     H4,
     H5,
     H6,
+    // // Body Text
     P,
+    Figcaption,
     A,
     B,
     Strong,
@@ -27,32 +54,10 @@ import {
     Span,
     Code,
     Pre,
-
-    // Containers
-    Div,
-    FlexBox,
-    Form,
-    Label,
-    Img,
-    Figure,
-    Figcaption,
-
-    // Input
-    Button,
-    Input,
-    Select,
-
-    // External Resource Links
-    Link, // 
-    StyleSheetLink,
-
-    // Event Listeners
-    Listener,
-    ListenerOnLoad,
 } from './vanilla.mjs'
 
 // Setup Stylesheet
-document.head.appendChild(new StyleSheetLink('./vanilla.library.css'))
+
 
 const listeners = {}
 
