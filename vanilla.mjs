@@ -290,23 +290,21 @@ class TextElement extends Classable
     {
         if(typeof content === 'string')
         {
-            this.element.textContent = content
+            throw new InvalidContentArrayError()
         }
         else if (Array.isArray(content))
         {
-            this.addContentFromArray(content)
+            content.forEach(item => {
+                if(typeof item === 'string')
+                {
+                    throw new InvalidContentArrayError()
+                }
+                else
+                {
+                    this.element.appendChild(item.element)
+                }
+            })
         }
-    }
-
-    addContentFromArray(content=[])
-    {
-        content.forEach(item => {
-            if(typeof item === 'string'){
-                this.textContent += item
-            } else {
-                this.innerHTML(item)
-            }
-        })
     }
 
     textContent(textContent)
@@ -514,6 +512,16 @@ class Span extends TextElement
     }
 }
 
+class Text extends Span
+{
+    constructor(textContent='str', classList=[], id=null)
+    {
+        const textClassList = ['plain-text'].concat(classList)
+        super(textContent, textClassList, id)
+    }
+
+}
+
 class Pre extends TextElement
 {
  /**
@@ -558,6 +566,16 @@ class Option extends TextElement
         option.textContent = textContent
         
     }
+}
+
+class InvalidContentArrayError extends TypeError
+{
+    constructor()
+    {
+        super('content must be an array of NodeElements, not a string or an array containing strings')
+        this.name = 'InvalidContentArray'
+    }
+
 }
 
 const display = {
@@ -640,7 +658,9 @@ const flex = {
     auto: 'auto',
 
 /*  default flow  */
-    flow: 'flex: 1 1 auto'
+    flow: {
+        default: 'flex-content-default'
+    }
 }
 
 const cssRules = [
@@ -656,7 +676,8 @@ const cssRules = [
     '.flex-rwr { display: flex; flex-flow: row wrap-reverse; flex: 1 1 auto; }',
     '.flex-rr { display: flex; flex-flow: row-reverse nowrap; flex: 1 1 auto; }',
     '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
-    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }'
+    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }',
+    '.flex-content-default { flex: 1 1 auto; }'
 ]
 
 function getStylesheetByFileName(filename)
@@ -746,6 +767,7 @@ export {
     Sub,
     Sup,
     Span,
+        Text,
     Code,
     Pre,
 
