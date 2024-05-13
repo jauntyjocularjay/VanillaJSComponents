@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Listener,
         ListenerOnLoad,
+    FlexBoxClass,
 
     // Classables
     // // Containers
@@ -21,6 +22,7 @@ import {
     // // Input
     Button,
     Input,
+    TextArea,
     Select,
     Option,
     // // Format elements
@@ -65,7 +67,8 @@ const cssRules = [
     'span.italic { font-style: italic; }',
     'span.bold { font-weight: bold; }',
     'span.underline { text-decoration: underline; }',
-    'span.strikethrough { text-decoration: line-through; }'
+    'span.strikethrough { text-decoration: line-through; }',
+    new FlexBoxClass('flexbox', flex.column, flex.wrapReverse, 1, 1, 200+unit.px).render(),
 ]
 const vlstyle = new StyleSheet(cssRules)
 addAdoptedStyleSheet(vlstyle)
@@ -73,7 +76,7 @@ addAdoptedStyleSheet(vlstyle)
 const listeners = {}
 
 const page = document.querySelector('#page')
-const card = new Div(['card'], 'card-id-001')
+let card = new Div(['card'], 'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
 const h2 = new H2('Card H2', ['header2'])
 const h3 = new H3('Card H3', ['header3'])
@@ -107,7 +110,7 @@ const options = [
 ]
 const select = new Select('form', options, ['select'], 'select-id-001')
 
-const input = new Input('text', 'text input', 'form', ['input'], 'input-id-001')
+const input = new Input('text', 'text input', null, 'form', ['input'], 'input-id-001')
 const formH1 = new H1('Form H1', ['header1'])
 
 const button = new Button('Submit', 'form', ['button'], 'button-id-001')
@@ -116,27 +119,32 @@ const box1 = new Div(['box'], 'box-001')
 const box2 = new Div(['box'], 'box-002')
 const box3 = new Div(['box'], 'box-003')
 
-page.appendChild(card)
-card.appendChild(h1)
-card.appendChild(h2)
-card.appendChild(h3)
-card.appendChild(h4)
-card.appendChild(h5)
-card.appendChild(h6)
-card.appendChild(p)
-card.appendChild(p2)
-card.appendChild(figure)
+page.appendChild(card.get('element'))
+card.get('element').appendChild(h1.element)
+card.get('element').appendChild(h2.element)
+card.get('element').appendChild(h3.element)
+card.get('element').appendChild(h4.element)
+card.get('element').appendChild(h5.element)
+card.get('element').appendChild(h6.element)
+card.get('element').appendChild(p.element)
+card.get('element').appendChild(p2.element)
+card.get('element').appendChild(figure.element)
 
-page.appendChild(form)
-form.appendChild(formH1)
-form.appendChild(label)
-form.appendChild(select)
-form.appendChild(input)
-form.appendChild(button)
+page.appendChild(form.element)
+form.get('element').appendChild(formH1.element)
+form.get('element').appendChild(label.element)
+form.get('element').appendChild(select.element)
+form.get('element').appendChild(input.element)
+form.get('element').appendChild(button.element)
 
-page.appendChild(flexbox)
-flexbox.appendChild(box1)
-flexbox.appendChild(box2)
-flexbox.appendChild(box3)
+page.appendChild(flexbox.element)
+flexbox.get('element').appendChild(box1.element)
+flexbox.get('element').appendChild(box2.element)
+flexbox.get('element').appendChild(box3.element)
+
+
+
+
+
 
 

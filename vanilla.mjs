@@ -2,6 +2,15 @@ import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
 
 
 
+class ExtendedElement extends EasyAccessor
+{
+    constructor()
+    {
+        super()
+        this.element = null
+    }
+}
+
 class Selection
 {
     constructor(value='prompt', textContent='Make a selection')
@@ -12,14 +21,14 @@ class Selection
 
 }
 
-class StyleSheet
+class StyleSheet extends ExtendedElement
 {
     constructor(rules=[])
     {
+        super()
         const sheet = new CSSStyleSheet()
         this.element = sheet
         rules.reverse().forEach(rule => sheet.insertRule(rule))
-        return this.element
     }
 
     properties()
@@ -81,7 +90,7 @@ class Listener
     {
         const listener = document.querySelector(selector).addEventListener(event, func)
         this.element = listener
-        return this.element
+        
     }
 }
 
@@ -90,16 +99,19 @@ class ListenerOnLoad extends Listener
     constructor(selector, func)
     {
         super(selector, event.page.load, func)
-        return this.element
+        
     }
 
 }
 
-class Classable
+class Classable extends ExtendedElement
 {
     constructor(element, classList=[], id=null)
     {
+        super()
         this.element = element
+        this.addToClassList(classList)
+        this.addID(id)
     }
 
     addToClassList(classList)
@@ -132,7 +144,7 @@ class Img extends Classable
         this.element.alt = alt
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -143,8 +155,20 @@ class Div extends Classable
         super(document.createElement('div'), classList, id)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
+}
+
+class Btn extends Div
+{
+    constructor(textContent="Button", classList=['btn'], id=null)
+    {
+        const div = super(classList, id)
+        this.element = div
+        this.element.appendChild(new Span(textContent, ['btn-text']))
+        
+    }
+
 }
 
 class FlexBox extends Div
@@ -154,7 +178,7 @@ class FlexBox extends Div
     {
         if(flexClass) {classList.push(flexClass)}
         super(classList, id)
-        return this.element
+        
     }
 }
 
@@ -173,9 +197,9 @@ class Figure extends Classable
 
         this.addToClassList(classList)
         this.addID(id)
-        this.element.appendChild(this.img)
-        this.element.appendChild(this.figcapture)
-        return this.element
+        this.element.appendChild(this.img.get('element'))
+        this.element.appendChild(this.figcapture.get('element'))
+        
     }
 }
 
@@ -184,11 +208,12 @@ class Form extends Classable
     constructor(nameStr='form', classList=[], id=null)
     {
         super(document.createElement('form', classList, id))
+        const label = new Label(nameStr)
         this.addToClassList(classList)
         this.addID(id)
         this.element.name = nameStr
-        this.element.appendChild(new Label(nameStr))
-        return this.element
+        this.element.appendChild(label.element)
+        
     }
 }
 
@@ -196,29 +221,40 @@ class Button extends Classable
 {
     constructor(textContent="click me", formName=null, classList=[], id=null)
     {
-        super(classList, id)
-        const button = document.createElement('button')
-        this.element = button
+        super(document.createElement('button'), classList, id)
+        const button = this.element
         this.addToClassList(classList)
         this.addID(id)
         button.for = formName
         button.textContent = textContent
-        return this.element
     }
+}
+
+class TextArea extends Classable
+{
+    constructor(textContent="text area", classList=[], id=null)
+    {
+        super(document.createElement('textarea'), classList, id)
+        this.element.textContent = textContent
+        this.addToClassList(classList)
+        this.addID(id)
+        
+    }
+
 }
 
 class Input extends Classable
 {
-    constructor(typeStr, placeholder, forStr=null, classList=[], id=null)
+    constructor(typeStr, placeholder, textContent=null, forStr=null, classList=[], id=null)
     {
-        super(classList, id)
-        const input = document.createElement('input')
-        this.element = input
+        super(document.createElement('input'), classList, id)
+        const input = this.element
         this.addToClassList(classList)
         this.addID(id)
         input.type = typeStr
         input.placeholder = placeholder
-        return this.element
+        input.textContent = textContent
+        
     }
 }
 
@@ -226,17 +262,16 @@ class Select extends Classable
 {
     constructor(forStr='a form', selectionArray=[], classList=[], id=null)
     {
-        super(classList, id)
-        const select = document.createElement('select')
+        super(document.createElement('select'), classList, id)
+        const select = this.element
         const selections = [new Selection()].concat(selectionArray)
-        this.element = select
         this.addToClassList(classList)
         this.addID(id)
         selections.forEach(selection => {
             const option = new Option(selection.value, selection.textContent)
-            select.appendChild(option)
+            select.appendChild(option.element)
         })
-        return this.element
+        
     }
 }
 
@@ -251,7 +286,7 @@ class Link extends Classable
         this.addID(id)
         link.href = href
         link.rel = rel
-        return this.element
+        
     }
 }
 
@@ -278,7 +313,7 @@ class Br extends Classable
     constructor(classList=[], id=null)
     {
         super(document.createElement('br'), classList, id)
-        return this.element
+        
     }
 }
 
@@ -307,7 +342,7 @@ class TextElement extends Classable
             if(typeof item === 'string'){
                 this.textContent += item
             } else {
-                this.element.appendChild(item)
+                this.innerHTML(item)
             }
         })
     }
@@ -326,7 +361,7 @@ class H1 extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -338,7 +373,7 @@ class H2 extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -350,7 +385,7 @@ class H3 extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 
 }
@@ -363,7 +398,7 @@ class H4 extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 
 }
@@ -376,7 +411,7 @@ class H5 extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 
 }
@@ -389,7 +424,7 @@ class H6 extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 
 }
@@ -402,7 +437,7 @@ class P extends TextElement
         this.addToClassList(classList)
         this.addID(id)
         this.addContent(content)
-        return this.element
+        
     }
 }
 
@@ -414,7 +449,7 @@ class Figcaption extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -422,13 +457,14 @@ class Label extends TextElement
 {
     constructor(forStr, textContent=null, classList=[], id=null)
     {
-        super(document.createElement('label'), textContent, classList, id)
+        super(document.createElement('label'), classList, id)
+        const br = new Br()
         this.textContent(textContent)
-        this.element.appendChild(new Br())
+        this.element.appendChild(br.element)
         this.addToClassList(classList)
         this.addID(id)
         this.element.for = forStr
-        return this.element
+        
     }
 }
 
@@ -439,7 +475,7 @@ class A extends TextElement
         super(document.createElement('a'), classList, id)
         this.textContent(textContent)
         this.element.href = href
-        return this.element
+        
     }
 }
 
@@ -452,7 +488,7 @@ class Abbr extends TextElement
         this.addToClassList(classList)
         this.addID(id)
         this.element.title = title
-        return this.element
+        
     }
 }
 
@@ -464,7 +500,7 @@ class Blockquote extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -476,7 +512,7 @@ class Strong extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -488,7 +524,7 @@ class Sub extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -500,7 +536,7 @@ class Sup extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -512,7 +548,7 @@ class Span extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -534,7 +570,7 @@ class Pre extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -546,7 +582,7 @@ class Code extends TextElement
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        return this.element
+        
     }
 }
 
@@ -554,12 +590,11 @@ class Option extends TextElement
 {
     constructor(value, textContent, classList=[], id=null)
     {
-        super(classList, id)
-        const option = document.createElement('option')
-        this.element = option
+        super(document.createElement('option'), classList, id)
+        const option = this.element
         option.value = value
         option.textContent = textContent
-        return this.element
+        
     }
 }
 
@@ -676,7 +711,7 @@ function getStylesheetByFileName(filename)
 
 function addAdoptedStyleSheet(stylesheet)
 {
-    document.adoptedStyleSheets.push(stylesheet)
+    document.adoptedStyleSheets.push(stylesheet.get('element'))
 }
 
 function addCSSRules(sheet, rules)
@@ -704,11 +739,13 @@ export {
     StyleSheet,
     Listener,
         ListenerOnLoad,
+    FlexBoxClass,
 
     // Classables
     // // Containers
     Img,
     Div,
+        Btn,
         FlexBox,
     Figure,
     Form,
@@ -716,6 +753,7 @@ export {
     // // Input
     Button,
     Input,
+    TextArea,
     Select,
     Option,
     // // Format elements
