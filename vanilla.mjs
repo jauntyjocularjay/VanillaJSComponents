@@ -19,7 +19,8 @@ class StyleSheet extends EasyAccessor
         super()
         const sheet = new CSSStyleSheet()
         this.element = sheet
-        rules.reverse().forEach(rule => sheet.insertRule(rule))
+        // @note Why did I have this reversed? rules.reverse().forEach
+        rules.forEach(rule => sheet.insertRule(rule))
     }
 
     properties()

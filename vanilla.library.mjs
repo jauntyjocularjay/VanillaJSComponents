@@ -62,7 +62,7 @@ import {
 const cssRules = [
     'html { background-color: #333; }',
     'form, .card, .flexbox { background-color: #444; color: #ddd; border-radius: 16px; box-shadow: 1px 1px 4px #000, inset 1px 1px 2px #fff; width: 256px; min-height: 128px; margin: 8px 8px 8px 8px; padding: 8px 8px 16px 8px; }',
-    `.box { ${flex.flow}; }`,
+    `.box {  }`,
     '#box-001 { background-color: #c00; }',
     '#box-002 { background-color: #0c0; }',
     '#box-003 { background-color: #00c; }',
@@ -78,6 +78,7 @@ const cssRules = [
 ]
 const vlstyle = new StyleSheet(cssRules)
 addAdoptedStyleSheet(vlstyle)
+console.log(cssRules)
 
 const page = document.querySelector('#page')
 
@@ -127,9 +128,9 @@ const formH1 = new H1('Form H1', ['header1'])
 
 const button = new Button('Submit', 'form', ['button'], 'button-id-001')
 const flexbox = new FlexBox(flex.r, ['card'], 'flexbox-id-001')
-const box1 = new Div(['box'], 'box-001')
-const box2 = new Div(['box'], 'box-002')
-const box3 = new Div(['box'], 'box-003')
+const box1 = new Div(['box', 'flex-content-default'], 'box-001')
+const box2 = new Div(['box', 'flex-content-default'], 'box-002')
+const box3 = new Div(['box', 'flex-content-default'], 'box-003')
 
 page.appendChild(card.element)
 card.element.appendChild(h1.element)
@@ -159,5 +160,3 @@ flexbox.element.appendChild(box3.element)
 
 
 
-
-// document.querySelector('h1').addEventListener(event.element.click, () => {document.querySelector('h1').textContent = 'Card H1 with Listener OnClick'})
