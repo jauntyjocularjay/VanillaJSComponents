@@ -9,12 +9,13 @@ import {
     StyleSheet,
     Listener,
         ListenerOnLoad,
-    FlexBoxClass,
+    // FlexBoxClass,
 
     // Classables
     // // Containers
     Img,
     Div,
+        DivBtn,
         FlexBox,
     Figure,
     Form,
@@ -60,7 +61,7 @@ import {
 const cssRules = [
     'html { background-color: #333; }',
     'form, .card, .flexbox { background-color: #444; color: #ddd; border-radius: 16px; box-shadow: 1px 1px 4px #000, inset 1px 1px 2px #fff; width: 256px; min-height: 128px; margin: 8px 8px 8px 8px; padding: 8px 8px 16px 8px; }',
-    '.box { min-width: 64px; min-height: 32px; }',
+    `.box { ${flex.flow}; }`,
     '#box-001 { background-color: #c00; }',
     '#box-002 { background-color: #0c0; }',
     '#box-003 { background-color: #00c; }',
@@ -68,14 +69,17 @@ const cssRules = [
     'span.bold { font-weight: bold; }',
     'span.underline { text-decoration: underline; }',
     'span.strikethrough { text-decoration: line-through; }',
-    new FlexBoxClass('flexbox', flex.column, flex.wrapReverse, 1, 1, 200+unit.px).render(),
+    'flexbox { flex: 1 1 200px;}'
+    /**
+     * @todo instead of constructing a flexbox this way, create a "CSSRule" class?
+     */
+    // new FlexBox('flexbox', flex.column, flex.wrapReverse, 1, 1, 200+unit.px).renderCSS(),
 ]
 const vlstyle = new StyleSheet(cssRules)
 addAdoptedStyleSheet(vlstyle)
 
-const listeners = {}
-
 const page = document.querySelector('#page')
+
 let card = new Div(['card'], 'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
 const h2 = new H2('Card H2', ['header2'])
@@ -114,36 +118,36 @@ const input = new Input('text', 'text input', null, 'form', ['input'], 'input-id
 const formH1 = new H1('Form H1', ['header1'])
 
 const button = new Button('Submit', 'form', ['button'], 'button-id-001')
-const flexbox = new FlexBox('flexbox', [], 'flexbox-id-001')
+const flexbox = new FlexBox(flex.r, ['card'], 'flexbox-id-001')
 const box1 = new Div(['box'], 'box-001')
 const box2 = new Div(['box'], 'box-002')
 const box3 = new Div(['box'], 'box-003')
 
-page.appendChild(card.get('element'))
-card.get('element').appendChild(h1.element)
-card.get('element').appendChild(h2.element)
-card.get('element').appendChild(h3.element)
-card.get('element').appendChild(h4.element)
-card.get('element').appendChild(h5.element)
-card.get('element').appendChild(h6.element)
-card.get('element').appendChild(p.element)
-card.get('element').appendChild(p2.element)
-card.get('element').appendChild(figure.element)
+page.appendChild(card.element)
+card.element.appendChild(h1.element)
+card.element.appendChild(h2.element)
+card.element.appendChild(h3.element)
+card.element.appendChild(h4.element)
+card.element.appendChild(h5.element)
+card.element.appendChild(h6.element)
+card.element.appendChild(p.element)
+card.element.appendChild(p2.element)
+card.element.appendChild(figure.element)
 
 page.appendChild(form.element)
-form.get('element').appendChild(formH1.element)
-form.get('element').appendChild(label.element)
-form.get('element').appendChild(select.element)
-form.get('element').appendChild(input.element)
-form.get('element').appendChild(button.element)
+form.element.appendChild(formH1.element)
+form.element.appendChild(label.element)
+form.element.appendChild(select.element)
+form.element.appendChild(input.element)
+form.element.appendChild(button.element)
 
 page.appendChild(flexbox.element)
-flexbox.get('element').appendChild(box1.element)
-flexbox.get('element').appendChild(box2.element)
-flexbox.get('element').appendChild(box3.element)
+flexbox.element.appendChild(box1.element)
+flexbox.element.appendChild(box2.element)
+flexbox.element.appendChild(box3.element)
 
 
-
+ 
 
 
 

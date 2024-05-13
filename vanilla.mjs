@@ -2,15 +2,6 @@ import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
 
 
 
-class ExtendedElement extends EasyAccessor
-{
-    constructor()
-    {
-        super()
-        this.element = null
-    }
-}
-
 class Selection
 {
     constructor(value='prompt', textContent='Make a selection')
@@ -21,7 +12,7 @@ class Selection
 
 }
 
-class StyleSheet extends ExtendedElement
+class StyleSheet extends EasyAccessor
 {
     constructor(rules=[])
     {
@@ -47,43 +38,6 @@ class StyleSheet extends ExtendedElement
     }
 }
 
-class FlexBoxClass
-{
-    constructor(
-            selector='.flexbox', 
-            direction=flex.column, 
-            wrap=flex.nowrap, 
-            grow=1, 
-            shrink=0, 
-            basis='auto' )
-    {
-        this.selector = selector
-        this.direction = direction
-        this.wrap = wrap
-        this.grow = grow
-        this.shrink = shrink
-        this.basis = basis
-    }
-
-    render()
-    {
-        let result = ''
-        const selector = this.selector
-        const direction = this.direction
-        const wrap = this.wrap
-        const grow = this.grow
-        const shrink = this.shrink
-        const basis = this.basis
-
-        result += `${selector} { `
-        result += `flex-flow: ${direction} ${wrap}; `
-        result += `flex: ${grow} ${shrink} ${basis}; `
-        result += `}`
-
-        return result
-    }
-}
-
 class Listener
 {
     constructor(selector, event, func)
@@ -104,7 +58,7 @@ class ListenerOnLoad extends Listener
 
 }
 
-class Classable extends ExtendedElement
+class Classable extends EasyAccessor
 {
     constructor(element, classList=[], id=null)
     {
@@ -155,30 +109,26 @@ class Div extends Classable
         super(document.createElement('div'), classList, id)
         this.addToClassList(classList)
         this.addID(id)
-        
     }
 }
 
-class Btn extends Div
+class DivBtn extends Div
 {
     constructor(textContent="Button", classList=['btn'], id=null)
     {
-        const div = super(classList, id)
-        this.element = div
-        this.element.appendChild(new Span(textContent, ['btn-text']))
-        
+        super(classList, id)
+        const DivBtn = this.element
+        this.element.appendChild(new Span(textContent, ['btn-text']))        
     }
-
 }
 
 class FlexBox extends Div
 {
-    constructor(flexClass='flexbox', classList=[], id=null)
-   /*** Assumes FlexBoxClass is created and added separately ****/
+    constructor(clss=flex.c, classList=[], id=null)
     {
-        if(flexClass) {classList.push(flexClass)}
-        super(classList, id)
-        
+        const flexClasses = [clss]
+        classList.forEach(clss => flexClasses.push(clss))
+        super(flexClasses, id)
     }
 }
 
@@ -675,6 +625,9 @@ const flex = {
 
 /*  basis  */
     auto: 'auto',
+
+/*  default flow  */
+    flow: 'flex: 1 1 auto'
 }
 
 const cssRules = [
@@ -739,13 +692,13 @@ export {
     StyleSheet,
     Listener,
         ListenerOnLoad,
-    FlexBoxClass,
+    // FlexBoxClass,
 
     // Classables
     // // Containers
     Img,
     Div,
-        Btn,
+        DivBtn,
         FlexBox,
     Figure,
     Form,
