@@ -40,22 +40,19 @@ class StyleSheet extends EasyAccessor
 
 class Listener
 {
-    constructor(selector, event, func)
+    constructor(event, func)
     {
-        const listener = document.querySelector(selector).addEventListener(event, func)
-        this.element = listener
-        
+        this.event = event
+        this.func = func
     }
 }
 
 class ListenerOnLoad extends Listener
 {
-    constructor(selector, func)
+    constructor(func)
     {
-        super(selector, event.page.load, func)
-        
+        super(event.page.load, func)
     }
-
 }
 
 class Classable extends EasyAccessor
@@ -64,6 +61,7 @@ class Classable extends EasyAccessor
     {
         super()
         this.element = element
+        this.listeners = []
         this.addToClassList(classList)
         this.addID(id)
     }
@@ -81,6 +79,16 @@ class Classable extends EasyAccessor
     addID(id)
     {
         if(id) this.element.id = id
+    }
+
+    addEventListener(event, func)
+    {
+        this.listeners.push(this.element.addEventListener(event, func))
+    }
+
+    addEventListner(listener)
+    {
+        this.listeners.push(this.element.addEventListener(listener.event, listener.func))
     }
 
     innerHTML(innerHTML)
@@ -565,6 +573,7 @@ const event = {
     },
     element: {
         change: 'change',
+        click: 'click',
         input: 'input',
         submit: 'submit',
         update: 'update',
