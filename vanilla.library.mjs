@@ -85,6 +85,9 @@ const h1 = new H1('Card H1', ['header1'])
 h1.addEventListener(event.element.click, () => { h1.element.textContent = 'Card H1 with Listener OnClick' })
 const h2 = new H2('Card H2', ['header2'])
 const onClickH2 = new Listener(event.element.click, () => { h2.element.textContent = 'Card H2 with Listener OnClick' })
+/**
+ * @todo Debug this
+ */
 h2.addEventListener(onClickH2)
 const h3 = new H3('Card H3', ['header3'])
 const h4 = new H4('Card H4', ['header4'])
