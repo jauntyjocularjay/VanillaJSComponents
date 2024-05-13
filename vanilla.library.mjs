@@ -82,8 +82,10 @@ const page = document.querySelector('#page')
 
 let card = new Div(['card'], 'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
-h1.addEventListener(new Listener(event.element.click, () => { this.element.textContent = 'Card H1 with Listener OnClick' }))
+h1.addEventListener(event.element.click, () => { h1.element.textContent = 'Card H1 with Listener OnClick' })
 const h2 = new H2('Card H2', ['header2'])
+const onClickH2 = new Listener(event.element.click, () => { h2.element.textContent = 'Card H2 with Listener OnClick' })
+h2.addEventListener(onClickH2)
 const h3 = new H3('Card H3', ['header3'])
 const h4 = new H4('Card H4', ['header4'])
 const h5 = new H5('Card H5', ['header5'])
@@ -153,3 +155,4 @@ flexbox.element.appendChild(box3.element)
 
 
 
+// document.querySelector('h1').addEventListener(event.element.click, () => {document.querySelector('h1').textContent = 'Card H1 with Listener OnClick'})

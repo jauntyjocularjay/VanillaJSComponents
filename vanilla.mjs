@@ -86,7 +86,7 @@ class Classable extends EasyAccessor
         this.listeners.push(this.element.addEventListener(event, func))
     }
 
-    addEventListner(listener)
+    addEventListner(listener={event: null, func: ()=> {}})
     {
         this.listeners.push(this.element.addEventListener(listener.event, listener.func))
     }
