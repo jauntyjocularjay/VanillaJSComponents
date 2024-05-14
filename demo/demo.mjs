@@ -56,7 +56,7 @@ import {
     Pre,
 
     addAdoptedStyleSheet,
-} from './vanilla.mjs'
+} from '../vanilla.mjs'
 
 // Setup Style element
 const cssRules = [

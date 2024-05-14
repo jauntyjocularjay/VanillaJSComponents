@@ -19,6 +19,14 @@ class StyleSheet extends EasyAccessor
         super()
         const sheet = new CSSStyleSheet()
         this.element = sheet
+        // sheet.ownerRule = ''
+        // sheet.disabled = false
+        // sheet.href = ''
+        // sheet.media = MediaList
+        // sheet.ownerNode = Node
+        // sheet.parentStyleSheet = StyleSheet
+        // sheet.title = 'title'
+        // sheet.type = 'text/css'
         // @note Why did I have this reversed? rules.reverse().forEach
         rules.forEach(rule => sheet.insertRule(rule))
     }
@@ -697,23 +705,13 @@ function getStylesheetByFileName(filename)
     return result
 }
 
-function addAdoptedStyleSheet(stylesheet)
+function addAdoptedStyleSheet(rules)
 {
+    const stylesheet = new StyleSheet(rules)
     document.adoptedStyleSheets.push(stylesheet.get('element'))
 }
 
-function addCSSRules(sheet, rules)
-{
-    rules.reverse().forEach(rule => sheet.insertRule(rule))
-}
-
-function addVanillaStyleSheet()
-{
-    const vanillaCSS = new StyleSheet(cssRules)
-    addAdoptedStyleSheet(vanillaCSS)
-}
-
-addVanillaStyleSheet()
+addAdoptedStyleSheet(cssRules)
 
 export {
     // Constants
@@ -773,7 +771,6 @@ export {
     Pre,
 
     // Functions
-    addCSSRules,
     getStylesheetByFileName,
     addAdoptedStyleSheet,
 }
