@@ -104,3 +104,10 @@ All these elements take these arguments:
 - `Select`: drop-down 
     - `Option`: elements for Select
 - `text`: text-input box
+
+## Event Listener
+
+All `Classable` elements have
+1. `addEventListener`:
+    - `event`: a value from `event`
+    - `func`: a function whose actions are called on the listener's `event`
