@@ -62,7 +62,13 @@ import {
 
 class ClassableForm
 {
-
+    constructor(alias='classable', classList=['form'], id='classable-form')
+    {
+        this.element = new Form(alias, classList, id)
+        ['alias', 'classList', 'id'].forEach(item => {
+            new Input('text', [`${item}-input`], `${item}-input`).appendTo(this.element)
+        })
+    }
 }
 
 const cssRules = [
