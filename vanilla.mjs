@@ -577,7 +577,7 @@ const flex = {
     }
 }
 
-const cssRules =
+let cssRules =
     [
         // Flexbox Classes
         '.flex-c { display: flex; flex-flow: column nowrap; flex: 1 1 auto; }',
@@ -598,19 +598,19 @@ const cssRules =
 const cssRulesObj = {
     html: [
         'background-color: #333',
-        'text: #fff'
+        'color: #fff'
     ]
 }
 
 function parseCSSObject(cssRulesObj) {
     const rules = []
-    for (var [tag, properties] in Object.entries(cssRulesObj)) {
+    for (const [tag, properties] of Object.entries(cssRulesObj)) {
         let result = `${tag} {`
         if (Array.isArray(properties)) {
-            properties.forEach(property)
+            properties.forEach(property =>
             {
                 result += ` ${property};`
-            }
+            })
         }
         else if (typeof properties === 'string') {
             result += ` ${properties};`
@@ -639,12 +639,7 @@ function addAdoptedStyleSheet(rules) {
     document.adoptedStyleSheets.push(stylesheet.element)
 }
 
-cssRules.concat(parseCSSObject(cssRulesObj))
-
-addAdoptedStyleSheet(cssRules)
-
-
-console.log(cssRules)
+addAdoptedStyleSheet(cssRules.concat(parseCSSObject(cssRulesObj)))
 
 export {
     // Constants
