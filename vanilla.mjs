@@ -1,4 +1,4 @@
-import { EasyAccessor } from './mod/ea/EasyAccessor.mjs'
+// import { `EasyAccess`or } from './mod/ea/EasyAccessor.mjs'
 
 
 
@@ -10,7 +10,7 @@ class Selection {
 
 }
 
-class StyleSheet extends EasyAccessor {
+class StyleSheet {
     constructor(rules = []) {
         super()
         const sheet = new CSSStyleSheet()
@@ -55,7 +55,7 @@ class ListenerOnLoad extends Listener {
     }
 }
 
-class Classable extends EasyAccessor {
+class Classable {
     constructor(element, classList = [], id = null) {
         super()
         this.element = element
