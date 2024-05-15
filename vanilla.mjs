@@ -636,7 +636,7 @@ function getStylesheetByFileName(filename) {
 
 function addAdoptedStyleSheet(rules) {
     const stylesheet = new StyleSheet(rules)
-    document.adoptedStyleSheets.push(stylesheet.get('element'))
+    document.adoptedStyleSheets.push(stylesheet.element)
 }
 
 cssRules.concat(parseCSSObject(cssRulesObj))
