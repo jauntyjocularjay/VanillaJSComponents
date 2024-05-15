@@ -12,7 +12,6 @@ class Selection {
 
 class StyleSheet {
     constructor(rules = []) {
-        super()
         const sheet = new CSSStyleSheet()
         this.element = sheet
         // sheet.ownerRule = ''
@@ -57,7 +56,6 @@ class ListenerOnLoad extends Listener {
 
 class Classable {
     constructor(element, classList = [], id = null) {
-        super()
         this.element = element
         this.listeners = []
         this.addToClassList(classList)
@@ -595,7 +593,7 @@ const cssRules =
         '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
         '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }',
         '.flex-content-default { flex: 1 1 auto; }'
-]
+    ]
 
 const cssRulesObj = {
     html: [
