@@ -605,7 +605,7 @@ const cssRulesObj = {
 function parseCSSObject(cssRulesObj) {
     const rules = []
     for (var [tag, properties] in Object.entries(cssRulesObj)) {
-        const result = `${tag} {`
+        let result = `${tag} {`
         if (Array.isArray(properties)) {
             properties.forEach(property)
             {
