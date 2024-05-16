@@ -578,22 +578,21 @@ const flex = {
 }
 
 let cssRules =
-    [
-        // Flexbox Classes
-        '.flex-c { display: flex; flex-flow: column nowrap; flex: 1 1 auto; }',
-        '.flex-cw { display: flex; flex-flow: column wrap; flex: 1 1 auto; }',
-        '.flex-cwr { display: flex; flex-flow: column wrap-reverse; flex: 1 1 auto; }',
-        '.flex-cr { display: flex; flex-flow: column-reverse nowrap; flex: 1 1 auto; }',
-        '.flex-crw { display: flex; flex-flow: column-reverse wrap; flex: 1 1 auto; }',
-        '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse; flex: 1 1 auto; }',
-        '.flex-r { display: flex; flex-flow: row nowrap; flex: 1 1 auto; }',
-        '.flex-rw { display: flex; flex-flow: row wrap; flex: 1 1 auto; }',
-        '.flex-rwr { display: flex; flex-flow: row wrap-reverse; flex: 1 1 auto; }',
-        '.flex-rr { display: flex; flex-flow: row-reverse nowrap; flex: 1 1 auto; }',
-        '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
-        '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }',
-        '.flex-content-default { flex: 1 1 auto; }'
-    ]
+[ // Flexbox Classes
+    '.flex-c { display: flex; flex-flow: column nowrap; flex: 1 1 auto; }',
+    '.flex-cw { display: flex; flex-flow: column wrap; flex: 1 1 auto; }',
+    '.flex-cwr { display: flex; flex-flow: column wrap-reverse; flex: 1 1 auto; }',
+    '.flex-cr { display: flex; flex-flow: column-reverse nowrap; flex: 1 1 auto; }',
+    '.flex-crw { display: flex; flex-flow: column-reverse wrap; flex: 1 1 auto; }',
+    '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse; flex: 1 1 auto; }',
+    '.flex-r { display: flex; flex-flow: row nowrap; flex: 1 1 auto; }',
+    '.flex-rw { display: flex; flex-flow: row wrap; flex: 1 1 auto; }',
+    '.flex-rwr { display: flex; flex-flow: row wrap-reverse; flex: 1 1 auto; }',
+    '.flex-rr { display: flex; flex-flow: row-reverse nowrap; flex: 1 1 auto; }',
+    '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
+    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }',
+    '.flex-content-default { flex: 1 1 auto; }'
+]
 
 const cssRulesObj = {
     html: [
@@ -701,4 +700,5 @@ export {
     // Functions
     getStylesheetByFileName,
     addAdoptedStyleSheet,
+    parseCSSObject
 }
