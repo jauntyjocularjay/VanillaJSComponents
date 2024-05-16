@@ -92,7 +92,7 @@ class Classable {
 }
 
 class Img extends Classable {
-    constructor(imgPath, alt = 'image', classList = [], id = null) {
+    constructor(imgPath, alt='image', classList = [], id = null) {
         super(document.createElement('img'), classList, id)
         this.element.src = imgPath
         this.element.alt = alt
