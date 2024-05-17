@@ -225,16 +225,21 @@ class StyleSheet {
             {
                 for(const [selector, styleDeclarations] of Object.entries(selectors))
                 {
-                    console.log('styleDeclarationS', styleDeclarations)
-                    
+                    let parsedRule = ''
+                    parsedRule += `${selector} { `
+
                     for(const [property, value] of Object.entries(styleDeclarations))
                     {
-                        let parsedRule = ''
-                        parsedRule += `${selector} { ${property}: ${value} }`
-                        console.log('inserting parsedRule:', parsedRule)
-                        this.element.insertRule(parsedRule)
+                        parsedRule += `${property}: ${value}; `
                     }
+
+                    parsedRule += '} '
+                    this.element.insertRule(parsedRule)
                 }
+            }
+            else if(section === '@keyframes')
+            {
+                console.log(section)
             }
         }
         console.log('CSSStyleSheet:', this.element)
