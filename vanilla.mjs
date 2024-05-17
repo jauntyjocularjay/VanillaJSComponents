@@ -2,48 +2,242 @@
 
 
 
-class Selection {
-    constructor(value = 'prompt', textContent = 'Make a selection') {
-        this.value = value
-        this.textContent = textContent
-    }
 
+// Pre-defined property strings
+const display = {
+    block: 'block',
+    inline: 'inline',
+    inlineBlock: 'inline-block',
+    flex: 'flex',
+    grid: 'grid',
 }
 
+const event = {
+    page: {
+        load: 'load',
+        resize: 'resize',
+        refresh: 'refresh',
+        scroll: 'scroll',
+    },
+    element: {
+        change: 'change',
+        click: 'click',
+        input: 'input',
+        submit: 'submit',
+        update: 'update',
+    },
+    mouse: {
+        click: 'click',
+    }
+}
+
+const unit = {
+    /* No units */
+    none: '',
+
+    /* absolute length units */
+    cm: 'cm',
+    mm: 'mm',
+    Q: 'Q',
+    in: 'in',
+    pc: 'pc',
+    pt: 'pt',
+    px: 'px',
+
+    /* relative length units */
+    em: 'em',
+    rem: 'rem',
+    vw: 'vw',
+    vh: 'vh',
+    lh: 'lh',
+    rlh: 'rlh',
+    percent: '%',
+}
+
+const flex = {
+    /*  standard flexbox classes for flexboxes  */
+    c: 'flex-c',
+    cw: 'flex-cw',
+    cwr: 'flex-cwr',
+    cr: 'flex-cr',
+    crw: 'flex-crw',
+    crwr: 'flex-crwr',
+    r: 'flex-r',
+    rw: 'flex-rw',
+    rwr: 'flex-rwr',
+    rr: 'flex-rr',
+    rrw: 'flex-rrw',
+    rrwr: 'flex-rrwr',
+
+    /*  flex-direction  */
+    column: 'column',
+    colReverse: 'column-reverse',
+    row: 'row',
+    rowReverse: 'row-reverse',
+
+    /*  wrap  */
+    nowrap: 'nowrap',
+    wrap: 'wrap',
+    wrapReverse: 'wrap-reverse',
+
+    /*  basis  */
+    auto: 'auto',
+
+    /*  default flow  */
+    flow: {
+        default: 'flex-content-default'
+    }
+}
+
+// CSS Rules
+const CSSRulesObj = {
+    CSSStyleRules: {
+        html: {
+            'background-color': '#333',
+            color: '#fff'
+        },
+        
+    },
+    '@keyframes': {
+        'name': {
+            property1: 'string1',
+            property2: 'string2'
+        }
+    }
+}
+
+// Flexbox Classes
+CSSRulesObj['CSSStyleRules'][`.${flex.c}`] =
+{ 
+    display: 'flex', 
+    'flex-flow': 'column nowrap', 
+    flex: '1 1 auto'
+}
+
+CSSRulesObj['CSSStyleRules'][`.${flex.cw}`] = 
+{ 
+    display: 'flex',
+    'flex-flow': 'column wrap',
+    flex: '1 1 auto'
+}
+
+CSSRulesObj['CSSStyleRules'][`.${flex.cwr}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'column wrap-reverse',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.cr}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'column-reverse nowrap',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.crw}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'column-reverse wrap',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.crwr}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'column-reverse wrap-reverse',
+    flex: '1 1 auto'
+}
+
+CSSRulesObj['CSSStyleRules'][`.${flex.r}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'row nowrap',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.rw}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'row wrap',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.rwr}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'row wrap-reverse',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.rr}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'row-reverse nowrap',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.rrw}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'row-reverse wrap',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.rrwr}`] = 
+{
+    display: 'flex',
+    'flex-flow': 'row-reverse wrap-reverse',
+    flex: '1 1 auto'
+}
+    
+CSSRulesObj['CSSStyleRules'][`.${flex.flow.default}`] = 
+{
+    flex: '1 1 auto'
+}
+
+
 class StyleSheet {
-    constructor(rules = []) {
+/**
+ * @note from MDN regarding CSSRule interface
+ * 
+ * @property cssText
+ * Represents the textual representation of the rule, e.g. "h1,h2 { font-size: 16pt }" or "@import 'url'". To access or modify parts of the rule (e.g. the value of "font-size" in the example) use the properties on the specialized interface for the rule's type.
+ * 
+ * @property cssTextparentRule Read only
+ * Returns the containing rule, otherwise null. E.g. if this rule is a style rule inside an @media block, the parent rule would be that CSSMediaRule.
+ * 
+ * @property cssTextparentStyleSheet Read only
+ * Returns the CSSStyleSheet object for the style sheet that contains this rule
+ * 
+ * @property cssTexttype Read only Deprecated
+ * Returns one of the Type constants to determine which type of rule is represented.
+ */
+    constructor(cssRulesObj) {
         const sheet = new CSSStyleSheet()
         this.element = sheet
-        // sheet.ownerRule = ''
-        // sheet.disabled = false
-        // sheet.href = ''
-        // sheet.media = MediaList
-        // sheet.ownerNode = Node
-        // sheet.parentStyleSheet = StyleSheet
-        // sheet.title = 'title'
-        // sheet.type = 'text/css'
-        // @note Why did I have this reversed? rules.reverse().forEach
-        rules.forEach(rule => sheet.insertRule(rule))
     }
 
     parseObject(cssRulesObj) {
-        let result = ''
-        for(const [section, rules] of Object.entries(cssRulesObj))
+        for(const [section, selectors] of Object.entries(cssRulesObj))
         {
-            console.log('section', section)
-            if(section === 'tags')
+            if(section === 'CSSStyleRules')
             {
-                console.log('sections is tags?', section === 'tags')
-                for(const [tag, rules] of Object.entries(section))
+                for(const [selector, styleDeclarations] of Object.entries(selectors))
                 {
-                    console.log('entered tags')
+                    console.log('styleDeclarationS', styleDeclarations)
                     
+                    for(const [property, value] of Object.entries(styleDeclarations))
+                    {
+                        let parsedRule = ''
+                        parsedRule += `${selector} { ${property}: ${value} }`
+                        console.log('inserting parsedRule:', parsedRule)
+                        this.element.insertRule(parsedRule)
+                    }
                 }
             }
         }
-    
-        console.log(result)
-        return result
+        console.log('CSSStyleSheet:', this.element)
     }
 
     properties() {
@@ -60,6 +254,10 @@ class StyleSheet {
         ]
     }
 }
+
+const stylesheetFromObject = new StyleSheet()
+
+stylesheetFromObject.parseObject(CSSRulesObj)
 
 class Listener {
     constructor(event, func) {
@@ -216,7 +414,7 @@ class Select extends Classable {
     constructor(forStr = 'a form', selectionArray = [], classList = [], id = null) {
         super(document.createElement('select'), classList, id)
         const select = this.element
-        const selections = [new Selection()].concat(selectionArray)
+        const selections = [new OptionSelection()].concat(selectionArray)
         this.addToClassList(classList)
         this.addID(id)
         selections.forEach(selection => {
@@ -494,6 +692,13 @@ class Code extends TextElement {
     }
 }
 
+class OptionSelection {
+    constructor(value = 'prompt', textContent = 'Make a selection') {
+        this.value = value
+        this.textContent = textContent
+    }
+}
+
 class Option extends TextElement {
     constructor(value, textContent, classList = [], id = null) {
         super(document.createElement('option'), classList, id)
@@ -511,127 +716,6 @@ class InvalidContentArrayError extends TypeError {
     }
 
 }
-
-const display = {
-    block: 'block',
-    inline: 'inline',
-    inlineBlock: 'inline-block',
-    flex: 'flex',
-    grid: 'grid',
-}
-
-const event = {
-    page: {
-        load: 'load',
-        resize: 'resize',
-        refresh: 'refresh',
-        scroll: 'scroll',
-    },
-    element: {
-        change: 'change',
-        click: 'click',
-        input: 'input',
-        submit: 'submit',
-        update: 'update',
-    },
-    mouse: {
-        click: 'click',
-    }
-}
-
-const unit = {
-    /* No units */
-    none: '',
-
-    /* absolute length units */
-    cm: 'cm',
-    mm: 'mm',
-    Q: 'Q',
-    in: 'in',
-    pc: 'pc',
-    pt: 'pt',
-    px: 'px',
-
-    /* relative length units */
-    em: 'em',
-    rem: 'rem',
-    vw: 'vw',
-    vh: 'vh',
-    lh: 'lh',
-    rlh: 'rlh',
-    percent: '%',
-}
-
-const flex = {
-    /*  standard flexbox classes for flexboxes  */
-    c: 'flex-c',
-    cw: 'flex-cw',
-    cwr: 'flex-cwr',
-    cr: 'flex-cr',
-    crw: 'flex-crw',
-    crwr: 'flex-crwr',
-    r: 'flex-r',
-    rw: 'flex-rw',
-    rwr: 'flex-rwr',
-    rr: 'flex-rr',
-    rrw: 'flex-rrw',
-    rrwr: 'flex-rrwr',
-
-    /*  flex-direction  */
-    column: 'column',
-    colReverse: 'column-reverse',
-    row: 'row',
-    rowReverse: 'row-reverse',
-
-    /*  wrap  */
-    nowrap: 'nowrap',
-    wrap: 'wrap',
-    wrapReverse: 'wrap-reverse',
-
-    /*  basis  */
-    auto: 'auto',
-
-    /*  default flow  */
-    flow: {
-        default: 'flex-content-default'
-    }
-}
-
-let cssRules =
-[ // Flexbox Classes
-    '.flex-c { display: flex; flex-flow: column nowrap; flex: 1 1 auto; }',
-    '.flex-cw { display: flex; flex-flow: column wrap; flex: 1 1 auto; }',
-    '.flex-cwr { display: flex; flex-flow: column wrap-reverse; flex: 1 1 auto; }',
-    '.flex-cr { display: flex; flex-flow: column-reverse nowrap; flex: 1 1 auto; }',
-    '.flex-crw { display: flex; flex-flow: column-reverse wrap; flex: 1 1 auto; }',
-    '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse; flex: 1 1 auto; }',
-    '.flex-r { display: flex; flex-flow: row nowrap; flex: 1 1 auto; }',
-    '.flex-rw { display: flex; flex-flow: row wrap; flex: 1 1 auto; }',
-    '.flex-rwr { display: flex; flex-flow: row wrap-reverse; flex: 1 1 auto; }',
-    '.flex-rr { display: flex; flex-flow: row-reverse nowrap; flex: 1 1 auto; }',
-    '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
-    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }',
-    '.flex-content-default { flex: 1 1 auto; }'
-]
-
-const cssRulesObj = {
-    tags: {
-        html: {
-            'background-color': '#333',
-            color: '#fff'
-        }
-    },
-    '@keyframes': {
-        'name': {
-            property1: 'string1',
-            property2: 'string2'
-        }
-    }
-}
-
-const stylesheetFromObject = new StyleSheet()
-
-stylesheetFromObject.parseObject(cssRulesObj)
 
 function getStylesheetByFileName(filename) {
     const stylesheets = Object.values(document.styleSheets)
@@ -651,10 +735,6 @@ function addAdoptedStyleSheet(rules) {
     document.adoptedStyleSheets.push(stylesheet.element)
 }
 
-parseCSSObject(cssRulesObj)
-
-// addAdoptedStyleSheet(cssRules.concat(parseCSSObject(cssRulesObj)))
-
 export {
     // Constants
     display,
@@ -663,7 +743,7 @@ export {
     unit,
 
     // Base Classes
-    Selection,
+    OptionSelection as Selection,
     StyleSheet,
     Listener,
     ListenerOnLoad,
@@ -715,5 +795,4 @@ export {
     // Functions
     getStylesheetByFileName,
     addAdoptedStyleSheet,
-    parseCSSObject
 }
