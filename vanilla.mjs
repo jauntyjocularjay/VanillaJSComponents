@@ -26,6 +26,26 @@ class StyleSheet {
         rules.forEach(rule => sheet.insertRule(rule))
     }
 
+    parseObject(cssRulesObj) {
+        let result = ''
+        for(const [section, rules] of Object.entries(cssRulesObj))
+        {
+            console.log('section', section)
+            if(section === 'tags')
+            {
+                console.log('sections is tags?', section === 'tags')
+                for(const [tag, rules] of Object.entries(section))
+                {
+                    console.log('entered tags')
+                    
+                }
+            }
+        }
+    
+        console.log(result)
+        return result
+    }
+
     properties() {
         return [
             'list : cssRules',
@@ -595,30 +615,23 @@ let cssRules =
 ]
 
 const cssRulesObj = {
-    html: [
-        'background-color: #333',
-        'color: #fff'
-    ]
+    tags: {
+        html: {
+            'background-color': '#333',
+            color: '#fff'
+        }
+    },
+    '@keyframes': {
+        'name': {
+            property1: 'string1',
+            property2: 'string2'
+        }
+    }
 }
 
-function parseCSSObject(cssRulesObj) {
-    const rules = []
-    for (const [tag, properties] of Object.entries(cssRulesObj)) {
-        let result = `${tag} {`
-        if (Array.isArray(properties)) {
-            properties.forEach(property =>
-            {
-                result += ` ${property};`
-            })
-        }
-        else if (typeof properties === 'string') {
-            result += ` ${properties};`
-        }
-        result += ' }'
-        rules.push(result)
-    }
-    return rules
-}
+const stylesheetFromObject = new StyleSheet()
+
+stylesheetFromObject.parseObject(cssRulesObj)
 
 function getStylesheetByFileName(filename) {
     const stylesheets = Object.values(document.styleSheets)
@@ -638,7 +651,9 @@ function addAdoptedStyleSheet(rules) {
     document.adoptedStyleSheets.push(stylesheet.element)
 }
 
-addAdoptedStyleSheet(cssRules.concat(parseCSSObject(cssRulesObj)))
+parseCSSObject(cssRulesObj)
+
+// addAdoptedStyleSheet(cssRules.concat(parseCSSObject(cssRulesObj)))
 
 export {
     // Constants
