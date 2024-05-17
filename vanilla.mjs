@@ -594,139 +594,31 @@ let cssRules =
     '.flex-content-default { flex: 1 1 auto; }'
 ]
 
-const cssRulesObj =
-{
-    tags : {
-        html: {
-            'background-color': '#333',
-            color: '#fff'
-        },
-    },
-    atRules: {
-        '@keyframes': {
-            'myAnim': {
-                '0%' : {
-                    'transform': 'translateY(0)'
-                },
-                '100%' : [
-                    'transform: translateY(-100px)'
-                ],
-            }
+const cssRulesObj = {
+    html: [
+        'background-color: #333',
+        'color: #fff'
+    ]
+}
+
+function parseCSSObject(cssRulesObj) {
+    const rules = []
+    for (const [tag, properties] of Object.entries(cssRulesObj)) {
+        let result = `${tag} {`
+        if (Array.isArray(properties)) {
+            properties.forEach(property =>
+            {
+                result += ` ${property};`
+            })
         }
-    }
-}
-
-class CSSRules {
-    constructor()
-    {
-        this.tags = {}
-        this.atrules = {}
-    }
-
-    addTag(tagStr='', propertyStr='', valueStr='')
-    {
-        this.tags[tagStr][propertyStr] = valueStr
-    }
-
-    addAtRule(identifier='', RULEStr='')
-    {
-        return `@${identifier} (${RULEStr})`
-    }
-
-    addAtRule(identifier='', ruleStr='')
-    {
-
-    }
-
-    addAtRule(identifier, rule, value)
-    {
-
-    }
-}
-
-/*
-    @todo delete this class and extensions when finishe writing atrules
-*/
-class AtRule
-{
-    render(){ throw new Error('@todo write AtRule.render(semi=false)') }
-}
-
-class Charset extends AtRule
-{
-    constructor(set='utf-8')
-    {
-        this.rule = 'charset'
-        this.set = set
-    }
-
-    render(useSemi=false)
-    {
-        return `@charset = "${this.set}"`
-    }
-}
-
-class Import extends AtRule
-{
-    constructor(url, layer=['layerName'], supports=['supportsCondition'], mediaQueryList=null)
-    /**
-     * @classdesc Import is an AtRule with its own syntax for importing into a CSS Style Sheet
-     * @param {string} url is the url where the import is located
-     * @param {string} layer is the layer affected
-     * @param {string} is the layer name
-     * @param {string} supports 
-     * @param {string} supportsComndition 
-     * @param {list} 'list-of-media-queries'
-     * @reference 'https://developer.mozilla.org/en-US/docs/Web/CSS/@import'
-     */
-    {
-        this.url = url
-        this.layer = layer
-        this.layerName = layerName
-        this.supports = supports
-        this.supportsCondition = supportsCondition
-        this.mediaQueryList = mediaQueryList
-    }
-
-    render(useSemi=false)
-    {
-        let result = `${url} `
-        if(this.layer) result += `${this.layer} `
-        if(this.layer && this.layerName) result += `${this.layer}(${this.layerName}) `
-        if(this.supports) result += `${this.supports} `
-        if(this.supports && this.supportsCondition) result += `${this.supports}(${this.supportsCondition}) `
-        if(this.mediaQueryList) result += this.mediaQueryList
-        if(useSemi) result += ';'
-    }
-
-    renderLayer()
-    {
-        if(this.layer && Array.isArray(this.layer))
-        {
-            let result = `${this.layer}`
-            
+        else if (typeof properties === 'string') {
+            result += ` ${properties};`
         }
+        result += ' }'
+        rules.push(result)
     }
+    return rules
 }
-
-// function parseCSSObject(cssRulesObj) {
-//     const rules = []
-//     for (const [tag, properties] of Object.entries(cssRulesObj)) {
-//         let result = `${tag} {`
-//         if (Array.isArray(properties)) {
-//             properties.forEach(property =>
-//             {
-//                 result += ` ${property};`
-//             })
-//         }
-//         else if (typeof properties === 'string') {
-//             result += ` ${properties};`
-//         }
-//         result += ' }'
-//         rules.push(result)
-//     }
-//     return rules
-// }
 
 function getStylesheetByFileName(filename) {
     const stylesheets = Object.values(document.styleSheets)
