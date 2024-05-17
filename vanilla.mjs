@@ -668,14 +668,24 @@ class Charset extends AtRule
 
 class Import extends AtRule
 {
-    constructor(obj={url, layer, layerName, supports, supportsCondition, mediaQueryList})
+    constructor(url, layer=['layerName'], supports=['supportsCondition'], mediaQueryList=null)
+    /**
+     * @classdesc Import is an AtRule with its own syntax for importing into a CSS Style Sheet
+     * @param {string} url is the url where the import is located
+     * @param {string} layer is the layer affected
+     * @param {string} is the layer name
+     * @param {string} supports 
+     * @param {string} supportsComndition 
+     * @param {list} 'list-of-media-queries'
+     * @reference 'https://developer.mozilla.org/en-US/docs/Web/CSS/@import'
+     */
     {
-        this.url = obj.url
-        this.layer = obj.layer
-        this.layerName = obj.layerName
-        this.supports = obj.supports
-        this.supportsCondition = obj.supportsCondition
-        this.mediaQueryList = obj.mediaQueryList
+        this.url = url
+        this.layer = layer
+        this.layerName = layerName
+        this.supports = supports
+        this.supportsCondition = supportsCondition
+        this.mediaQueryList = mediaQueryList
     }
 
     render(useSemi=false)
@@ -687,6 +697,15 @@ class Import extends AtRule
         if(this.supports && this.supportsCondition) result += `${this.supports}(${this.supportsCondition}) `
         if(this.mediaQueryList) result += this.mediaQueryList
         if(useSemi) result += ';'
+    }
+
+    renderLayer()
+    {
+        if(this.layer && Array.isArray(this.layer))
+        {
+            let result = `${this.layer}`
+            
+        }
     }
 }
 
