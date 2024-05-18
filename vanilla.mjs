@@ -1,8 +1,8 @@
 // import { `EasyAccess`or } from './mod/ea/EasyAccessor.mjs'
 import {
-    CSSRulesObj,
     JSONCSS,
-    UnsupportedJSONCSSError
+    UnsupportedJSONCSSError,
+    PercentageOutOfRangeError
 } from './JSONCSS.mjs'
 
 
@@ -93,7 +93,7 @@ const flex = {
     }
 }
 
-class StyleSheet {
+class StyleSheet extends JSONCSS {
 /**
  * @note from MDN regarding CSSRule interface
  * 
@@ -109,40 +109,13 @@ class StyleSheet {
  * @property cssTexttype Read only Deprecated
  * Returns one of the Type constants to determine which type of rule is represented.
  */
-    constructor(cssRulesObj) {
-        const sheet = new CSSStyleSheet()
-        this.element = sheet
-    }
-
-    parseObject(cssRulesObj) {
-        for(const [section, selectors] of Object.entries(cssRulesObj))
-        {
-            if(section === 'CSSStyleRules')
-            {
-                for(const [selector, styleDeclarations] of Object.entries(selectors))
-                {
-                    let parsedRule = ''
-                    parsedRule += `${selector} { `
-
-                    for(const [property, value] of Object.entries(styleDeclarations))
-                    {
-                        parsedRule += `${property}: ${value}; `
-                    }
-
-                    parsedRule += '} '
-                    this.element.insertRule(parsedRule)
-                }
-            }
-            else if(section === '@keyframes')
-            {
-                console.log(section)
-            }
-        }
-        console.log('CSSStyleSheet:', this.element)
+    constructor(cssRulesObj=null, keyframesObj = null) {
+        super(cssRulesObj, keyframesObj)
     }
 
     properties() {
-        return [
+        console.log('Object.keys(CSSSTyleSheet) =>',
+        [
             'list : cssRules',
             'string : ownerRule',
             'boolean : disabled',
@@ -153,17 +126,18 @@ class StyleSheet {
             'string : title',
             'string : type'
         ]
-    }
-
-    adoptExternalSheet()
-    {
-
+        )
     }
 }
 
-const stylesheetFromObject = new StyleSheet()
+const CSSRulesObj = {
+    html: { 'background-color': '#000', color: '#fff' },
+}
 
-stylesheetFromObject.parseObject(CSSRulesObj)
+const stylesheetFromObject = new StyleSheet(CSSRulesObj, null)
+
+
+
 
 class Listener {
     constructor(event, func) {
@@ -705,4 +679,5 @@ export {
     // JSONCSS
     JSONCSS,
     UnsupportedJSONCSSError,
+    PercentageOutOfRangeError
 }

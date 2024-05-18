@@ -58,6 +58,11 @@ import {
     // Functions
     getStylesheetByFileName,
     addAdoptedStyleSheet,
+
+    // JSONCSS
+    JSONCSS,
+    UnsupportedJSONCSSError,
+    PercentageOutOfRangeError
 } from '../vanilla.mjs'
 
 class ClassableForm
@@ -71,10 +76,16 @@ class ClassableForm
     }
 }
 
-const cssRules = [
-    'html { background-color: #333; }'
-]
+const CSSStyleRules =
+{
+    html: {
+        'background-color': '#000'
+    }
+}
 
-addAdoptedStyleSheet(cssRules)
+const jsoncss = new JSONCSS({CSSSTyleRules: CSSStyleRules})
+
+jsoncss.adopt()
+
 
 
