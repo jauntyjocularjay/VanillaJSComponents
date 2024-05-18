@@ -59,7 +59,7 @@ const unit = {
 }
 
 const flex = {
-/*  pre-baked flexbox classes for vanilla.css */
+    /*  pre-baked flexbox classes for vanilla.css */
     c: 'flex-c',
     cw: 'flex-cw',
     cwr: 'flex-cwr',
@@ -89,55 +89,83 @@ const flex = {
 
     /*  default flow  */
     flow: {
-        default: 'flex-content-default'
+        default: 'flex-default'
     }
 }
 
 class StyleSheet extends JSONCSS {
-/**
- * @note from MDN regarding CSSRule interface
- * 
- * @property cssText
- * Represents the textual representation of the rule, e.g. "h1,h2 { font-size: 16pt }" or "@import 'url'". To access or modify parts of the rule (e.g. the value of "font-size" in the example) use the properties on the specialized interface for the rule's type.
- * 
- * @property cssTextparentRule Read only
- * Returns the containing rule, otherwise null. E.g. if this rule is a style rule inside an @media block, the parent rule would be that CSSMediaRule.
- * 
- * @property cssTextparentStyleSheet Read only
- * Returns the CSSStyleSheet object for the style sheet that contains this rule
- * 
- * @property cssTexttype Read only Deprecated
- * Returns one of the Type constants to determine which type of rule is represented.
- */
-    constructor(cssRulesObj=null, keyframesObj = null) {
+    /**
+     * @note from MDN regarding CSSRule interface
+     * 
+     * @property cssText
+     * Represents the textual representation of the rule, e.g. "h1,h2 { font-size: 16pt }" or "@import 'url'". To access or modify parts of the rule (e.g. the value of "font-size" in the example) use the properties on the specialized interface for the rule's type.
+     * 
+     * @property cssTextparentRule Read only
+     * Returns the containing rule, otherwise null. E.g. if this rule is a style rule inside an @media block, the parent rule would be that CSSMediaRule.
+     * 
+     * @property cssTextparentStyleSheet Read only
+     * Returns the CSSStyleSheet object for the style sheet that contains this rule
+     * 
+     * @property cssTexttype Read only Deprecated
+     * Returns one of the Type constants to determine which type of rule is represented.
+     */
+    constructor(cssRulesObj = null, keyframesObj = null) {
         super(cssRulesObj, keyframesObj)
+    }
+
+    cssRules() {
+        return this.element.cssRules
+    }
+
+    ownerRule() {
+        return this.element.ownerRule
+    }
+
+    diabled() {
+        return this.element.disabled
+    }
+
+    href() {
+        return this.element.href
+    }
+
+    media() {
+        return this.element.media
+    }
+
+    ownerNode() {
+        return this.element.ownerNode
+    }
+
+    parentStyleSheet() {
+        return this.element.parentStyleSheet
+    }
+
+    title() {
+        return this.element.title
+    }
+
+    type() {
+        return this.element.type
     }
 
     properties() {
         console.log('Object.keys(CSSSTyleSheet) =>',
-        [
-            'list : cssRules',
-            'string : ownerRule',
-            'boolean : disabled',
-            'string : href',
-            'MediaList : media',
-            'Node : ownerNode',
-            'StyleSheet : parentStyleSheet',
-            'string : title',
-            'string : type'
-        ]
+            [
+                'list : cssRules [Read only]',
+                'string : ownerRule [Read only]',
+                'CSSRule : ownerRule [Read only]',
+                'boolean : disabled',
+                'string : href [Read only]',
+                'MediaList : media [Read only]',
+                'Node : ownerNode [Read only]',
+                'StyleSheet : parentStyleSheet [Read only]',
+                'string : title [Read only]',
+                'string : type [Read only]'
+            ]
         )
     }
 }
-
-const CSSRulesObj = {
-    html: { 'background-color': '#000', color: '#fff' },
-}
-
-const stylesheetFromObject = new StyleSheet(CSSRulesObj, null)
-
-
-
 
 class Listener {
     constructor(event, func) {
@@ -190,7 +218,7 @@ class Classable {
 }
 
 class Img extends Classable {
-    constructor(imgPath, alt='image', classList = [], id = null) {
+    constructor(imgPath, alt = 'image', classList = [], id = null) {
         super(document.createElement('img'), classList, id)
         this.element.src = imgPath
         this.element.alt = alt
@@ -217,7 +245,7 @@ class DivBtn extends Div {
 }
 
 class FlexBox extends Div {
-    constructor(clss = flex-c, classList = [], id = null) {
+    constructor(clss = flex - c, classList = [], id = null) {
         const flexClasses = [clss]
         classList.forEach(clss => flexClasses.push(clss))
         super(flexClasses, id)
@@ -244,13 +272,15 @@ class Figure extends Classable {
 }
 
 class Form extends Classable {
-    constructor(nameStr = 'form', classList = [], id = null) {
-        super(document.createElement('form', classList, id))
-        const label = new Label(nameStr)
+    constructor(alias='form', classList = [], id = null) {
+        super(document.createElement('form'), classList, id)
+        const label = new Label(alias, alias)
+        const br = new Br()
         this.addToClassList(classList)
         this.addID(id)
-        this.element.name = nameStr
+        this.element.name = alias
         this.element.appendChild(label.element)
+        this.element.appendChild(br.element)
 
     }
 }
@@ -452,14 +482,12 @@ class Figcaption extends TextElement {
 }
 
 class Label extends TextElement {
-    constructor(forStr, textContent = null, classList = [], id = null) {
+    constructor(alias, textContent = null, classList = [], id = null) {
         super(document.createElement('label'), classList, id)
-        const br = new Br()
         this.textContent(textContent)
-        this.element.appendChild(br.element)
         this.addToClassList(classList)
         this.addID(id)
-        this.element.for = forStr
+        this.element.for = alias
 
     }
 }

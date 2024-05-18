@@ -70,13 +70,16 @@
     flex: 1 1 auto;
 }
     
-.flex.flow.default {
+.flex-default {
     flex: 1 1 auto;
 }
 
 .emboss {
     border-radius: 16px;
     box-shadow: 2px 2px 2px black, inset 1px 1px 1px white;
+    padding: 4px  16px  12px  16px;
+    width: 512px;
+    margin: 0 auto;
 }
 
 html.dark {
