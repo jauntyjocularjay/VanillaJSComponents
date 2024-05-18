@@ -1,5 +1,9 @@
 // import { `EasyAccess`or } from './mod/ea/EasyAccessor.mjs'
-
+import {
+    CSSRulesObj,
+    JSONCSS,
+    UnsupportedJSONCSSError
+} from './JSONCSS.mjs'
 
 
 
@@ -55,7 +59,7 @@ const unit = {
 }
 
 const flex = {
-    /*  standard flexbox classes for flexboxes  */
+/*  pre-baked flexbox classes for vanilla.css */
     c: 'flex-c',
     cw: 'flex-cw',
     cwr: 'flex-cwr',
@@ -88,114 +92,6 @@ const flex = {
         default: 'flex-content-default'
     }
 }
-
-// CSS Rules
-const CSSRulesObj = {
-    CSSStyleRules: {
-        html: {
-            'background-color': '#333',
-            color: '#fff'
-        },
-        
-    },
-    '@keyframes': {
-        'name': {
-            property1: 'string1',
-            property2: 'string2'
-        }
-    }
-}
-
-// Flexbox Classes
-CSSRulesObj['CSSStyleRules'][`.${flex.c}`] =
-{ 
-    display: 'flex', 
-    'flex-flow': 'column nowrap', 
-    flex: '1 1 auto'
-}
-
-CSSRulesObj['CSSStyleRules'][`.${flex.cw}`] = 
-{ 
-    display: 'flex',
-    'flex-flow': 'column wrap',
-    flex: '1 1 auto'
-}
-
-CSSRulesObj['CSSStyleRules'][`.${flex.cwr}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'column wrap-reverse',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.cr}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'column-reverse nowrap',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.crw}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'column-reverse wrap',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.crwr}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'column-reverse wrap-reverse',
-    flex: '1 1 auto'
-}
-
-CSSRulesObj['CSSStyleRules'][`.${flex.r}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'row nowrap',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.rw}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'row wrap',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.rwr}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'row wrap-reverse',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.rr}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'row-reverse nowrap',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.rrw}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'row-reverse wrap',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.rrwr}`] = 
-{
-    display: 'flex',
-    'flex-flow': 'row-reverse wrap-reverse',
-    flex: '1 1 auto'
-}
-    
-CSSRulesObj['CSSStyleRules'][`.${flex.flow.default}`] = 
-{
-    flex: '1 1 auto'
-}
-
 
 class StyleSheet {
 /**
@@ -257,6 +153,11 @@ class StyleSheet {
             'string : title',
             'string : type'
         ]
+    }
+
+    adoptExternalSheet()
+    {
+
     }
 }
 
@@ -342,7 +243,7 @@ class DivBtn extends Div {
 }
 
 class FlexBox extends Div {
-    constructor(clss = flex.c, classList = [], id = null) {
+    constructor(clss = flex-c, classList = [], id = null) {
         const flexClasses = [clss]
         classList.forEach(clss => flexClasses.push(clss))
         super(flexClasses, id)
@@ -800,4 +701,8 @@ export {
     // Functions
     getStylesheetByFileName,
     addAdoptedStyleSheet,
+
+    // JSONCSS
+    JSONCSS,
+    UnsupportedJSONCSSError,
 }
