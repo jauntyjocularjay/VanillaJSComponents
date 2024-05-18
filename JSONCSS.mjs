@@ -2,40 +2,50 @@
  * JavaScript Object Notation CSS
  * CSS syntax as done in Javascript Obect Notation */
 
-const CSSRulesObj = {
-    CSSStyleRules: {
-        html: {
-            'background-color': '#333',
-            color: '#fff'
-        },
-        
-    },
-    '@keyframes': {
-        'name': {
-            property1: 'string1',
-            property2: 'string2'
-        }
-    }
-}
+
 
 class JSONCSS
 {
     constructor(
-        CSSSTyleRules= {
+        /** 
+         * @constructor
+         * @param {object} CSSSTyleRules object reference
+         *      CSSSTyleRules =
+         *      {
+         *          tags:
+         *          {
+         *              tag: { property: 'value' }
+         *          },
+         *          keyframes: 
+         *          {
+         *              alias:
+         *              {
+         *                  from: [{ 'property': 'value' }],
+         *                  to: [{ 'property': 'value' }],
+         *              },
+         *          percentages:
+         *          {
+         *              0: { 'property': 'value' },
+         *              100: { 'property': 'value' },
+         *          }
+         *      }
+        */
+        CSSSTyleRules={
             tag: { property: 'value' }
         },
         keyframes={
-            alias: {
+            alias: 
+            {
                 from: [{ 'property': 'value' }],
                 to: [{ 'property': 'value' }],
-            },
-            percentages: {
-                0: { 'property': 'value' },
-                100: { 'property': 'value' },
+                percentages: {
+                    0: { 'property': 'value' },
+                    100: { 'property': 'value' },
+                }
             }
         })
     {
-        this.percentageCheck(keyframes.percentages)
+        this.percentageCheck(keyframes.alias.percentages)
 
         this.CSSSTyleRules = CSSSTyleRules
         this.keyframes = keyframes
