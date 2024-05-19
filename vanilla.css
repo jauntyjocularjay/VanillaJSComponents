@@ -1,0 +1,84 @@
+.flex-c { 
+    display: flex;
+    flex-flow: column nowrap;
+
+}
+
+.flex-cw {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.flex-cwr {
+    display: flex;
+    flex-flow: column wrap-reverse;
+}
+
+.flex-cr {
+    display: flex;
+    flex-flow: column-reverse nowrap;
+}
+
+.flex-crw {
+    display: flex;
+    flex-flow: column-reverse wrap;
+}
+
+.flex-crwr {
+    display: flex;
+    flex-flow: column-reverse wrap-reverse;
+}
+
+.flex-r {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.flex-rw {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flex-rwr {
+    display: flex;
+    flex-flow: row wrap-reverse;
+}
+
+.flex-rr {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+}
+
+.flex-rrw {
+    display: flex;
+    flex-flow: row-reverse wrap;
+}
+.flex-rrwr {
+    display: flex;
+    flex-flow: row-reverse wrap-reverse;
+}
+
+.flex-default {
+    flex: 1 1 auto;
+}
+
+.card {
+    width: 512px;
+}
+
+.emboss {
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 2px 2px 2px black, inset 1px 1px 1px white;
+    padding: 4px  16px  12px  16px;
+    margin: 0 auto;
+}
+
+html.dark {
+    background-color: #444;
+    color: #fff;
+}
+
+div.dark {
+    background-color: #333;
+}

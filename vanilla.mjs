@@ -1,43 +1,169 @@
 // import { `EasyAccess`or } from './mod/ea/EasyAccessor.mjs'
+import {
+    JSONCSS,
+    UnsupportedJSONCSSError,
+    PercentageOutOfRangeError
+} from './JSONCSS.mjs'
 
 
 
-class Selection {
-    constructor(value = 'prompt', textContent = 'Make a selection') {
-        this.value = value
-        this.textContent = textContent
-    }
-
+// Pre-defined property strings
+const display = {
+    block: 'block',
+    inline: 'inline',
+    inlineBlock: 'inline-block',
+    flex: 'flex',
+    grid: 'grid',
 }
 
-class StyleSheet {
-    constructor(rules = []) {
-        const sheet = new CSSStyleSheet()
-        this.element = sheet
-        // sheet.ownerRule = ''
-        // sheet.disabled = false
-        // sheet.href = ''
-        // sheet.media = MediaList
-        // sheet.ownerNode = Node
-        // sheet.parentStyleSheet = StyleSheet
-        // sheet.title = 'title'
-        // sheet.type = 'text/css'
-        // @note Why did I have this reversed? rules.reverse().forEach
-        rules.forEach(rule => sheet.insertRule(rule))
+const event = {
+    page: {
+        load: 'load',
+        resize: 'resize',
+        refresh: 'refresh',
+        scroll: 'scroll',
+    },
+    element: {
+        change: 'change',
+        click: 'click',
+        input: 'input',
+        submit: 'submit',
+        update: 'update',
+    },
+    mouse: {
+        click: 'click',
+    }
+}
+
+const unit = {
+    /* No units */
+    none: '',
+
+    /* absolute length units */
+    cm: 'cm',
+    mm: 'mm',
+    Q: 'Q',
+    in: 'in',
+    pc: 'pc',
+    pt: 'pt',
+    px: 'px',
+
+    /* relative length units */
+    em: 'em',
+    rem: 'rem',
+    vw: 'vw',
+    vh: 'vh',
+    lh: 'lh',
+    rlh: 'rlh',
+    percent: '%',
+}
+
+const flex = {
+    /*  pre-baked flexbox classes for vanilla.css */
+    c: 'flex-c',
+    cw: 'flex-cw',
+    cwr: 'flex-cwr',
+    cr: 'flex-cr',
+    crw: 'flex-crw',
+    crwr: 'flex-crwr',
+    r: 'flex-r',
+    rw: 'flex-rw',
+    rwr: 'flex-rwr',
+    rr: 'flex-rr',
+    rrw: 'flex-rrw',
+    rrwr: 'flex-rrwr',
+
+    /*  flex-direction  */
+    column: 'column',
+    colReverse: 'column-reverse',
+    row: 'row',
+    rowReverse: 'row-reverse',
+
+    /*  wrap  */
+    nowrap: 'nowrap',
+    wrap: 'wrap',
+    wrapReverse: 'wrap-reverse',
+
+    /*  basis  */
+    auto: 'auto',
+
+    /*  default flow  */
+    flow: {
+        default: 'flex-default'
+    }
+}
+
+class StyleSheet extends JSONCSS {
+    /**
+     * @note from MDN regarding CSSRule interface
+     * 
+     * @property cssText
+     * Represents the textual representation of the rule, e.g. "h1,h2 { font-size: 16pt }" or "@import 'url'". To access or modify parts of the rule (e.g. the value of "font-size" in the example) use the properties on the specialized interface for the rule's type.
+     * 
+     * @property cssTextparentRule Read only
+     * Returns the containing rule, otherwise null. E.g. if this rule is a style rule inside an @media block, the parent rule would be that CSSMediaRule.
+     * 
+     * @property cssTextparentStyleSheet Read only
+     * Returns the CSSStyleSheet object for the style sheet that contains this rule
+     * 
+     * @property cssTexttype Read only Deprecated
+     * Returns one of the Type constants to determine which type of rule is represented.
+     */
+    constructor(cssRulesObj = null, keyframesObj = null) {
+        super(cssRulesObj, keyframesObj)
+    }
+
+    cssRules() {
+        return this.element.cssRules
+    }
+
+    ownerRule() {
+        return this.element.ownerRule
+    }
+
+    diabled() {
+        return this.element.disabled
+    }
+
+    href() {
+        return this.element.href
+    }
+
+    media() {
+        return this.element.media
+    }
+
+    ownerNode() {
+        return this.element.ownerNode
+    }
+
+    parentStyleSheet() {
+        return this.element.parentStyleSheet
+    }
+
+    title() {
+        return this.element.title
+    }
+
+    type() {
+        return this.element.type
     }
 
     properties() {
-        return [
-            'list : cssRules',
-            'string : ownerRule',
-            'boolean : disabled',
-            'string : href',
-            'MediaList : media',
-            'Node : ownerNode',
-            'StyleSheet : parentStyleSheet',
-            'string : title',
-            'string : type'
-        ]
+        console.log('Object.keys(CSSSTyleSheet) =>',
+            [
+                'list : cssRules [Read only]',
+                'string : ownerRule [Read only]',
+                'CSSRule : ownerRule [Read only]',
+                'boolean : disabled',
+                'string : href [Read only]',
+                'MediaList : media [Read only]',
+                'Node : ownerNode [Read only]',
+                'StyleSheet : parentStyleSheet [Read only]',
+                'string : title [Read only]',
+                'string : type [Read only]'
+            ]
+        )
     }
 }
 
@@ -92,7 +218,7 @@ class Classable {
 }
 
 class Img extends Classable {
-    constructor(imgPath, alt='image', classList = [], id = null) {
+    constructor(imgPath, alt = 'image', classList = [], id = null) {
         super(document.createElement('img'), classList, id)
         this.element.src = imgPath
         this.element.alt = alt
@@ -119,7 +245,7 @@ class DivBtn extends Div {
 }
 
 class FlexBox extends Div {
-    constructor(clss = flex.c, classList = [], id = null) {
+    constructor(clss = flex - c, classList = [], id = null) {
         const flexClasses = [clss]
         classList.forEach(clss => flexClasses.push(clss))
         super(flexClasses, id)
@@ -146,13 +272,15 @@ class Figure extends Classable {
 }
 
 class Form extends Classable {
-    constructor(nameStr = 'form', classList = [], id = null) {
-        super(document.createElement('form', classList, id))
-        const label = new Label(nameStr)
+    constructor(alias='form', classList = [], id = null) {
+        super(document.createElement('form'), classList, id)
+        const label = new Label(alias, alias)
+        const br = new Br()
         this.addToClassList(classList)
         this.addID(id)
-        this.element.name = nameStr
+        this.element.name = alias
         this.element.appendChild(label.element)
+        this.element.appendChild(br.element)
 
     }
 }
@@ -196,7 +324,7 @@ class Select extends Classable {
     constructor(forStr = 'a form', selectionArray = [], classList = [], id = null) {
         super(document.createElement('select'), classList, id)
         const select = this.element
-        const selections = [new Selection()].concat(selectionArray)
+        const selections = [new OptionSelection()].concat(selectionArray)
         this.addToClassList(classList)
         this.addID(id)
         selections.forEach(selection => {
@@ -354,14 +482,12 @@ class Figcaption extends TextElement {
 }
 
 class Label extends TextElement {
-    constructor(forStr, textContent = null, classList = [], id = null) {
+    constructor(alias, textContent = null, classList = [], id = null) {
         super(document.createElement('label'), classList, id)
-        const br = new Br()
         this.textContent(textContent)
-        this.element.appendChild(br.element)
         this.addToClassList(classList)
         this.addID(id)
-        this.element.for = forStr
+        this.element.for = alias
 
     }
 }
@@ -474,6 +600,13 @@ class Code extends TextElement {
     }
 }
 
+class OptionSelection {
+    constructor(value = 'prompt', textContent = 'Make a selection') {
+        this.value = value
+        this.textContent = textContent
+    }
+}
+
 class Option extends TextElement {
     constructor(value, textContent, classList = [], id = null) {
         super(document.createElement('option'), classList, id)
@@ -490,134 +623,6 @@ class InvalidContentArrayError extends TypeError {
         this.name = 'InvalidContentArray'
     }
 
-}
-
-const display = {
-    block: 'block',
-    inline: 'inline',
-    inlineBlock: 'inline-block',
-    flex: 'flex',
-    grid: 'grid',
-}
-
-const event = {
-    page: {
-        load: 'load',
-        resize: 'resize',
-        refresh: 'refresh',
-        scroll: 'scroll',
-    },
-    element: {
-        change: 'change',
-        click: 'click',
-        input: 'input',
-        submit: 'submit',
-        update: 'update',
-    },
-    mouse: {
-        click: 'click',
-    }
-}
-
-const unit = {
-    /* No units */
-    none: '',
-
-    /* absolute length units */
-    cm: 'cm',
-    mm: 'mm',
-    Q: 'Q',
-    in: 'in',
-    pc: 'pc',
-    pt: 'pt',
-    px: 'px',
-
-    /* relative length units */
-    em: 'em',
-    rem: 'rem',
-    vw: 'vw',
-    vh: 'vh',
-    lh: 'lh',
-    rlh: 'rlh',
-    percent: '%',
-}
-
-const flex = {
-    /*  standard flexbox classes for flexboxes  */
-    c: 'flex-c',
-    cw: 'flex-cw',
-    cwr: 'flex-cwr',
-    cr: 'flex-cr',
-    crw: 'flex-crw',
-    crwr: 'flex-crwr',
-    r: 'flex-r',
-    rw: 'flex-rw',
-    rwr: 'flex-rwr',
-    rr: 'flex-rr',
-    rrw: 'flex-rrw',
-    rrwr: 'flex-rrwr',
-
-    /*  flex-direction  */
-    column: 'column',
-    colReverse: 'column-reverse',
-    row: 'row',
-    rowReverse: 'row-reverse',
-
-    /*  wrap  */
-    nowrap: 'nowrap',
-    wrap: 'wrap',
-    wrapReverse: 'wrap-reverse',
-
-    /*  basis  */
-    auto: 'auto',
-
-    /*  default flow  */
-    flow: {
-        default: 'flex-content-default'
-    }
-}
-
-let cssRules =
-[ // Flexbox Classes
-    '.flex-c { display: flex; flex-flow: column nowrap; flex: 1 1 auto; }',
-    '.flex-cw { display: flex; flex-flow: column wrap; flex: 1 1 auto; }',
-    '.flex-cwr { display: flex; flex-flow: column wrap-reverse; flex: 1 1 auto; }',
-    '.flex-cr { display: flex; flex-flow: column-reverse nowrap; flex: 1 1 auto; }',
-    '.flex-crw { display: flex; flex-flow: column-reverse wrap; flex: 1 1 auto; }',
-    '.flex-crwr { display: flex; flex-flow: column-reverse wrap-reverse; flex: 1 1 auto; }',
-    '.flex-r { display: flex; flex-flow: row nowrap; flex: 1 1 auto; }',
-    '.flex-rw { display: flex; flex-flow: row wrap; flex: 1 1 auto; }',
-    '.flex-rwr { display: flex; flex-flow: row wrap-reverse; flex: 1 1 auto; }',
-    '.flex-rr { display: flex; flex-flow: row-reverse nowrap; flex: 1 1 auto; }',
-    '.flex-rrw { display: flex; flex-flow: row-reverse wrap; flex: 1 1 auto; }',
-    '.flex-rrwr { display: flex; flex-flow: row-reverse wrap-reverse; flex: 1 1 auto; }',
-    '.flex-content-default { flex: 1 1 auto; }'
-]
-
-const cssRulesObj = {
-    html: [
-        'background-color: #333',
-        'color: #fff'
-    ]
-}
-
-function parseCSSObject(cssRulesObj) {
-    const rules = []
-    for (const [tag, properties] of Object.entries(cssRulesObj)) {
-        let result = `${tag} {`
-        if (Array.isArray(properties)) {
-            properties.forEach(property =>
-            {
-                result += ` ${property};`
-            })
-        }
-        else if (typeof properties === 'string') {
-            result += ` ${properties};`
-        }
-        result += ' }'
-        rules.push(result)
-    }
-    return rules
 }
 
 function getStylesheetByFileName(filename) {
@@ -638,8 +643,6 @@ function addAdoptedStyleSheet(rules) {
     document.adoptedStyleSheets.push(stylesheet.element)
 }
 
-addAdoptedStyleSheet(cssRules.concat(parseCSSObject(cssRulesObj)))
-
 export {
     // Constants
     display,
@@ -648,7 +651,7 @@ export {
     unit,
 
     // Base Classes
-    Selection,
+    OptionSelection as Selection,
     StyleSheet,
     Listener,
     ListenerOnLoad,
@@ -700,5 +703,9 @@ export {
     // Functions
     getStylesheetByFileName,
     addAdoptedStyleSheet,
-    parseCSSObject
+
+    // JSONCSS
+    JSONCSS,
+    UnsupportedJSONCSSError,
+    PercentageOutOfRangeError
 }
