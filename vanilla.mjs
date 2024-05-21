@@ -686,6 +686,7 @@ export {
     flex,
     event,
     unit,
+    tag,
 
     // Base Classes
     OptionSelection as Selection,
