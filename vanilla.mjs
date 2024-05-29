@@ -93,6 +93,43 @@ const flex = {
     }
 }
 
+const tag = {
+    html: 'html',
+    div: 'div',
+    ul: 'ul',
+    ol: 'ol',
+    li: 'li',
+    a: 'a',
+    img: 'img',
+    figure: 'figure',
+    figcaption: 'figcaption',
+    p: 'p',
+    h1: 'h1',
+    h2: 'h2',
+    h3: 'h3',
+    h4: 'h4',
+    h5: 'h5',
+    h6: 'h6',
+    span: 'span',
+    strong: 'strong',
+    abbr: 'abbr',
+    blockquote: 'blockquote',
+    sub: 'sub',
+    sup: 'sup',
+    code: 'code',
+    pre: 'pre',
+    br: 'br',
+    form: 'form',
+    input: 'input',
+    button: 'button',
+    select: 'select',
+    option: 'option',
+    label: 'label',
+    style: 'style',
+    link: 'link',
+    textarea: 'textarea',
+}
+
 class StyleSheet extends JSONCSS {
     /**
      * @note from MDN regarding CSSRule interface
@@ -245,9 +282,9 @@ class DivBtn extends Div {
 }
 
 class FlexBox extends Div {
-    constructor(clss = flex - c, classList = [], id = null) {
+    constructor(clss = flex.c, classList = [], id = null) {
         const flexClasses = [clss]
-        classList.forEach(clss => flexClasses.push(clss))
+        classList.forEach(listedClass => flexClasses.push(listedClass))
         super(flexClasses, id)
     }
 }
@@ -649,6 +686,7 @@ export {
     flex,
     event,
     unit,
+    tag,
 
     // Base Classes
     OptionSelection as Selection,
