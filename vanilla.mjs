@@ -290,19 +290,16 @@ class FlexBox extends Div {
 }
 
 class Figure extends Classable {
-    constructor(img=null, captionTextContent = 'str', classList = [], id = null) {
+    constructor(classList = [], id = null, img=null, figcaption=null) {
         super(document.createElement('figure'), classList, id)
         this.img = img
-        this.figcapture = new Figcaption(captionTextContent, classList, id + '-fig-caption')
+        this.figcaption = figcaption
+        const figure = this.element
         const img = this.img
-        const captionClasses = ['caption']
+        const figcaption = this.figcaption
 
-        classList.forEach(clss => captionClasses.push(clss))
-        this.addToClassList(classList)
-        this.addID(id)
-        this.element.appendChild(this.img.get('element'))
-        this.element.appendChild(this.figcapture.get('element'))
-
+        figure.appendChild(img)
+        figure.appendChild(figcaption)
     }
 }
 
