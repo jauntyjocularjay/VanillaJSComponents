@@ -282,9 +282,9 @@ class DivBtn extends Div {
 }
 
 class FlexBox extends Div {
-    constructor(clss = flex - c, classList = [], id = null) {
+    constructor(clss = flex.c, classList = [], id = null) {
         const flexClasses = [clss]
-        classList.forEach(clss => flexClasses.push(clss))
+        classList.forEach(listedClass => flexClasses.push(listedClass))
         super(flexClasses, id)
     }
 }
