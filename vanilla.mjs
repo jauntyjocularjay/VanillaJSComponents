@@ -1,4 +1,4 @@
-// import { `EasyAccess`or } from './mod/ea/EasyAccessor.mjs'
+
 import {
     JSONCSS,
     UnsupportedJSONCSSError,
@@ -218,7 +218,7 @@ class ListenerOnLoad extends Listener {
 }
 
 class Classable {
-    constructor(element, classList = [], id = null) {
+    constructor(element, classList=[], id = null) {
         this.element = element
         this.listeners = []
         this.addToClassList(classList)
@@ -251,6 +251,32 @@ class Classable {
 
     innerHTML(innerHTML) {
         this.element.innerHTML += innerHTML
+    }
+}
+
+class TextElement extends Classable {
+    constructor(element, classList = [], id = null) {
+        super(element, classList, id)
+    }
+
+    addContent(content) {
+        if (typeof content === 'string') {
+            throw new InvalidContentArrayError()
+        }
+        else if (Array.isArray(content)) {
+            content.forEach(item => {
+                if (typeof item === 'string') {
+                    throw new InvalidContentArrayError()
+                }
+                else {
+                    this.element.appendChild(item.element)
+                }
+            })
+        }
+    }
+
+    textContent(textContent) {
+        this.element.textContent = textContent
     }
 }
 
@@ -290,16 +316,27 @@ class FlexBox extends Div {
 }
 
 class Figure extends Classable {
-    constructor(classList = [], id = null, img=null, figcaption=null) {
+    constructor(classList=[], id=null, img=null, figcaption=null) {
         super(document.createElement('figure'), classList, id)
-        this.img = img
-        this.figcaption = figcaption
+        this.img = img.element
+        this.figcaption = figcaption.element
         const figure = this.element
-        const img = this.img
-        const figcaption = this.figcaption
 
-        figure.appendChild(img)
-        figure.appendChild(figcaption)
+        figure
+            .appendChild(this.img)
+        figure
+            .appendChild(this.figcaption)
+
+    }
+}
+
+class Figcaption extends TextElement {
+    constructor(textContent=null, classList=[], id=null) {
+        super(document.createElement('figcaption'), classList, id)
+        this.textContent(textContent)
+        this.addToClassList(classList)
+        this.addID(id)
+        console.log('Figcaption.element', this.element)
     }
 }
 
@@ -403,32 +440,6 @@ class Br extends Classable {
     }
 }
 
-class TextElement extends Classable {
-    constructor(element, classList = [], id = null) {
-        super(element, classList, id)
-    }
-
-    addContent(content) {
-        if (typeof content === 'string') {
-            throw new InvalidContentArrayError()
-        }
-        else if (Array.isArray(content)) {
-            content.forEach(item => {
-                if (typeof item === 'string') {
-                    throw new InvalidContentArrayError()
-                }
-                else {
-                    this.element.appendChild(item.element)
-                }
-            })
-        }
-    }
-
-    textContent(textContent) {
-        this.element.textContent = textContent
-    }
-}
-
 class H1 extends TextElement {
     constructor(textContent, classList = [], id = null) {
         super(document.createElement('h1'), classList, id)
@@ -499,16 +510,6 @@ class P extends TextElement {
         this.addToClassList(classList)
         this.addID(id)
         this.addContent(content)
-
-    }
-}
-
-class Figcaption extends TextElement {
-    constructor(textContent = null, classList = [], id = null) {
-        super(document.createElement('figcaption'), classList, id)
-        this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
 
     }
 }
