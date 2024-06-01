@@ -323,21 +323,17 @@ class Figure extends Classable {
         this.figcaption = figcaption.element
         const figure = this.element
 
-        figure
-            .appendChild(this.img)
-        figure
-            .appendChild(this.figcaption)
-
+        figure.appendChild(this.img)
+        figure.appendChild(this.figcaption)
     }
 }
 
 class Figcaption extends TextElement {
     constructor(textContent=null, classList=[], id=null) {
-        super(document.createElement('figcaption'), classList, id)
+        super(document.createElement('caption'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-        console.log('Figcaption.element', this.element)
     }
 }
 
