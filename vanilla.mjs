@@ -316,8 +316,9 @@ class FlexBox extends Div {
 }
 
 class Figure extends Classable {
-    constructor(classList=[], id=null, img=null, figcaption=null) {
+    constructor(classList=[], id=null, header=null, img=null, figcaption=null) {
         super(document.createElement('figure'), classList, id)
+        this.header = header
         this.img = img.element
         this.figcaption = figcaption.element
         const figure = this.element
