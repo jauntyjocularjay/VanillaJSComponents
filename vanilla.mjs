@@ -300,10 +300,12 @@ class Div extends Classable {
 }
 
 class DivBtn extends Div {
-    constructor(textContent = "Button", classList = ['btn'], id = null) {
+    constructor(textContent="Button", classList=[], id=null) {
+        classList.push('btn')
         super(classList, id)
         const DivBtn = this.element
-        this.element.appendChild(new Span(textContent, ['btn-text']))
+        const span = new Span(textContent)
+        DivBtn.appendChild(span.element)
     }
 }
 
