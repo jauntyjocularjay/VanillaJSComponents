@@ -202,8 +202,10 @@ class StyleSheet extends JSONCSS {
 
 class Listener {
     constructor(event, func) {
-        this.event = event
-        this.func = func
+        this.listeners.push({
+            event: event,
+            func: func
+        })
     }
 }
 
@@ -524,7 +526,7 @@ class Label extends TextElement {
 }
 
 class A extends TextElement {
-    constructor(textContent = 'str', href = '#', classList = [], id = null) {
+    constructor(textContent='str', href='#', classList=[], id=null) {
         super(document.createElement('a'), classList, id)
         this.textContent(textContent)
         this.element.href = href
