@@ -15,7 +15,6 @@ const display = {
     flex: 'flex',
     grid: 'grid',
 }
-
 const event = {
     page: {
         load: 'load',
@@ -34,7 +33,6 @@ const event = {
         click: 'click',
     }
 }
-
 const unit = {
     /* No units */
     none: '',
@@ -57,7 +55,6 @@ const unit = {
     rlh: 'rlh',
     percent: '%',
 }
-
 const flex = {
     /*  pre-baked flexbox classes for vanilla.css */
     c: 'flex-c',
@@ -92,7 +89,6 @@ const flex = {
         default: 'flex-default'
     }
 }
-
 const tag = {
     html: 'html',
     div: 'div',
