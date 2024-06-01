@@ -202,10 +202,8 @@ class StyleSheet extends JSONCSS {
 
 class Listener {
     constructor(event, func) {
-        this.listeners.push({
-            event: event,
-            func: func
-        })
+        this.event = event
+        this.func = func
     }
 }
 
@@ -235,7 +233,7 @@ class Classable {
         if (id) this.element.id = id
     }
 
-    addEventListener(event = event.element.click, func = () => { }) {
+    pushEventListener(event=event.element.click, func = () => { }) {
         this.listeners.push(this.element.addEventListener(event, func))
     }
 
@@ -243,7 +241,7 @@ class Classable {
      * @todo debug this method
      * @param {Listener} listener 
      */
-    addEventListner(listener = { event: null, func: () => { } }) {
+    pushEventListner(listener={ event: null, func: () => { } }) {
         this.listeners.push(this.element.addEventListener(listener.event, listener.func))
     }
 
@@ -318,13 +316,11 @@ class FlexBox extends Div {
 class Figure extends Classable {
     constructor(classList=[], id=null, header=null, img=null, figcaption=null) {
         super(document.createElement('figure'), classList, id)
-        this.header = header
-        this.img = img.element
-        this.figcaption = figcaption.element
         const figure = this.element
 
-        figure.appendChild(this.img)
-        figure.appendChild(this.figcaption)
+        if(header) figure.appendChild(header.element)
+        if(img) figure.appendChild(img.element)
+        if(figcaption) figure.appendChild(figcaption.element)
     }
 }
 
