@@ -507,7 +507,7 @@ class P extends TextElement {
 
 class PSpan extends P {
     constructor(textContent='', classList=[], id=null){
-        const span = new Span(textContent)
+        const span = [new Span(textContent)]
         super(span, classList, id)
     }
 }
