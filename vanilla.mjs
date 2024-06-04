@@ -682,7 +682,7 @@ export {
     tag,
 
     // Base Classes
-    OptionSelection as Selection,
+    OptionSelection,
     StyleSheet,
     Listener,
     ListenerOnLoad,
