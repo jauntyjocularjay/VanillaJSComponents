@@ -63,7 +63,7 @@ import {
     JSONCSS,
     UnsupportedJSONCSSError,
     PercentageOutOfRangeError
-} from '../vanilla.mjs'
+} from '../index.mjs'
 
 class ClassableForm {
     constructor(alias = 'classable', classList = ['form', 'emboss'], id = 'classable-form') {
