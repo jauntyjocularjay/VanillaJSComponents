@@ -2,7 +2,7 @@
   "name": "vsjcomponents",
   "version": "0.1.0",
   "description": "library for building vanillajs sites",
-  "main": "vanilla.mjs",
+  "main": "index.mjs",
   "scripts": {
     "commit": "bash sh/gitCommit.sh",
     "2dev": "bash sh/git2Dev.sh",
