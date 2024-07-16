@@ -6,7 +6,7 @@ import {
     unit,
 
     // Base Classes
-    Selection,
+    OptionSelection,
     StyleSheet,
     Listener,
     ListenerOnLoad,
