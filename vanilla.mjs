@@ -272,6 +272,9 @@ class Classable
 }
 
 class Container extends Classable
+/**
+ * @class Container - the parent class for container elements
+ */
 {
     constructor(element, classList=[], id=null){
         super(element, classList, id)
@@ -284,7 +287,11 @@ class Container extends Classable
     }
 }
 
-class TextElement extends Classable {
+class TextElement extends Classable
+/**
+ * @class TextElement - the parent class for text elements
+ */
+{
     constructor(element, classList=[], id=null) {
         super(element, classList, id)
     }
@@ -309,15 +316,22 @@ class TextElement extends Classable {
     }
 }
 
-
-class Article extends Container {
+class Article extends Container
+/**
+ * @class Article - Article element
+ */
+{
     constructor(nodes=[], classList=[], id=null){
         super(document.createElement('article'), classList, id)
         this.addContents(nodes)
     }
 }
 
-class Img extends Classable {
+class Img extends Classable
+/**
+ * @class Img - Image element
+ */
+{
     constructor(imgPath, alt = 'image', classList=[], id=null) {
         super(document.createElement('img'), classList, id)
         this.element.src = imgPath
@@ -328,7 +342,11 @@ class Img extends Classable {
     }
 }
 
-class Div extends Classable {
+class Div extends Container
+/**
+ * @class Div - Division element
+ */
+{
     constructor(classList=[], id=null) {
         super(document.createElement('div'), classList, id)
         this.addToClassList(classList)
@@ -336,17 +354,21 @@ class Div extends Classable {
     }
 }
 
-class DivBtn extends Div {
-    constructor(textContent="Button", classList=[], id=null) {
+class DivBtn extends Div
+/**
+ * @class DivBtn - preformatted text element
+ */
+{
+    constructor(span=new Span("DivBtn"), classList=[], id=null) {
         classList.push('btn')
         super(classList, id)
         const DivBtn = this.element
-        const span = new Span(textContent)
         DivBtn.appendChild(span.element)
     }
 }
 
-class FlexBox extends Div {
+class FlexBox extends Div
+{
     constructor(clss = flex.c, classList=[], id=null) {
         const flexClasses = [clss]
         classList.forEach(listedClass => flexClasses.push(listedClass))
@@ -354,7 +376,8 @@ class FlexBox extends Div {
     }
 }
 
-class Figure extends Classable {
+class Figure extends Classable
+{
     constructor(classList=[], id=null, header=new H1(), img=new Img(), figcaption=new Figcaption()) {
         super(document.createElement('figure'), classList, id)
         const figure = this.element
@@ -365,7 +388,13 @@ class Figure extends Classable {
     }
 }
 
-class Figcaption extends TextElement {
+class Figcaption extends TextElement
+/**
+ * @class Figcaption - Figcaption element
+ * @extends Classable
+ *     so that a designer can style it with CSS with classes and IDs
+ */
+{
     constructor(textContent="Figcaption", classList=[], id=null) {
         super(document.createElement('caption'), classList, id)
         this.textContent(textContent)
@@ -374,7 +403,13 @@ class Figcaption extends TextElement {
     }
 }
 
-class Form extends Classable {
+class Form extends Classable
+/**
+ * @class Form - Form element
+ * @extends Classable
+ *     so that a designer can style it with CSS with classes and IDs
+ */
+{
     constructor(alias='form', classList=[], id=null) {
         super(document.createElement('form'), classList, id)
         const label = new Label(alias, alias)
@@ -388,7 +423,13 @@ class Form extends Classable {
     }
 }
 
-class Button extends Classable {
+class Button extends Classable
+/**
+ * @class Button - Button element
+ * @extends Classable
+ *     so that a designer can style it with CSS with classes and IDs
+ */
+{
     constructor(textContent = "click me", formName = null, classList=[], id=null) {
         super(document.createElement('button'), classList, id)
         const button = this.element
@@ -399,18 +440,23 @@ class Button extends Classable {
     }
 }
 
-class TextArea extends Classable {
+class TextArea extends Classable
+/**
+ * @class TextArea - TextArea element
+ * @extends Classable
+ *     so that a designer can style it with CSS with classes and IDs
+ */
+{
     constructor(textContent = "text area", classList=[], id=null) {
         super(document.createElement('textarea'), classList, id)
         this.element.textContent = textContent
         this.addToClassList(classList)
         this.addID(id)
-
     }
-
 }
 
-class Input extends Classable {
+class Input extends Classable
+{
     constructor(typeStr, placeholder, textContent = null, forStr = null, classList=[], id=null) {
         super(document.createElement('input'), classList, id)
         const input = this.element
@@ -423,7 +469,8 @@ class Input extends Classable {
     }
 }
 
-class Select extends Classable {
+class Select extends Classable
+{
     constructor(forStr='a form', selectionArray=[], classList=[], id=null) {
         super(document.createElement('select'), classList, id)
         const select = this.element
@@ -438,7 +485,8 @@ class Select extends Classable {
     }
 }
 
-class Link extends Classable {
+class Link extends Classable
+{
     constructor(href, rel, classList=[], id=null) {
         super(classList, id)
         const link = document.createElement('link')
@@ -451,7 +499,8 @@ class Link extends Classable {
     }
 }
 
-class Style extends Classable {
+class Style extends Classable
+{
     constructor(cssRules=[], classList=[], id=null) {
         super(document.createElement('style'), classList, id)
         {
@@ -461,20 +510,24 @@ class Style extends Classable {
     }
 }
 
-class Br extends Classable {
-    /**
-     * @class Br
-     *     a line break element
-     * @extends Classable
-     *     so that a designer can style it with CSS with classes and IDs
-     */
+class Br extends Classable
+/**
+ * @class Br - line break element
+ * @extends Classable
+ *     so that a designer can style it with CSS with classes and IDs
+ */
+{
     constructor(classList=[], id=null) {
         super(document.createElement('br'), classList, id)
 
     }
 }
 
-class H1 extends TextElement {
+class H1 extends TextElement
+/**
+ * @class H1 - the Header level 1 element
+ */
+{
     constructor(textContent="H1", classList=[], id=null) {
         super(document.createElement('h1'), classList, id)
         this.textContent(textContent)
@@ -484,7 +537,11 @@ class H1 extends TextElement {
     }
 }
 
-class H2 extends TextElement {
+class H2 extends TextElement
+/**
+ * @class H2 - the Header level 2 element
+ */
+{
     constructor(textContent="H2", classList=[], id=null) {
         super(document.createElement('h2'), classList, id)
         this.textContent(textContent)
@@ -494,7 +551,11 @@ class H2 extends TextElement {
     }
 }
 
-class H3 extends TextElement {
+class H3 extends TextElement
+/**
+ * @class H3 - the Header level 3 element
+ */
+{
     constructor(textContent="H3", classList=[], id=null) {
         super(document.createElement('h3'), classList, id)
         this.textContent(textContent)
@@ -505,7 +566,11 @@ class H3 extends TextElement {
 
 }
 
-class H4 extends TextElement {
+class H4 extends TextElement
+/**
+ * @class H4 - the Header level 4 element
+ */
+{
     constructor(textContent="H4", classList=[], id=null) {
         super(document.createElement('h4'), classList, id)
         this.textContent(textContent="H4")
@@ -516,7 +581,11 @@ class H4 extends TextElement {
 
 }
 
-class H5 extends TextElement {
+class H5 extends TextElement
+/**
+ * @class H5 - the Header level 5 element
+ */
+{
     constructor(textContent="H5", classList=[], id=null) {
         super(document.createElement('h5'), classList, id)
         this.textContent(textContent)
@@ -527,7 +596,11 @@ class H5 extends TextElement {
 
 }
 
-class H6 extends TextElement {
+class H6 extends TextElement
+/**
+ * @class H6 - the Header level 6 element
+ */
+{
     constructor(textContent="H6", classList=[], id=null) {
         super(document.createElement('h6'), classList, id)
         this.textContent(textContent)
@@ -586,11 +659,14 @@ class A extends TextElement
         super(document.createElement('a'), classList, id)
         this.textContent(textContent)
         this.element.href = href
-
     }
 }
 
-class Abbr extends TextElement {
+class Abbr extends TextElement
+/**
+ * @class Abbr - the Abbreviation element
+ */
+{
     constructor(textContent = 'str', title = null, classList=[], id=null) {
         super(document.createElement('abbr'), classList, id)
         this.textContent(textContent)
@@ -682,17 +758,18 @@ class Text extends Span
 
 }
 
-class Pre extends TextElement {
-    /**
-     * @class Pre
-     *    a preformatted text element
-     * @param {string} textContent
-     *     textContent is the text to be displayed in the preformatted text element
-     * @param {[string]} classList 
-     * @param {string} id 
-     * @returns 
-     *    returns the preformatted text element
-     */
+class Pre extends TextElement
+/**
+ * @class Pre
+ *    a preformatted text element
+ * @param {string} textContent
+ *     textContent is the text to be displayed in the preformatted text element
+ * @param {[string]} classList 
+ * @param {string} id 
+ * @returns 
+ *    returns the preformatted text element
+ */
+{
     constructor(textContent = 'str', classList=[], id=null) {
         super(document.createElement('pre'), classList, id)
         this.textContent(textContent)
@@ -704,7 +781,7 @@ class Pre extends TextElement {
 
 class Code extends TextElement
 /**
- * @class Code - the Code element
+ * @class Code - the Code format element for displaying code in fixed-width font
  */
 {
     constructor(textContent = 'str', classList=[], id=null) {
@@ -742,7 +819,8 @@ class Option extends TextElement
     }
 }
 
-class InvalidContentArrayError extends TypeError {
+class InvalidContentArrayError extends TypeError
+{
     constructor() {
         super('content must be an array of NodeElements, not a string or an array containing strings')
         this.name = 'InvalidContentArray'
@@ -750,7 +828,8 @@ class InvalidContentArrayError extends TypeError {
 
 }
 
-function getStylesheetByFileName(filename) {
+function getStylesheetByFileName(filename)
+{
     const stylesheets = Object.values(document.styleSheets)
     let result
 
@@ -763,7 +842,8 @@ function getStylesheetByFileName(filename) {
     return result
 }
 
-function addAdoptedStyleSheet(rules) {
+function addAdoptedStyleSheet(rules)
+{
     const stylesheet = new StyleSheet(rules)
     document.adoptedStyleSheets.push(stylesheet.element)
 }
