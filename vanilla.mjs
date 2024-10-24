@@ -1,15 +1,11 @@
-
 import {
     JSONCSS,
     UnsupportedJSONCSSError,
-    PercentageOutOfRangeError
+    PercentageOutOfRangeError,
 } from './JSONCSS.mjs'
 
-
-
 // Pre-defined property strings
-const display =
-{
+const display = {
     block: 'block',
     inline: 'inline',
     inlineBlock: 'inline-block',
@@ -17,8 +13,7 @@ const display =
     grid: 'grid',
 }
 
-const event =
-{
+const event = {
     page: {
         load: 'load',
         resize: 'resize',
@@ -34,11 +29,10 @@ const event =
     },
     mouse: {
         click: 'click',
-    }
+    },
 }
 
-const unit =
-{
+const unit = {
     /* No units */
     none: '',
 
@@ -61,8 +55,7 @@ const unit =
     percent: '%',
 }
 
-const flex =
-{
+const flex = {
     /*  pre-baked flexbox classes for vanilla.css */
     c: 'flex-c',
     cw: 'flex-cw',
@@ -93,12 +86,11 @@ const flex =
 
     /*  default flow  */
     flow: {
-        default: 'flex-default'
-    }
+        default: 'flex-default',
+    },
 }
 
-const tag =
-{
+const tag = {
     html: 'html',
     div: 'div',
     ul: 'ul',
@@ -138,25 +130,23 @@ const tag =
     article: 'article',
     section: 'section',
     aside: 'aside',
-    header: 'header',
     footer: 'footer',
     nav: 'nav',
 }
 
-class StyleSheet extends JSONCSS
-{
+class StyleSheet extends JSONCSS {
     /**
      * @note from MDN regarding CSSRule interface
-     * 
+     *
      * @property cssText
      * Represents the textual representation of the rule, e.g. "h1,h2 { font-size: 16pt }" or "@import 'url'". To access or modify parts of the rule (e.g. the value of "font-size" in the example) use the properties on the specialized interface for the rule's type.
-     * 
+     *
      * @property cssTextparentRule Read only
      * Returns the containing rule, otherwise null. E.g. if this rule is a style rule inside an @media block, the parent rule would be that CSSMediaRule.
-     * 
+     *
      * @property cssTextparentStyleSheet Read only
      * Returns the CSSStyleSheet object for the style sheet that contains this rule
-     * 
+     *
      * @property cssTexttype Read only Deprecated
      * Returns one of the Type constants to determine which type of rule is represented.
      */
@@ -201,69 +191,66 @@ class StyleSheet extends JSONCSS
     }
 
     properties() {
-        console.log('Object.keys(CSSSTyleSheet) =>',
-            [
-                'list : cssRules [Read only]',
-                'string : ownerRule [Read only]',
-                'CSSRule : ownerRule [Read only]',
-                'boolean : disabled',
-                'string : href [Read only]',
-                'MediaList : media [Read only]',
-                'Node : ownerNode [Read only]',
-                'StyleSheet : parentStyleSheet [Read only]',
-                'string : title [Read only]',
-                'string : type [Read only]'
-            ]
-        )
+        console.log('Object.keys(CSSSTyleSheet) =>', [
+            'list : cssRules [Read only]',
+            'string : ownerRule [Read only]',
+            'CSSRule : ownerRule [Read only]',
+            'boolean : disabled',
+            'string : href [Read only]',
+            'MediaList : media [Read only]',
+            'Node : ownerNode [Read only]',
+            'StyleSheet : parentStyleSheet [Read only]',
+            'string : title [Read only]',
+            'string : type [Read only]',
+        ])
     }
 }
 
-class Listener
-{
+class Listener {
     constructor(event, func) {
         this.event = event
         this.func = func
     }
 }
 
-class ListenerOnLoad extends Listener
-{
+class ListenerOnLoad extends Listener {
     constructor(func) {
         super(event.page.load, func)
     }
 }
 
-class Classable
-{
-    constructor(element, classList=[], id=null) {
+class Classable {
+    constructor(element, classList = [], id = '') {
         this.element = element
         this.listeners = []
-        this.addToClassList(classList)
-        this.addID(id)
+        if (classList.length > 0) this.addToClassList(classList)
+        if (id.length > 0) this.addID(id)
     }
 
     addToClassList(classList) {
-        classList.forEach(clss => this.element.classList.add(clss))
+        classList.forEach((clss) => this.element.classList.add(clss))
     }
 
     removeFromClassList(classList) {
-        classList.forEach(clss => this.element.classList.remove(clss))
+        classList.forEach((clss) => this.element.classList.remove(clss))
     }
 
     addID(id) {
         if (id) this.element.id = id
     }
 
-    pushEventListener(event=event.element.click, func = () => { }) {
+    pushEventListener(event = event.element.click, func = () => {}) {
         this.listeners.push(this.element.addEventListener(event, func))
     }
 
     /**
      * @todo debug this method
-     * @param {Listener} listener 
+     * @param {Listener} listener
      */
-    pushEventListenerObj(listener={ event: null, func: () => { } }) {
-        this.listeners.push(this.element.addEventListener(listener.event, listener.func))
+    pushEventListenerObj(listener = { event: null, func: () => {} }) {
+        this.listeners.push(
+            this.element.addEventListener(listener.event, listener.func)
+        )
     }
 
     innerHTML(innerHTML) {
@@ -271,28 +258,27 @@ class Classable
     }
 }
 
-class Container extends Classable
-/**
- * @class Container - the parent class for container elements
- */
-{
-    constructor(element, classList=[], id=null){
+class Container extends Classable {
+    /**
+     * @class Container - the parent class for container elements
+     */
+    constructor(element, classList = [], id = '', nodes = []) {
         super(element, classList, id)
+        if (nodes.length > 0) this.addNodes(nodes)
     }
 
-    addContents(nodes=[]){
-        nodes.forEach(node => {
-            this.element.appendChild(node)
+    addNodes(nodes = []) {
+        nodes.forEach((node) => {
+            this.element.appendChild(node.element)
         })
     }
 }
 
-class TextElement extends Classable
-/**
- * @class TextElement - the parent class for text elements
- */
-{
-    constructor(element, classList=[], id=null) {
+class TextElement extends Classable {
+    /**
+     * @class TextElement - the parent class for text elements
+     */
+    constructor(element, classList = [], id = '') {
         super(element, classList, id)
     }
 
@@ -300,11 +286,10 @@ class TextElement extends Classable
         if (typeof content === 'string') {
             throw new InvalidContentArrayError()
         } else if (Array.isArray(content)) {
-            content.forEach(item => {
+            content.forEach((item) => {
                 if (typeof item === 'string') {
                     throw new InvalidContentArrayError()
-                }
-                else {
+                } else {
                     this.element.appendChild(item.element)
                 }
             })
@@ -316,50 +301,112 @@ class TextElement extends Classable
     }
 }
 
-class Article extends Container
-/**
- * @class Article - Article element
- */
-{
-    constructor(nodes=[], classList=[], id=null){
-        super(document.createElement('article'), classList, id)
-        this.addContents(nodes)
+class Article extends Container {
+    /**
+     * @class Article - Article element
+     */
+    constructor(classList = [], id = '', nodes = []) {
+        super(document.createElement(tag.article), classList, id, nodes)
     }
 }
 
-class Img extends Classable
-/**
- * @class Img - Image element
- */
-{
-    constructor(imgPath, alt = 'image', classList=[], id=null) {
+class Section extends Container {
+    /**
+     * @class Section - Section element
+     */
+    constructor(classList = [], id = '', nodes = []) {
+        super(document.createElement(tag.section), classList, id, nodes)
+    }
+}
+
+class SectionH extends Section {
+    /**
+     * @todo test
+     */
+    constructor(headerLevel = 1, textContent = '', classList = [], id = '') {
+        let header
+
+    switch(headerLevel) {
+        case 1:
+            header= new H1(textContent)
+            break
+        case 2:
+            header= new H2(textContent)
+            break
+        case 3:
+            header= new H3(textContent)
+            break
+        case 4:
+            header= new H4(textContent)
+            break
+        case 5:
+            header= new H5(textContent)
+            break
+        case 6:
+            header= new H6(textContent)
+            break
+        default:
+            throw new Error('Invalid Argument Error: Header Level must be between 1-6')
+    }
+
+        super(classList, id, [header])
+    }
+}
+
+class Footer extends Container {
+    /**
+     * @class Footer - Footer element
+     */
+    constructor(classList = [], id = '', nodes = []) {
+        super(document.createElement('footer'), classList, id, nodes)
+        this.addNodes(nodes)
+    }
+}
+
+class Aside extends Container {
+    /**
+     * @class Aside - Aside element
+     * @stub
+     */
+}
+
+class Nav extends Container {
+    /**
+     * @class Nav - Navigation element
+     */
+    constructor(classList = [], id = '', nodes = []) {
+        super(document.createElement('nav'), classList, id, nodes)
+        this.addNodes(nodes)
+    }
+}
+
+class Img extends Classable {
+    /**
+     * @class Img - Image element
+     */
+    constructor(imgPath, alt = 'image', classList = [], id = '') {
         super(document.createElement('img'), classList, id)
         this.element.src = imgPath
         this.element.alt = alt
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class Div extends Container
-/**
- * @class Div - Division element
- */
-{
-    constructor(classList=[], id=null) {
+class Div extends Container {
+    /**
+     * @class Div - Division element
+     */
+    constructor(classList = [], id = '') {
         super(document.createElement('div'), classList, id)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
-class DivBtn extends Div
-/**
- * @class DivBtn - preformatted text element
- */
-{
-    constructor(span=new Span("DivBtn"), classList=[], id=null) {
+class DivBtn extends Div {
+    /**
+     * @class DivBtn - preformatted text element
+     */
+    constructor(span = new Span('DivBtn'), classList = [], id = '') {
         classList.push('btn')
         super(classList, id)
         const DivBtn = this.element
@@ -367,35 +414,42 @@ class DivBtn extends Div
     }
 }
 
-class FlexBox extends Div
-{
-    constructor(clss = flex.c, classList=[], id=null) {
-        const flexClasses = [clss]
-        classList.forEach(listedClass => flexClasses.push(listedClass))
-        super(flexClasses, id)
+class FlexBox extends Div {
+    /**
+     * @todo work out a rational system and naming convention for Flexboxes. This implementation allows for ambiguity and it confusing.
+     */
+    constructor(classList = [flex.r], id = '') {
+        super(classList, id)
     }
 }
 
-class Figure extends Classable
-{
-    constructor(classList=[], id=null, header=new H1(), img=new Img(), figcaption=new Figcaption()) {
+class Figure extends Classable {
+    /**
+     * @class Figure - Figure element
+     */
+    constructor(
+        classList = [],
+        id = '',
+        header = new H1(),
+        img = new Img(),
+        figcaption = new Figcaption()
+    ) {
         super(document.createElement('figure'), classList, id)
         const figure = this.element
 
-        if(header) figure.appendChild(header.element)
-        if(img) figure.appendChild(img.element)
-        if(figcaption) figure.appendChild(figcaption.element)
+        if (header) figure.appendChild(header.element)
+        if (img) figure.appendChild(img.element)
+        if (figcaption) figure.appendChild(figcaption.element)
     }
 }
 
-class Figcaption extends TextElement
-/**
- * @class Figcaption - Figcaption element
- * @extends Classable
- *     so that a designer can style it with CSS with classes and IDs
- */
-{
-    constructor(textContent="Figcaption", classList=[], id=null) {
+class Figcaption extends TextElement {
+    /**
+     * @class Figcaption - Figcaption element
+     * @extends Classable
+     *     so that a designer can style it with CSS with classes and IDs
+     */
+    constructor(textContent = 'Figcaption', classList = [], id = '') {
         super(document.createElement('caption'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
@@ -403,14 +457,13 @@ class Figcaption extends TextElement
     }
 }
 
-class Form extends Classable
-/**
- * @class Form - Form element
- * @extends Classable
- *     so that a designer can style it with CSS with classes and IDs
- */
-{
-    constructor(alias='form', classList=[], id=null) {
+class Form extends Classable {
+    /**
+     * @class Form - Form element
+     * @extends Classable
+     *     so that a designer can style it with CSS with classes and IDs
+     */
+    constructor(alias = 'form', classList = [], id = '') {
         super(document.createElement('form'), classList, id)
         const label = new Label(alias, alias)
         const br = new Br()
@@ -419,18 +472,21 @@ class Form extends Classable
         this.element.name = alias
         this.element.appendChild(label.element)
         this.element.appendChild(br.element)
-
     }
 }
 
-class Button extends Classable
-/**
- * @class Button - Button element
- * @extends Classable
- *     so that a designer can style it with CSS with classes and IDs
- */
-{
-    constructor(textContent = "click me", formName = null, classList=[], id=null) {
+class Button extends Classable {
+    /**
+     * @class Button - Button element
+     * @extends Classable
+     *     so that a designer can style it with CSS with classes and IDs
+     */
+    constructor(
+        textContent = 'click me',
+        formName = null,
+        classList = [],
+        id = ''
+    ) {
         super(document.createElement('button'), classList, id)
         const button = this.element
         this.addToClassList(classList)
@@ -440,14 +496,13 @@ class Button extends Classable
     }
 }
 
-class TextArea extends Classable
-/**
- * @class TextArea - TextArea element
- * @extends Classable
- *     so that a designer can style it with CSS with classes and IDs
- */
-{
-    constructor(textContent = "text area", classList=[], id=null) {
+class TextArea extends Classable {
+    /**
+     * @class TextArea - TextArea element
+     * @extends Classable
+     *     so that a designer can style it with CSS with classes and IDs
+     */
+    constructor(textContent = 'text area', classList = [], id = '') {
         super(document.createElement('textarea'), classList, id)
         this.element.textContent = textContent
         this.addToClassList(classList)
@@ -455,9 +510,15 @@ class TextArea extends Classable
     }
 }
 
-class Input extends Classable
-{
-    constructor(typeStr, placeholder, textContent = null, forStr = null, classList=[], id=null) {
+class Input extends Classable {
+    constructor(
+        typeStr,
+        placeholder,
+        textContent = null,
+        forStr = null,
+        classList = [],
+        id = ''
+    ) {
         super(document.createElement('input'), classList, id)
         const input = this.element
         this.addToClassList(classList)
@@ -465,29 +526,30 @@ class Input extends Classable
         input.type = typeStr
         input.placeholder = placeholder
         input.textContent = textContent
-
     }
 }
 
-class Select extends Classable
-{
-    constructor(forStr='a form', selectionArray=[], classList=[], id=null) {
+class Select extends Classable {
+    constructor(
+        forStr = 'a form',
+        selectionArray = [],
+        classList = [],
+        id = ''
+    ) {
         super(document.createElement('select'), classList, id)
         const select = this.element
         const selections = [new OptionSelection()].concat(selectionArray)
         this.addToClassList(classList)
         this.addID(id)
-        selections.forEach(selection => {
+        selections.forEach((selection) => {
             const option = new Option(selection.value, selection.textContent)
             select.appendChild(option.element)
         })
-
     }
 }
 
-class Link extends Classable
-{
-    constructor(href, rel, classList=[], id=null) {
+class Link extends Classable {
+    constructor(href, rel, classList = [], id = '') {
         super(classList, id)
         const link = document.createElement('link')
         this.element = link
@@ -495,13 +557,11 @@ class Link extends Classable
         this.addID(id)
         link.href = href
         link.rel = rel
-
     }
 }
 
-class Style extends Classable
-{
-    constructor(cssRules=[], classList=[], id=null) {
+class Style extends Classable {
+    constructor(cssRules = [], classList = [], id = '') {
         super(document.createElement('style'), classList, id)
         {
             const style = this.element
@@ -510,113 +570,94 @@ class Style extends Classable
     }
 }
 
-class Br extends Classable
-/**
- * @class Br - line break element
- * @extends Classable
- *     so that a designer can style it with CSS with classes and IDs
- */
-{
-    constructor(classList=[], id=null) {
+class Br extends Classable {
+    /**
+     * @class Br - line break element
+     * @extends Classable
+     *     so that a designer can style it with CSS with classes and IDs
+     */
+    constructor(classList = [], id = '') {
         super(document.createElement('br'), classList, id)
-
     }
 }
 
-class H1 extends TextElement
-/**
- * @class H1 - the Header level 1 element
- */
-{
-    constructor(textContent="H1", classList=[], id=null) {
+class H1 extends TextElement {
+    /**
+     * @class H1 - the Header level 1 element
+     */
+    constructor(textContent = 'H1', classList = [], id = '') {
         super(document.createElement('h1'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class H2 extends TextElement
-/**
- * @class H2 - the Header level 2 element
- */
-{
-    constructor(textContent="H2", classList=[], id=null) {
+class H2 extends TextElement {
+    /**
+     * @class H2 - the Header level 2 element
+     */
+    constructor(textContent = 'H2', classList = [], id = '') {
         super(document.createElement('h2'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class H3 extends TextElement
-/**
- * @class H3 - the Header level 3 element
- */
-{
-    constructor(textContent="H3", classList=[], id=null) {
+class H3 extends TextElement {
+    /**
+     * @class H3 - the Header level 3 element
+     */
+    constructor(textContent = 'H3', classList = [], id = '') {
         super(document.createElement('h3'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
-
 }
 
-class H4 extends TextElement
-/**
- * @class H4 - the Header level 4 element
- */
-{
-    constructor(textContent="H4", classList=[], id=null) {
+class H4 extends TextElement {
+    /**
+     * @class H4 - the Header level 4 element
+     */
+    constructor(textContent = 'H4', classList = [], id = '') {
         super(document.createElement('h4'), classList, id)
-        this.textContent(textContent="H4")
+        this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
-
 }
 
-class H5 extends TextElement
-/**
- * @class H5 - the Header level 5 element
- */
-{
-    constructor(textContent="H5", classList=[], id=null) {
+class H5 extends TextElement {
+    /**
+     * @class H5 - the Header level 5 element
+     */
+    constructor(textContent = 'H5', classList = [], id = '') {
         super(document.createElement('h5'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
-
 }
 
-class H6 extends TextElement
-/**
- * @class H6 - the Header level 6 element
- */
-{
-    constructor(textContent="H6", classList=[], id=null) {
+class H6 extends TextElement {
+    /**
+     * @class H6 - the Header level 6 element
+     */
+    constructor(textContent = 'H6', classList = [], id = '') {
         super(document.createElement('h6'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
-
 }
 
-class P extends TextElement
-/**
- * @class P - the Paragraph element
- */
-{
-    constructor(textElementArray=[], classList=[], id=null) {
+class P extends TextElement {
+    /**
+     * @class P - the Paragraph element
+     */
+    constructor(textElementArray = [], classList = [], id = '') {
         super(document.createElement('p'), classList, id)
         this.addToClassList(classList)
         this.addID(id)
@@ -624,121 +665,106 @@ class P extends TextElement
     }
 }
 
-class PSpan extends P
-/**
- * @class PSpan - Paragraph Span
- */
-{
-    constructor(textContent='', classList=[], id=null){
+class PSpan extends P {
+    /**
+     * @class PSpan - Paragraph Span
+     */
+    constructor(textContent = '', classList = [], id = '') {
         const span = [new Span(textContent)]
         super(span, classList, id)
     }
 }
 
-class Label extends TextElement
-/**
- * @class Label - the label element
- */
-{
-    constructor(alias, textContent='label', classList=[], id=null) {
+class Label extends TextElement {
+    /**
+     * @class Label - the label element
+     */
+    constructor(alias, textContent = 'label', classList = [], id = '') {
         super(document.createElement('label'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         this.element.for = alias
-
     }
 }
 
-class A extends TextElement
-/**
- * @class A - the Anchor element
- */
-{
-    constructor(textContent='Anchor', href='#', classList=[], id=null) {
+class A extends TextElement {
+    /**
+     * @class A - the Anchor element
+     */
+    constructor(textContent = 'Anchor', href = '#', classList = [], id = '') {
         super(document.createElement('a'), classList, id)
         this.textContent(textContent)
         this.element.href = href
     }
 }
 
-class Abbr extends TextElement
-/**
- * @class Abbr - the Abbreviation element
- */
-{
-    constructor(textContent = 'str', title = null, classList=[], id=null) {
+class Abbr extends TextElement {
+    /**
+     * @class Abbr - the Abbreviation element
+     */
+    constructor(textContent = 'str', title = null, classList = [], id = '') {
         super(document.createElement('abbr'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
         this.element.title = title
-
     }
 }
 
-class Blockquote extends TextElement
-/**
- * @class Blockquote - the Blockquote element
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Blockquote extends TextElement {
+    /**
+     * @class Blockquote - the Blockquote element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('blockquote'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class Strong extends TextElement
-/**
- * @class Strong - the Strong element
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Strong extends TextElement {
+    /**
+     * @class Strong - the Strong element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('strong'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class Sub extends TextElement
-/**
- * @class Sub - the Subscript element
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Sub extends TextElement {
+    /**
+     * @class Sub - the Subscript element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('sub'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class Sup extends TextElement
-/**
- * @class Sup - the Superscript element
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Sup extends TextElement {
+    /**
+     * @class Sup - the Superscript element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('sup'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class Span extends TextElement
-/**
- * @class Span - the Span element
- */
-{
-    constructor(textContent='str', classList=[], id=null) {
+class Span extends TextElement {
+    /**
+     * @class Span - the Span element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('span'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
@@ -746,94 +772,84 @@ class Span extends TextElement
     }
 }
 
-class Text extends Span
-/**
- * @class Text - the Text element
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Text extends Span {
+    /**
+     * @class Text - the Text element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         const textClassList = ['plain-text'].concat(classList)
         super(textContent, textClassList, id)
     }
-
 }
 
-class Pre extends TextElement
-/**
- * @class Pre
- *    a preformatted text element
- * @param {string} textContent
- *     textContent is the text to be displayed in the preformatted text element
- * @param {[string]} classList 
- * @param {string} id 
- * @returns 
- *    returns the preformatted text element
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Pre extends TextElement {
+    /**
+     * @class Pre
+     *    a preformatted text element
+     * @param {string} textContent
+     *     textContent is the text to be displayed in the preformatted text element
+     * @param {[string]} classList
+     * @param {string} id
+     * @returns
+     *    returns the preformatted text element
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('pre'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class Code extends TextElement
-/**
- * @class Code - the Code format element for displaying code in fixed-width font
- */
-{
-    constructor(textContent = 'str', classList=[], id=null) {
+class Code extends TextElement {
+    /**
+     * @class Code - the Code format element for displaying code in fixed-width font
+     */
+    constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('pre'), classList, id)
         this.textContent(textContent)
         this.addToClassList(classList)
         this.addID(id)
-
     }
 }
 
-class OptionSelection
-/**
- * @class OptionSelection - the OptionSelection element
- * @summary options for each selection element
- */
-{
+class OptionSelection {
+    /**
+     * @class OptionSelection - the OptionSelection element
+     * @summary options for each selection element
+     */
     constructor(value = 'prompt', textContent = 'Make a selection') {
         this.value = value
         this.textContent = textContent
     }
 }
 
-class Option extends TextElement
-/**
- * @class Option - the Option element
- */
-{
-    constructor(value, textContent, classList=[], id=null) {
+class Option extends TextElement {
+    /**
+     * @class Option - the Option element
+     */
+    constructor(value, textContent, classList = [], id = '') {
         super(document.createElement('option'), classList, id)
         const option = this.element
         option.value = value
         option.textContent = textContent
-
     }
 }
 
-class InvalidContentArrayError extends TypeError
-{
+class InvalidContentArrayError extends TypeError {
     constructor() {
-        super('content must be an array of NodeElements, not a string or an array containing strings')
+        super(
+            'content must be an array of NodeElements, not a string or an array containing strings'
+        )
         this.name = 'InvalidContentArray'
     }
-
 }
 
-function getStylesheetByFileName(filename)
-{
+function getStylesheetByFileName(filename) {
     const stylesheets = Object.values(document.styleSheets)
     let result
 
-    stylesheets.forEach(sheet => {
+    stylesheets.forEach((sheet) => {
         if (sheet.href.indexOf(filename) !== -1) {
             result = sheet
         }
@@ -842,8 +858,7 @@ function getStylesheetByFileName(filename)
     return result
 }
 
-function addAdoptedStyleSheet(rules)
-{
+function addAdoptedStyleSheet(rules) {
     const stylesheet = new StyleSheet(rules)
     document.adoptedStyleSheets.push(stylesheet.element)
 }
@@ -907,6 +922,13 @@ export {
     Code,
     Pre,
 
+    // Containers
+    Article,
+    Section,
+    // Aside,
+    Footer,
+    // Nav,
+
     // Functions
     getStylesheetByFileName,
     addAdoptedStyleSheet,
@@ -914,5 +936,5 @@ export {
     // JSONCSS
     JSONCSS,
     UnsupportedJSONCSSError,
-    PercentageOutOfRangeError
+    PercentageOutOfRangeError,
 }

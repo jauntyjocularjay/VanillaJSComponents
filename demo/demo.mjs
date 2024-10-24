@@ -43,6 +43,7 @@ import {
     H6,
     // // Body Text
     P,
+    PSpan,
     Figcaption,
     A,
     Strong,
@@ -54,6 +55,12 @@ import {
         Text,
     Code,
     Pre,
+    // Containers
+    Article,
+    Section,
+    // Aside,
+    Footer,
+    // Nav,
 
     addAdoptedStyleSheet,
 } from '../vanilla.mjs'
@@ -78,7 +85,18 @@ import {
 
 const page = document.querySelector('#page')
 
-let card = new Div(['card'], 'card-id-001')
+const article = new Article(
+    ['example', 'card'],
+    '',
+    [
+        new H1(),
+        new PSpan('Article Paragraph Text')
+    ]
+)
+page.appendChild(article.element)
+
+
+let card = new Div([], ['card'], 'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
 h1.pushEventListener(event.element.click, () => { h1.element.textContent = 'Card H1 with Listener OnClick' })
 const h2 = new H2('Card H2', ['header2'])
@@ -123,7 +141,9 @@ const input = new Input('text', 'text input', null, 'form', ['input'], 'input-id
 const formH1 = new H1('Form H1', ['header1'])
 
 const button = new Button('Submit', 'form', ['button'], 'button-id-001')
-const flexbox = new FlexBox(flex.r, ['card'], 'flexbox-id-001')
+const flexbox = new FlexBox(
+    [flex.r, 'card'], 
+    'flexbox-id-001')
 const box1 = new Div(['box', 'flex-content-default'], 'box-001')
 const box2 = new Div(['box', 'flex-content-default'], 'box-002')
 const box3 = new Div(['box', 'flex-content-default'], 'box-003')
