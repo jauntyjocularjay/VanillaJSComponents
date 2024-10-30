@@ -5,7 +5,6 @@ import {
     display,
     flex,
     event,
-    unit,
 
     // Base Classes
     OptionSelection,
@@ -75,31 +74,31 @@ import {
 // Setup Style element
 
 
-// const cssRules = {
-//     html: [{ 'background-color': '#333' }],
-//     'form, .card, .flexbox': [
-//         { 'background-color': '#444' },
-//         { color: '#ddd' },
-//         { 'border-radius': '16px' },
-//         { 'box-shadow': '1px 1px 4px #000' },
-//         { inset: '1px 1px 2px #fff' },
-//         { width: '256px' },
-//         { 'min-height': '128px' },
-//         { margin: '8px 8px 8px 8px' },
-//         { padding: '8px 8px 16px 8px' },
-//     ],
-//     '.box': {},
-//     '#box-001': [{ 'background-color': '#c00' }],
-//     '#box-002': [{ 'background-color': '#0c0' }],
-//     '#box-003': [{ 'background-color': '#00c' }],
-//     'span.italic': [{ 'font-style': font.italic }],
-//     'span.bold': [{ 'font-weight': font.bold }],
-//     'span.underline': [{ 'text-decoration': font.underline }],
-//     'span.strikethrough': [{ 'text-decoration': font.linethrough }],
-//     flexbox: [{ flex: '1 1 200px' }],
-// }
-// const vlstyle = new StyleSheet(cssRules)
-// addAdoptedStyleSheet(vlstyle)
+const cssRules = {
+    html: [{ 'background-color': '#333' }],
+    'form, .card, .flexbox': [
+        { 'background-color': '#444' },
+        { color: '#ddd' },
+        { 'border-radius': '16px' },
+        { 'box-shadow': '1px 1px 4px #000' },
+        { inset: '1px 1px 2px #fff' },
+        { width: '256px' },
+        { 'min-height': '128px' },
+        { margin: '8px 8px 8px 8px' },
+        { padding: '8px 8px 16px 8px' },
+    ],
+    '.box': {},
+    '#box-001': [{ 'background-color': '#c00' }],
+    '#box-002': [{ 'background-color': '#0c0' }],
+    '#box-003': [{ 'background-color': '#00c' }],
+    'span.italic': [{ 'font-style': font.italic }],
+    'span.bold': [{ 'font-weight': font.bold }],
+    'span.underline': [{ 'text-decoration': font.underline }],
+    'span.strikethrough': [{ 'text-decoration': font.linethrough }],
+    flexbox: [{ flex: '1 1 200px' }],
+}
+const vlstyle = new StyleSheet(cssRules)
+addAdoptedStyleSheet(vlstyle)
 
 
 const page = document.querySelector('#page')

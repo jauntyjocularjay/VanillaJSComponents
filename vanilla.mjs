@@ -1,3 +1,7 @@
+import  {
+    Tag,
+    Unit
+} from './Constants.mjs'
 import {
     JSONCSS,
     UnsupportedJSONCSSError,
@@ -42,29 +46,6 @@ const event = {
     },
 }
 
-const unit = {
-    /* No units */
-    none: '',
-
-    /* absolute length units */
-    cm: 'cm',
-    mm: 'mm',
-    Q: 'Q',
-    in: 'in',
-    pc: 'pc',
-    pt: 'pt',
-    px: 'px',
-
-    /* relative length units */
-    em: 'em',
-    rem: 'rem',
-    vw: 'vw',
-    vh: 'vh',
-    lh: 'lh',
-    rlh: 'rlh',
-    percent: '%',
-}
-
 const flex = {
     /*  pre-baked flexbox classes for vanilla.css */
     c: 'flex-c',
@@ -98,50 +79,6 @@ const flex = {
     flow: {
         default: 'flex-default',
     },
-}
-
-const tag = {
-    html: 'html',
-    div: 'div',
-    ul: 'ul',
-    ol: 'ol',
-    li: 'li',
-    a: 'a',
-    img: 'img',
-    figure: 'figure',
-    figcaption: 'figcaption',
-    p: 'p',
-    h1: 'h1',
-    h2: 'h2',
-    h3: 'h3',
-    h4: 'h4',
-    h5: 'h5',
-    h6: 'h6',
-    span: 'span',
-    strong: 'strong',
-    abbr: 'abbr',
-    blockquote: 'blockquote',
-    sub: 'sub',
-    sup: 'sup',
-    code: 'code',
-    pre: 'pre',
-    br: 'br',
-    form: 'form',
-    input: 'input',
-    button: 'button',
-    select: 'select',
-    option: 'option',
-    label: 'label',
-    style: 'style',
-    link: 'link',
-    textarea: 'textarea',
-
-    // Sectioning Content
-    article: 'article',
-    section: 'section',
-    aside: 'aside',
-    footer: 'footer',
-    nav: 'nav',
 }
 
 class StyleSheet extends JSONCSS {
@@ -317,7 +254,7 @@ class Article extends Container {
      * @class Article - Article element
      */
     constructor(nodes = [], classList = [], id = '') {
-        super(document.createElement(tag.article), nodes, classList, id)
+        super(document.createElement(Tag.article), nodes, classList, id)
     }
 }
 
@@ -326,7 +263,7 @@ class Section extends Container {
      * @class Section - Section element
      */
     constructor(nodes = [], classList = [], id = '') {
-        super(document.createElement(tag.section), nodes, classList, id)
+        super(document.createElement(Tag.section), nodes, classList, id)
     }
 }
 
@@ -850,8 +787,8 @@ export {
     display,
     flex,
     event,
-    unit,
-    tag,
+    Tag,
+    Unit,
 
     // Base Classes
     OptionSelection,

@@ -1,6 +1,12 @@
+import  {
+    Tag,
+    Unit
+} from './Constants.mjs'
+
 /** 
  * JavaScript Object Notation CSS
- * CSS syntax as done in Javascript Obect Notation */
+ * CSS syntax as done in Javascript Obect Notation
+ */
 
 const font = {
     bold: 'bold',
@@ -9,35 +15,37 @@ const font = {
     lineThrough: 'line-through'
 }
 
+class StyleRule {
+    constructor(tag='', property='', value='', unit=''){
+        //{ selector: [{ property: 'value' }] }
+    }
+}
+
 class JSONCSS {
     constructor(
         /** 
          * @constructor
          * @param {object} CSSSTyleRules object reference
         */
-        CSSStyleRules = { selector: { property: 'value' } },
+        CSSStyleRules = new StyleRule(),
         keyframes = {
             alias:
             {
                 from: [{ 'property': 'value' }],
-                0: { 'property': 'value' },
-                100: { 'property': 'value' },
+                0: [{ 'property': 'value' }],
+                100: [{ 'property': 'value' }],
                 to: [{ 'property': 'value' }],
             }
-        }) {
+    }) {
         this.element = new CSSStyleSheet()
-        this.CSSStyleRules = null
-        this.keyframes = null
-
-        if (CSSStyleRules) {
-            this.CSSStyleRules = CSSStyleRules
-        }
+        this.sheet = this.element
+        
+        CSSStyleRules? this.CSSStyleRules = CSSStyleRules : this.CSSStyleRules = null
 
         if (keyframes) {
             for(const [alias, kframe] of Object.entries(keyframes)){
                 this.propertyCheck(kframe)
             }
-
             this.keyframes = keyframes
         }
 
@@ -47,19 +55,20 @@ class JSONCSS {
     parseRules() {
         let parsedRule = ''
 
-        for (const [selector, styleDeclarations] of Object.entries(this.CSSStyleRules)) {
+        if(this.CSSStyleRules){
+            for (const [selector, styleDeclarations] of Object.entries(this.CSSStyleRules)) {
 
-            parsedRule = `${selector} { `
+                parsedRule = `${selector} { `
 
-            for (const [property, value] of Object.entries(styleDeclarations)) {
-                parsedRule += `${property}: ${value}; `
+                for (const [property, value] of Object.entries(styleDeclarations)) {
+                    parsedRule += `${property}: ${value}; `
+                }
+
+                parsedRule += '} '
+
+                this.element.insertRule(parsedRule)
             }
-
-            parsedRule += '} '
-
-            this.element.insertRule(parsedRule)
         }
-
     }
 
     propertyCheck(kframe) {
