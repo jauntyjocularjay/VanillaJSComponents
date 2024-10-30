@@ -43,7 +43,7 @@ All these elements take these arguments:
 - `H5`
 - `H6`
 
-#### Text Containers
+#### Text
 
 - `P` Paragraph
 - `Figcaption` Figure text Caption
@@ -79,9 +79,11 @@ All these elements take these arguments:
 - `Pre` Preformatted Text
 
 ## Containers
+1. []<ContentNodes>
 1. [`classList`](###-Universal)
 1. [`id`](###-Universal)
 
+- `ContentNodes` are any nodes that need to be added to the container. These can be other containers, text elements, etc as long as they are Nodes. You may also pass 'noNodes' for the default value.
 - `Div`: A divider element
 - `Flexbox`: A `div` with a flexbox class built in
 - `form`: A Form container with additional parameter:
@@ -90,6 +92,10 @@ All these elements take these arguments:
 
 ## Image Elements
 - `Img`: an image container
+    1. Image Path
+    1. Alt Text
+    1. classList 
+    1. id
 
 ## Container Sub elements
 - `Label`: Form Label

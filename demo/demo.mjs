@@ -1,4 +1,7 @@
 import {
+    // Library Keywords
+    noNodes,
+    noContent,
     display,
     flex,
     event,
@@ -8,15 +11,15 @@ import {
     OptionSelection,
     StyleSheet,
     Listener,
-        ListenerOnLoad,
+    ListenerOnLoad,
     // FlexBoxClass,
 
     // Classables
     // // Containers
     Img,
     Div,
-        DivBtn,
-        FlexBox,
+    DivBtn,
+    FlexBox,
     Figure,
     Form,
     Label,
@@ -31,7 +34,6 @@ import {
     //  // External Resource Links
     Link,
     Style,
-
 
     // Text Elements
     // // Headers
@@ -52,7 +54,7 @@ import {
     Sub,
     Sup,
     Span,
-        Text,
+    Text,
     Code,
     Pre,
     // Containers
@@ -62,45 +64,65 @@ import {
     Footer,
     // Nav,
 
+    //composite
+    SectionH,
+
+    // Stylesheet stuff
     addAdoptedStyleSheet,
+    font
 } from '../vanilla.mjs'
 
 // Setup Style element
-// const cssRules = [
-//     'html { background-color: #333; }',
-//     'form, .card, .flexbox { background-color: #444; color: #ddd; border-radius: 16px; box-shadow: 1px 1px 4px #000, inset 1px 1px 2px #fff; width: 256px; min-height: 128px; margin: 8px 8px 8px 8px; padding: 8px 8px 16px 8px; }',
-//     `.box {  }`,
-//     '#box-001 { background-color: #c00; }',
-//     '#box-002 { background-color: #0c0; }',
-//     '#box-003 { background-color: #00c; }',
-//     'span.italic { font-style: italic; }',
-//     'span.bold { font-weight: bold; }',
-//     'span.underline { text-decoration: underline; }',
-//     'span.strikethrough { text-decoration: line-through; }',
-//     'flexbox { flex: 1 1 200px;}'
-// ]
+
+
+// const cssRules = {
+//     html: [{ 'background-color': '#333' }],
+//     'form, .card, .flexbox': [
+//         { 'background-color': '#444' },
+//         { color: '#ddd' },
+//         { 'border-radius': '16px' },
+//         { 'box-shadow': '1px 1px 4px #000' },
+//         { inset: '1px 1px 2px #fff' },
+//         { width: '256px' },
+//         { 'min-height': '128px' },
+//         { margin: '8px 8px 8px 8px' },
+//         { padding: '8px 8px 16px 8px' },
+//     ],
+//     '.box': {},
+//     '#box-001': [{ 'background-color': '#c00' }],
+//     '#box-002': [{ 'background-color': '#0c0' }],
+//     '#box-003': [{ 'background-color': '#00c' }],
+//     'span.italic': [{ 'font-style': font.italic }],
+//     'span.bold': [{ 'font-weight': font.bold }],
+//     'span.underline': [{ 'text-decoration': font.underline }],
+//     'span.strikethrough': [{ 'text-decoration': font.linethrough }],
+//     flexbox: [{ flex: '1 1 200px' }],
+// }
 // const vlstyle = new StyleSheet(cssRules)
 // addAdoptedStyleSheet(vlstyle)
-// console.log(cssRules)
+
 
 const page = document.querySelector('#page')
 
 const article = new Article(
-    ['example', 'card'],
-    '',
     [
         new H1(),
-        new PSpan('Article Paragraph Text')
-    ]
+        new PSpan('Article Paragraph Text'),
+        new SectionH(2, 'subsection1', ['section'],'subsection1')
+    ],
+    ['example', 'card']
 )
 page.appendChild(article.element)
 
-
 let card = new Div([], ['card'], 'card-id-001')
 const h1 = new H1('Card H1', ['header1'])
-h1.pushEventListener(event.element.click, () => { h1.element.textContent = 'Card H1 with Listener OnClick' })
+h1.pushEventListener(event.element.click, () => {
+    h1.element.textContent = 'Card H1 with Listener OnClick'
+})
 const h2 = new H2('Card H2', ['header2'])
-const onClickH2 = new Listener(event.element.click, () => { h2.element.textContent = 'Card H2 with Listener OnClick' })
+const onClickH2 = new Listener(event.element.click, () => {
+    h2.element.textContent = 'Card H2 with Listener OnClick'
+})
 /**
  * @todo Debug this
  */
@@ -112,7 +134,11 @@ const h6 = new H6('Card H6', ['header6'])
 let cardParagraph = [
     // 'string',
     new Text('This is plain text. '),
-    new Span('This is itlaicized, bolded, struck, and underlined text. ', ['italic', 'bold', 'strikethrough', 'underline'], 'span-text'),
+    new Span(
+        'This is itlaicized, bolded, struck, and underlined text. ',
+        ['italic', 'bold', 'strikethrough', 'underline'],
+        'span-text'
+    ),
     new Blockquote('This is a blockquote. ', ['blockquote'], 'blockquote-text'),
     new Pre('3====> ', ['pre'], 'pre-text'),
     new Span('This is a span. ', ['span'], 'span-text'),
@@ -123,9 +149,19 @@ let cardParagraph = [
     new A('This is a link. ', 'https://www.google.com', ['link'], 'link-text'),
     new Code('const message = "Hello, World!" ', ['code'], 'code-text'),
 ]
-const p = new P(new Span('This is paragraph text. '), ['paragraph'], 'paragraph-demo-1')
+const p = new P(
+    new Span('This is paragraph text. '),
+    ['paragraph'],
+    'paragraph-demo-1'
+)
 const p2 = new P(cardParagraph, ['paragraph'], 'paragraph-demo-2')
-const figure = new Figure(['figure'], 'figure-id-001', new H1('Figure Header'), new Img('./img-100.png'), new Figcaption('This is a figure with an image and caption.'))
+const figure = new Figure(
+    ['figure'],
+    'figure-id-001',
+    new H1('Figure Header'),
+    new Img('./img-100.png'),
+    new Figcaption('This is a figure with an image and caption.')
+)
 const form = new Form('form', ['form'], 'form-id-001')
 const label = new Label('form', 'label', ['label'], 'label-id-001')
 const options = [
@@ -137,16 +173,22 @@ const options = [
 ]
 const select = new Select('form', options, ['select'], 'select-id-001')
 
-const input = new Input('text', 'text input', null, 'form', ['input'], 'input-id-001')
+const input = new Input(
+    'text',
+    'text input',
+    null,
+    'form',
+    ['input'],
+    'input-id-001'
+)
 const formH1 = new H1('Form H1', ['header1'])
 
 const button = new Button('Submit', 'form', ['button'], 'button-id-001')
-const flexbox = new FlexBox(
-    [flex.r, 'card'], 
-    'flexbox-id-001')
-const box1 = new Div(['box', 'flex-content-default'], 'box-001')
-const box2 = new Div(['box', 'flex-content-default'], 'box-002')
-const box3 = new Div(['box', 'flex-content-default'], 'box-003')
+const flexbox = new FlexBox([], [flex.r, 'card'], 'flexbox-id-001')
+
+const box1 = new Div(noNodes, ['box', 'flex-content-default'], 'box-001')
+const box2 = new Div(noNodes, ['box', 'flex-content-default'], 'box-002')
+const box3 = new Div(noNodes, ['box', 'flex-content-default'], 'box-003')
 
 page.appendChild(card.element)
 card.element.appendChild(h1.element)
@@ -170,9 +212,3 @@ page.appendChild(flexbox.element)
 flexbox.element.appendChild(box1.element)
 flexbox.element.appendChild(box2.element)
 flexbox.element.appendChild(box3.element)
-
-
-
-
-
-

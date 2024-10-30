@@ -2,7 +2,17 @@ import {
     JSONCSS,
     UnsupportedJSONCSSError,
     PercentageOutOfRangeError,
+    font
 } from './JSONCSS.mjs'
+
+// Library Keywords
+/**
+ * @constant noNodes
+ * @constant noContent
+ *      keywords for passing undefined instead of an empty arrays, empty strings
+ */
+const noNodes = undefined
+const noContent = undefined
 
 // Pre-defined property strings
 const display = {
@@ -136,6 +146,7 @@ const tag = {
 
 class StyleSheet extends JSONCSS {
     /**
+     * @todo fix or remove stylesheet
      * @note from MDN regarding CSSRule interface
      *
      * @property cssText
@@ -262,7 +273,7 @@ class Container extends Classable {
     /**
      * @class Container - the parent class for container elements
      */
-    constructor(element, classList = [], id = '', nodes = []) {
+    constructor(element, nodes = [], classList = [], id = '') {
         super(element, classList, id)
         if (nodes.length > 0) this.addNodes(nodes)
     }
@@ -282,7 +293,7 @@ class TextElement extends Classable {
         super(element, classList, id)
     }
 
-    addContent(content) {
+    addContent(content=[document.createElement('P')]) {
         if (typeof content === 'string') {
             throw new InvalidContentArrayError()
         } else if (Array.isArray(content)) {
@@ -305,8 +316,8 @@ class Article extends Container {
     /**
      * @class Article - Article element
      */
-    constructor(classList = [], id = '', nodes = []) {
-        super(document.createElement(tag.article), classList, id, nodes)
+    constructor(nodes = [], classList = [], id = '') {
+        super(document.createElement(tag.article), nodes, classList, id)
     }
 }
 
@@ -314,8 +325,8 @@ class Section extends Container {
     /**
      * @class Section - Section element
      */
-    constructor(classList = [], id = '', nodes = []) {
-        super(document.createElement(tag.section), classList, id, nodes)
+    constructor(nodes = [], classList = [], id = '') {
+        super(document.createElement(tag.section), nodes, classList, id)
     }
 }
 
@@ -326,30 +337,30 @@ class SectionH extends Section {
     constructor(headerLevel = 1, textContent = '', classList = [], id = '') {
         let header
 
-    switch(headerLevel) {
-        case 1:
-            header= new H1(textContent)
-            break
-        case 2:
-            header= new H2(textContent)
-            break
-        case 3:
-            header= new H3(textContent)
-            break
-        case 4:
-            header= new H4(textContent)
-            break
-        case 5:
-            header= new H5(textContent)
-            break
-        case 6:
-            header= new H6(textContent)
-            break
-        default:
-            throw new Error('Invalid Argument Error: Header Level must be between 1-6')
-    }
+        switch(headerLevel) {
+            case 1:
+                header = new H1(textContent)
+                break
+            case 2:
+                header = new H2(textContent)
+                break
+            case 3:
+                header = new H3(textContent)
+                break
+            case 4:
+                header = new H4(textContent)
+                break
+            case 5:
+                header = new H5(textContent)
+                break
+            case 6:
+                header = new H6(textContent)
+                break
+            default:
+                throw new Error('Invalid Argument Error: Header Level must be between 1-6')
+        }
 
-        super(classList, id, [header])
+        super([header], classList, id)
     }
 }
 
@@ -357,8 +368,8 @@ class Footer extends Container {
     /**
      * @class Footer - Footer element
      */
-    constructor(classList = [], id = '', nodes = []) {
-        super(document.createElement('footer'), classList, id, nodes)
+    constructor(nodes = [], classList = [], id = '') {
+        super(document.createElement('footer'), nodes, classList, id)
         this.addNodes(nodes)
     }
 }
@@ -374,8 +385,8 @@ class Nav extends Container {
     /**
      * @class Nav - Navigation element
      */
-    constructor(classList = [], id = '', nodes = []) {
-        super(document.createElement('nav'), classList, id, nodes)
+    constructor(nodes = [], classList = [], id = '') {
+        super(document.createElement('nav'), nodes, classList, id)
         this.addNodes(nodes)
     }
 }
@@ -388,8 +399,6 @@ class Img extends Classable {
         super(document.createElement('img'), classList, id)
         this.element.src = imgPath
         this.element.alt = alt
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -397,8 +406,8 @@ class Div extends Container {
     /**
      * @class Div - Division element
      */
-    constructor(classList = [], id = '') {
-        super(document.createElement('div'), classList, id)
+    constructor(nodes = [], classList = [], id = '') {
+        super(document.createElement('div'), nodes, classList, id)
     }
 }
 
@@ -452,8 +461,6 @@ class Figcaption extends TextElement {
     constructor(textContent = 'Figcaption', classList = [], id = '') {
         super(document.createElement('caption'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -467,8 +474,6 @@ class Form extends Classable {
         super(document.createElement('form'), classList, id)
         const label = new Label(alias, alias)
         const br = new Br()
-        this.addToClassList(classList)
-        this.addID(id)
         this.element.name = alias
         this.element.appendChild(label.element)
         this.element.appendChild(br.element)
@@ -489,8 +494,6 @@ class Button extends Classable {
     ) {
         super(document.createElement('button'), classList, id)
         const button = this.element
-        this.addToClassList(classList)
-        this.addID(id)
         button.for = formName
         button.textContent = textContent
     }
@@ -505,8 +508,6 @@ class TextArea extends Classable {
     constructor(textContent = 'text area', classList = [], id = '') {
         super(document.createElement('textarea'), classList, id)
         this.element.textContent = textContent
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -521,8 +522,6 @@ class Input extends Classable {
     ) {
         super(document.createElement('input'), classList, id)
         const input = this.element
-        this.addToClassList(classList)
-        this.addID(id)
         input.type = typeStr
         input.placeholder = placeholder
         input.textContent = textContent
@@ -539,8 +538,6 @@ class Select extends Classable {
         super(document.createElement('select'), classList, id)
         const select = this.element
         const selections = [new OptionSelection()].concat(selectionArray)
-        this.addToClassList(classList)
-        this.addID(id)
         selections.forEach((selection) => {
             const option = new Option(selection.value, selection.textContent)
             select.appendChild(option.element)
@@ -553,8 +550,6 @@ class Link extends Classable {
         super(classList, id)
         const link = document.createElement('link')
         this.element = link
-        this.addToClassList(classList)
-        this.addID(id)
         link.href = href
         link.rel = rel
     }
@@ -588,8 +583,6 @@ class H1 extends TextElement {
     constructor(textContent = 'H1', classList = [], id = '') {
         super(document.createElement('h1'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -600,8 +593,6 @@ class H2 extends TextElement {
     constructor(textContent = 'H2', classList = [], id = '') {
         super(document.createElement('h2'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -612,8 +603,6 @@ class H3 extends TextElement {
     constructor(textContent = 'H3', classList = [], id = '') {
         super(document.createElement('h3'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -624,8 +613,6 @@ class H4 extends TextElement {
     constructor(textContent = 'H4', classList = [], id = '') {
         super(document.createElement('h4'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -636,8 +623,6 @@ class H5 extends TextElement {
     constructor(textContent = 'H5', classList = [], id = '') {
         super(document.createElement('h5'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -648,8 +633,6 @@ class H6 extends TextElement {
     constructor(textContent = 'H6', classList = [], id = '') {
         super(document.createElement('h6'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -659,8 +642,6 @@ class P extends TextElement {
      */
     constructor(textElementArray = [], classList = [], id = '') {
         super(document.createElement('p'), classList, id)
-        this.addToClassList(classList)
-        this.addID(id)
         this.addContent(textElementArray)
     }
 }
@@ -670,8 +651,7 @@ class PSpan extends P {
      * @class PSpan - Paragraph Span
      */
     constructor(textContent = '', classList = [], id = '') {
-        const span = [new Span(textContent)]
-        super(span, classList, id)
+        super([new Span(textContent)], classList, id)
     }
 }
 
@@ -682,8 +662,6 @@ class Label extends TextElement {
     constructor(alias, textContent = 'label', classList = [], id = '') {
         super(document.createElement('label'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
         this.element.for = alias
     }
 }
@@ -699,6 +677,16 @@ class A extends TextElement {
     }
 }
 
+class Em extends TextElement {
+    /**
+     * @class Em - Emphasis Element
+     */
+    constructor(textContent = ''){
+        super(document.createElement('em'), classList, id)
+        this.textContent(textContent)
+    }
+}
+
 class Abbr extends TextElement {
     /**
      * @class Abbr - the Abbreviation element
@@ -706,8 +694,6 @@ class Abbr extends TextElement {
     constructor(textContent = 'str', title = null, classList = [], id = '') {
         super(document.createElement('abbr'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
         this.element.title = title
     }
 }
@@ -719,8 +705,6 @@ class Blockquote extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('blockquote'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -731,8 +715,6 @@ class Strong extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('strong'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -743,8 +725,6 @@ class Sub extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('sub'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -755,8 +735,6 @@ class Sup extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('sup'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -767,8 +745,6 @@ class Span extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('span'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -796,8 +772,6 @@ class Pre extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('pre'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -808,8 +782,6 @@ class Code extends TextElement {
     constructor(textContent = 'str', classList = [], id = '') {
         super(document.createElement('pre'), classList, id)
         this.textContent(textContent)
-        this.addToClassList(classList)
-        this.addID(id)
     }
 }
 
@@ -846,6 +818,9 @@ class InvalidContentArrayError extends TypeError {
 }
 
 function getStylesheetByFileName(filename) {
+    /**
+     * @todo fix or remove stylesheet
+     */
     const stylesheets = Object.values(document.styleSheets)
     let result
 
@@ -859,11 +834,18 @@ function getStylesheetByFileName(filename) {
 }
 
 function addAdoptedStyleSheet(rules) {
+    /**
+     * @todo fix or remove stylesheet
+     */
     const stylesheet = new StyleSheet(rules)
     document.adoptedStyleSheets.push(stylesheet.element)
 }
 
 export {
+    // Library Keywords
+    noContent,
+    noNodes,
+
     // Constants
     display,
     flex,
@@ -925,9 +907,12 @@ export {
     // Containers
     Article,
     Section,
-    // Aside,
+    // Aside
     Footer,
-    // Nav,
+    // Nav
+
+    //composite
+    SectionH,
 
     // Functions
     getStylesheetByFileName,
@@ -937,4 +922,5 @@ export {
     JSONCSS,
     UnsupportedJSONCSSError,
     PercentageOutOfRangeError,
+    font
 }

@@ -2,7 +2,12 @@
  * JavaScript Object Notation CSS
  * CSS syntax as done in Javascript Obect Notation */
 
-
+const font = {
+    bold: 'bold',
+    italic: 'italic',
+    underline: 'underline',
+    lineThrough: 'line-through'
+}
 
 class JSONCSS {
     constructor(
@@ -123,5 +128,6 @@ class PercentageOutOfRangeError extends RangeError {
 export {
     JSONCSS,
     UnsupportedJSONCSSError,
-    PercentageOutOfRangeError
+    PercentageOutOfRangeError,
+    font
 }
